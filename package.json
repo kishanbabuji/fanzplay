@@ -13,6 +13,9 @@
     "add": "^2.0.6",
     "dotenv": "^16.0.0",
     "expo": "~44.0.0",
+    "@react-navigation/native": "^6.0.8",
+    "@react-navigation/native-stack": "^6.5.0",
+    "expo": "^44.0.6",
     "expo-status-bar": "~1.2.0",
     "firebase": "^9.6.7",
     "firebase-admin": "^10.0.2",
@@ -25,6 +28,10 @@
     "react-native-config": "^1.4.5",
     "react-native-dotenv": "^3.3.1",
     "react-native-web": "0.17.1"
+    "react-native-safe-area-context": "3.3.2",
+    "react-native-screens": "~3.10.1",
+    "react-native-web": "0.17.1",
+    "react-navigation": "^4.4.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
