@@ -7,11 +7,11 @@ if (firebaseAdmin.apps.length == 0) {
         credential: firebaseAdmin.credential.cert({
             privateKey: process.env.private_key,
             clientEmail: process.env.client_email,
-            projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+            projectId: process.env.PUBLIC_FIREBASE_PROJECT_ID,
         }),
-        databaseURL: 'https://mpower-bf060.firebaseio.com',
+        databaseURL: 'https://fanzplay-95bfa.firebaseio.com',
     });
 }
 console.log(firebaseAdmin)
 
-export { firebaseAdmin };
+export default { firebaseAdmin };
