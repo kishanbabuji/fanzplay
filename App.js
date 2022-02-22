@@ -1,11 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
+import { initializeApp } from 'firebase/app';
+import { firebase } from './firebase/firebaseClient';
 import { View, Text, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 function HomeScreen({ navigation }) {
+    const app = firebase
+  
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
