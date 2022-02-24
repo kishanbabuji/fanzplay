@@ -11,7 +11,7 @@ export default function Signup() {
 
     async function signupWithEmail() {
         const auth = await getAuth();
-       
+
         createUserWithEmailAndPassword(auth, email, password)
 
 
@@ -21,7 +21,7 @@ export default function Signup() {
 
     return (
         <View style={styles.container}>
-            <Text>fans play sign up page </Text>
+            <Text> fans play sign up page </Text>
             <TextInput
                 value={email}
                 style={styles.input}

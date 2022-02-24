@@ -5,11 +5,11 @@ import { firebase } from './firebase/firebaseClient';
 import { View, Text, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import Signup from "./components/signup"
 
 function HomeScreen({ navigation }) {
-    const app = firebase
-  
+  const app = firebase
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
@@ -17,32 +17,23 @@ function HomeScreen({ navigation }) {
         title="Login"
         onPress={() => navigation.navigate('Login')}
       />
-       <Button
+      <Button
         title="Signup"
         onPress={() => navigation.navigate('Signup')}
       />
-      
+
     </View>
   );
 }
 
 
-function LoginScreen() {
+export function LoginScreen() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Login Screen</Text>
     </View>
   );
 }
-
-function SignupScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Signup Screen</Text>
-    </View>
-  );
-}
-
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -51,7 +42,7 @@ function App() {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Signup" component={SignupScreen} />
+        <Stack.Screen name="Signup" component={Signup} />
       </Stack.Navigator>
     </NavigationContainer>
   );
