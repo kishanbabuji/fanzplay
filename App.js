@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, TextField, Text, Button } from 'react-native-ui-lib';
 
 import Signup from "./components/signup"
+import Quiz from "./components/quizScreen"
 
 function HomeScreen({ navigation }) {
   const app = firebase
@@ -26,6 +27,11 @@ function HomeScreen({ navigation }) {
         white50
         label="Signup"
         onPress={() => navigation.navigate('Signup')}
+      />
+       <Button margin-5
+        white50
+        label="Quiz"
+        onPress={() => navigation.navigate('Quiz')}
       />
 
     </View>
@@ -55,6 +61,8 @@ function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="Quiz" component={Quiz} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
