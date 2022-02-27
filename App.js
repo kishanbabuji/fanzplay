@@ -2,9 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { initializeApp } from 'firebase/app';
 import { firebase } from './firebase/firebaseClient';
-import { View, Text, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import { View, TextField, Text, Button } from 'react-native-ui-lib';
+
 import Signup from "./components/signup"
 
 function HomeScreen({ navigation }) {
@@ -14,11 +16,15 @@ function HomeScreen({ navigation }) {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
       <Button
-        title="Login"
+        margin-5
+        white50
+        label="Login"
+
         onPress={() => navigation.navigate('Login')}
       />
-      <Button
-        title="Signup"
+      <Button margin-5
+        white50
+        label="Signup"
         onPress={() => navigation.navigate('Signup')}
       />
 
@@ -29,11 +35,17 @@ function HomeScreen({ navigation }) {
 
 export function LoginScreen() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Login Screen</Text>
+
+
+    <View flex paddingH-25 paddingT-120>
+      <Text blue50 text20>Login</Text>
+      <TextField text50 placeholder="username" grey10 />
+      <TextField text50 placeholder="password" secureTextEntry grey10 />
     </View>
   );
 }
+
+
 const Stack = createNativeStackNavigator();
 
 function App() {
