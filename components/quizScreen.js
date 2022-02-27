@@ -23,7 +23,7 @@ export default function Quiz() {
     return (
         <View style={styles.container}>
 
-            <Text>Submit New Question</Text>
+            {/* <Text>Submit New Question</Text> */}
 
              {/* Code below is for testing setter for questionvalue, using an input box and button */}
             
