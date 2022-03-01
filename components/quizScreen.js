@@ -1,7 +1,7 @@
-import { StyleSheet, Text, TextInput } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 import { useState } from 'react';
 import { getDatabase, set, ref, onValue, get, update } from "firebase/database";
-import { Button, View } from "react-native-ui-lib"
+import { Button, View, Text, LoaderScreen } from "react-native-ui-lib"
 import * as React from 'react';
 import { firebase } from "../firebase/firebaseClient.js"
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
@@ -80,17 +80,41 @@ export default function Quiz() {
     }
 
 
+    const styles = StyleSheet.create({
+        container: {
+            margin: 20,
+            flex: 1,
+            flexDirection: "column",
+            alignItems: 'center',
+        },
+        answerButton: {
+            width: 300,
+            color: "white"
+
+        }
+
+
+
+
+    })
+
+
+
+
+
     if (currentQuestion && hasSeen) {
         console.log("here", hasSeen)
 
         if (!hasSeen.answered) {
             return (
-                <View >
+                <View style={styles.container}>
+
 
                     <CountdownCircleTimer
+                        colorsTime={[currentQuestion.duration, 5, 2]}
                         isPlaying={true}
                         duration={currentQuestion.duration}
-                        colors={["#004777"]}
+                        colors={["#004777", "#F7B801", "#A30000"]}
                         onComplete={() => handleTimeout()}
                     >
                         {({ remainingTime, color }) => (
@@ -99,63 +123,52 @@ export default function Quiz() {
                             </Text>
                         )}
                     </CountdownCircleTimer>
-
-
-                    {/* <Text>Submit New Question</Text> */}
-
-                    {/* Code below is for testing setter for questionvalue, using an input box and button */}
-
-
-                    {/* <TextInput
-                       style={styles.input}
-                        value={questionInput}
-                        onChangeText={questionInput => setQuestionInput(questionInput)}
-                    /> */}
-
-
-
-
-                    {/* 
-                <Button onPress={questionValue => setQuestionValue(questionInput)}
-                    title="submit" /> */}
-
-
-                    <Text>
-                        Question:  {currentQuestion.question}
+                    <Text text30 margin-10 marginB-30 >
+                        {currentQuestion.question}
                     </Text>
-                    <Button
-                        size={Button.sizes.medium}
-                        label={currentQuestion.answer1}
-                        onPress={() => handleSubmit(currentQuestion.answer1)}
-                        color="#FFDB58"
-                        accessibilityLabel="Learn more about this purple button"
-                    />
+                    <View>
+                        <Button
+                            style={styles.answerButton}
 
-                    <Button
-                        size={Button.sizes.medium}
-                        onPress={() => handleSubmit(currentQuestion.answer2)}
+                            margin5
+                            size={Button.sizes.large}
+                            label={currentQuestion.answer1}
+                            onPress={() => handleSubmit(currentQuestion.answer1)}
+                            accessibilityLabel="Learn more about this purple button"
+                        />
 
-                        label={currentQuestion.answer2}
-                        color="#FFDB58"
-                        accessibilityLabel="Learn more about this purple button"
-                    />
+                        <Button
+                            style={styles.answerButton}
 
-                    <Button
-                        size={Button.sizes.medium}
-                        onPress={() => handleSubmit(currentQuestion.answer3)}
+                            margin-5
+                            size={Button.sizes.large}
+                            onPress={() => handleSubmit(currentQuestion.answer2)}
 
-                        label={currentQuestion.answer3}
-                        color="#FFDB58"
-                        accessibilityLabel="Learn more about this purple button"
-                    />
-                    <Button
-                        size={Button.sizes.medium}
-                        onPress={() => handleSubmit(currentQuestion.answer4)}
+                            label={currentQuestion.answer2}
+                            accessibilityLabel="Learn more about this purple button"
+                        />
 
-                        label={currentQuestion.answer4}
-                        color="#FFDB58"
-                        accessibilityLabel="Learn more about this purple button"
-                    />
+                        <Button
+                            style={styles.answerButton}
+                            margin-5
+                            size={Button.sizes.large}
+                            onPress={() => handleSubmit(currentQuestion.answer3)}
+
+                            label={currentQuestion.answer3}
+                            accessibilityLabel="Learn more about this purple button"
+                        />
+                        <Button
+                            style={styles.answerButton}
+
+                            margin-5
+                            size={Button.sizes.large}
+                            onPress={() => handleSubmit(currentQuestion.answer4)}
+
+                            label={currentQuestion.answer4}
+                            accessibilityLabel="Learn more about this purple button"
+                        />
+
+                    </View>
 
 
                 </View >)
@@ -165,10 +178,10 @@ export default function Quiz() {
 
         } else {
             return (
-                <View>
-                    <Text>Has answered</Text>
-                    <Text> Answer Was {String(hasSeen.correct)}</Text>
-                </View>
+                <View style={styles.container}>
+                    <Text text50 marginT-50 marginB-50 > You Have Already Answered This Question</Text>
+                    <Text text30 > Your answer was {String(hasSeen.correct)}</Text>
+                </ View>
 
             )
         }
@@ -176,9 +189,7 @@ export default function Quiz() {
 
     } else {
         return (
-            <View>
-                <Text>Awaiting Questions for this game</Text>
-            </View>
+            <LoaderScreen message={'Awaiting Questions for this game'}></LoaderScreen>
         )
     }
 
