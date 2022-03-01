@@ -12,6 +12,7 @@ const clientCredentials = {
     storageBucket: PUBLIC_FIREBASE_STORAGE_BUCKET,
     messagingSenderId: PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
     appId: PUBLIC_FIREBASE_APP_ID,
+    databaseURL: 'https://fanzplay-95bfa-default-rtdb.firebaseio.com/'
 };
 
 
