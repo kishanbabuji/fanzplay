@@ -9,6 +9,7 @@ import { View, TextField, Text, Button } from 'react-native-ui-lib';
 
 import Signup from "./components/signup"
 import Quiz from "./components/quizScreen"
+import Edit from "./components/editProfile"
 
 function HomeScreen({ navigation }) {
   const app = firebase
@@ -32,6 +33,12 @@ function HomeScreen({ navigation }) {
         white50
         label="Quiz"
         onPress={() => navigation.navigate('Quiz')}
+      />
+      
+      <Button margin-5
+        white50
+        label="Edit"
+        onPress={() => navigation.navigate('Edit')}
       />
 
     </View>
@@ -62,6 +69,7 @@ function App() {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Quiz" component={Quiz} />
+        <Stack.Screen name="Edit" component={Edit} />
 
       </Stack.Navigator>
     </NavigationContainer>
