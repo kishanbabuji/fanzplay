@@ -1,12 +1,10 @@
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import { useState } from 'react';
-import * as React from 'react';
+import React from 'react';
 
 
 
-
-
-export default function Quiz() {
+export default function Quiz({navigation}) {
 
 
     const [questionInput, setQuestionInput] = useState("")

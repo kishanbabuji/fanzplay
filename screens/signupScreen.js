@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { Button, View, Text, TextInput } from 'react-native';
+import { StyleSheet } from 'react-native';
+
 import { useState } from 'react';
-import * as React from 'react';
+import React from 'react';
 
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
-export default function Signup() {
+export default function Signup({navigation}) {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -21,7 +23,7 @@ export default function Signup() {
 
     return (
         <View style={styles.container}>
-            <Text> fans play sign up page </Text>
+            <Text> Create a Fanz Play Account! </Text>
             <TextInput
                 value={email}
                 style={styles.input}
@@ -40,10 +42,12 @@ export default function Signup() {
             />
             <Button
                 onPress={signupWithEmail}
+                onPress={() => navigation.navigate('Home')}
                 title="Submit"
                 color="#FFDB58"
                 accessibilityLabel="Learn more about this purple button"
             />
+         
 
         </View>
     );
