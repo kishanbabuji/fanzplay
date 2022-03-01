@@ -43,12 +43,12 @@ function HomeScreen({ navigation }) {
         white50
         label="Edit"
         onPress={() => navigation.navigate('Edit')}
+        />
 
       <Button margin-5
         white50
         label="Add Games"
         onPress={() => navigation.navigate('Add Games')}
-
       />
 
     </View>
