@@ -10,9 +10,11 @@ import { View, TextField, Text, Button } from 'react-native-ui-lib';
 import Signup from "./components/signup"
 
 import Edit from "./components/editProfile"
+import Login from "./components/login"
 
 import QuizScreen from "./components/quizScreen"
 import AddGames from "./components/addGames"
+import AddQuestion from './components/addQuestions';
 
 
 function HomeScreen({ navigation }) {
@@ -50,23 +52,18 @@ function HomeScreen({ navigation }) {
         label="Add Games"
         onPress={() => navigation.navigate('Add Games')}
       />
+         <Button margin-5
+        white50
+        label="Add questions"
+        onPress={() => navigation.navigate('Add questions')}
+      />
 
     </View>
   );
 }
 
 
-export function LoginScreen() {
-  return (
 
-
-    <View flex paddingH-25 paddingT-120>
-      <Text blue50 text20>Login</Text>
-      <TextField text50 placeholder="username" grey10 />
-      <TextField text50 placeholder="password" secureTextEntry grey10 />
-    </View>
-  );
-}
 
 
 const Stack = createNativeStackNavigator();
@@ -76,13 +73,14 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
 
         <Stack.Screen name="Edit" component={Edit} />
 
         <Stack.Screen name="Quiz" component={QuizScreen} />
         <Stack.Screen name="Add Games" component={AddGames} />
+        <Stack.Screen name="Add questions" component={AddQuestion} />
 
 
       </Stack.Navigator>

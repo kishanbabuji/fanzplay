@@ -14,7 +14,8 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 
 
-
+const user = getAuth()
+console.log(user.apiKey)
 const docRef = doc(db, "users","PmE1VHWO8DbJiFaydZshiPgSUHM2");
 
 
