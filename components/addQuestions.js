@@ -15,6 +15,7 @@ export default function AddQuestion() {
  const[incorrectanswer1,setIncorrectAnswer1] = useState("")
  const[incorrectanswer2,setIncorrectAnswer2] = useState("")
  const[incorrectanswer3,setIncorrectAnswer3] = useState("")
+ const[incorrectanswer4,setIncorrectAnswer4] = useState("")
  const [modalVisible, setModalVisible] = useState(false);
 
 
@@ -22,15 +23,17 @@ export default function AddQuestion() {
     const docRef = await addDoc(collection(db, "questions"), {
       question: question,
       correctanswer: correctanswer,
-      incorrectanswer1: incorrectanswer1,
-      incorrectanswer2: incorrectanswer2,
-      incorrectanswer3: incorrectanswer3
+      answer1: incorrectanswer1,
+      answer2: incorrectanswer2,
+      answer3: incorrectanswer3,
+      answer4: incorrectanswer4
     });
       setQuestion("")
       setCorrectAnswer("")
       setIncorrectAnswer1("")
       setIncorrectAnswer2("")
       setIncorrectAnswer3("")
+      setIncorrectAnswer4("")
       setModalVisible(true)
   }
 
@@ -81,23 +84,30 @@ export default function AddQuestion() {
         <TextField
           value={incorrectanswer1}
           style={styles.input}
-          placeholder={"Incrorrect Answer"}
+          placeholder={"Answer 1"}
           floatingPlaceholder
           onChangeText={(incorrectanswer1) => setIncorrectAnswer1(incorrectanswer1)}
         />
           <TextField
           value={incorrectanswer2}
           style={styles.input}
-          placeholder={"Incrorrect Answer"}
+          placeholder={"Answer 2"}
           floatingPlaceholder
           onChangeText={(incorrectanswer2) => setIncorrectAnswer2(incorrectanswer2)}
         />
           <TextField
           value={incorrectanswer3}
           style={styles.input}
-          placeholder={"Incrorrect Answer"}
+          placeholder={"Answer 3"}
           floatingPlaceholder
           onChangeText={(incorrectanswer3) => setIncorrectAnswer3(incorrectanswer3)}
+        />
+             <TextField
+          value={incorrectanswer4}
+          style={styles.input}
+          placeholder={"Answer 4"}
+          floatingPlaceholder
+          onChangeText={(incorrectanswer4) => setIncorrectAnswer4(incorrectanswer4)}
         />
    
  
