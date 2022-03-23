@@ -3,12 +3,17 @@ import { TextField, Button, Text, Colors, View } from "react-native-ui-lib";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 
+
+
+
 export default function Login() {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
   const[email,setEmail] = useState("");
   const[password,setPassword] = useState("");
+
+  
  
 
 async function loginUser(){
