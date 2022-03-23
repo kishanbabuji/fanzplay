@@ -4,6 +4,10 @@ import * as React from 'react';
 import { useState } from 'react';
 import { db } from "../firebase/firebaseClient";
 import { collection, getDocs,updateDoc } from "firebase/firestore";
+import { StyleSheet, TextInput } from 'react-native';
+
+
+
 
 
 
@@ -48,6 +52,7 @@ querySnapshot.forEach((doc) => {
 //   console.log(doc.id, " => ", doc.data());
 });
 setArr(questionArr)
+
     }, [])
 
 
@@ -55,7 +60,10 @@ setArr(questionArr)
 
 
 
-    function addGame() {
+
+
+     function addGame() {
+
         let db = getDatabase()
 
         update(ref(db, 'games/questionId'), {
@@ -67,12 +75,19 @@ setArr(questionArr)
             "correctAnswer": correctanswer
         })
 
+        update(ref(db,'users/questionId'),{
+            "answered": false,
+            "correct":false
+        })
+
         setQuestion("")
         setAnswer1("")
         setAnswer2("")
         setAnswer3("")
         setAnswer4("")
         setCorrectAnswer("")
+
+      
     }
 
     function loadQuestion(){
