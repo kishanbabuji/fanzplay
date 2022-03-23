@@ -14,12 +14,14 @@ import Login from "./components/login"
 import QuizScreen from "./components/quizScreen"
 import AddGames from "./components/addGames"
 import AddQuestion from './components/addQuestions';
+import userInfoContext from './components/userInfoContext'
 
 
 function HomeScreen({ navigation }) {
 
   const[user,setUser] = useState()
-  const[uid,setUid] = useState()
+  const[userUid,setUid] = useState()
+  const[userLoggedIn,setUserLoggedIn] = useState()
   const auth = getAuth();
   const app = firebase
 
@@ -28,6 +30,7 @@ onAuthStateChanged(auth, (user) => {
     const uid = user.uid;
     setUid(user.uid)
     setUser(user)
+    setUserLoggedIn(true)
     
   } else {
   
@@ -39,6 +42,7 @@ function logOut(){
 signOut(auth).then(() => {
   setUid(null)
   setUser(null)
+  setUserLoggedIn(false)
   // Sign-out successful.
 }).catch((error) => {
   // An error happened.
@@ -51,6 +55,12 @@ signOut(auth).then(() => {
 
 if(user){
   return (
+    <userInfoContext.Provider value={{
+      loggedIn: true,
+      uid: userUid,
+      isAdmin: false
+
+    }}>
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
       <Button margin-5
@@ -86,12 +96,19 @@ if(user){
      
 
     </View>
+    </userInfoContext.Provider>
   );
 
 
 }
 else{
   return(
+    <userInfoContext.Provider value={{
+      loggedIn: false,
+      uid: "",
+      isAdmin: false
+
+    }}>
     <View>
         <Button
         margin-5
@@ -106,6 +123,7 @@ else{
         onPress={() => navigation.navigate('Signup')}
       />
     </View>
+    </userInfoContext.Provider>
   )
 
 }
