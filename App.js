@@ -16,7 +16,7 @@ import AddGames from "./components/addGames"
 import AddQuestion from './components/addQuestions';
 import userInfoContext from './components/userInfoContext'
 import { startClock } from 'react-native-reanimated';
-
+import QuizMenu from './components/quizMenu';
 
 function HomeScreen({ navigation, route }) {
 
@@ -26,7 +26,6 @@ function HomeScreen({ navigation, route }) {
   const userContext = useContext(userInfoContext)
   const auth = getAuth();
   const app = firebase
-  console.log(userContext, "hereyooyoyo")
 
 
   onAuthStateChanged(auth, (user) => {
@@ -41,7 +40,6 @@ function HomeScreen({ navigation, route }) {
     } else {
 
     }
-    console.log(userContext)
   });
 
 
@@ -67,20 +65,14 @@ function HomeScreen({ navigation, route }) {
         <Text>Home Screen</Text>
         <Button margin-5
           white50
-          label="Quiz"
-          onPress={() => navigation.navigate('Quiz')}
+          label="Quiz Menu"
+          onPress={() => navigation.navigate('Quiz Menu')}
         />
 
         <Button margin-5
           white50
-          label="Edit"
+          label="Edit Account"
           onPress={() => navigation.navigate('Edit')}
-        />
-
-        <Button margin-5
-          white50
-          label="Add Games"
-          onPress={() => navigation.navigate('Add Games')}
         />
         <Button margin-5
           white50
@@ -163,7 +155,7 @@ function App() {
           <Stack.Screen name="Games List" component={GameList} />
 
           <Stack.Screen name="Edit" component={Edit} />
-
+          <Stack.Screen name="Quiz Menu" component={QuizMenu} />
           <Stack.Screen name="Quiz" component={QuizScreen} />
           <Stack.Screen name="Add Games" component={AddGames} />
           <Stack.Screen name="Add questions" component={AddQuestion} />

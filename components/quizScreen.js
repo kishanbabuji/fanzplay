@@ -9,7 +9,9 @@ import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 
 
 
-export default function Quiz() {
+export default function Quiz({ navigation, route }) {
+
+
 
     const [currentQuestion, setCurrentQuestion] = useState("")
     const [hasSeen, setHasSeen] = useState("")
@@ -20,7 +22,7 @@ export default function Quiz() {
 
 
         //database references for the game and user tables
-        const games = ref(db, 'games/questionId')
+        const games = ref(db, `games/${route.params.game}/questionId`)
         const answered = ref(db, "users/questionId")
 
 
@@ -32,6 +34,7 @@ export default function Quiz() {
         })
         onValue(games, async (snapshot) => {
             const data = await snapshot.val()
+            console.log(data)
             setCurrentQuestion(data)
 
         })
@@ -45,8 +48,6 @@ export default function Quiz() {
 
 
     }, [])
-
-
 
 
     function handleSubmit(answer) {
@@ -101,10 +102,7 @@ export default function Quiz() {
 
 
 
-
     if (currentQuestion && hasSeen) {
-        console.log("here", hasSeen)
-
         if (!hasSeen.answered) {
             return (
                 <View style={styles.container}>

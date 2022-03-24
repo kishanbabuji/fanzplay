@@ -2,12 +2,16 @@ import { View, ListItem, Text, Button, Checkbox } from 'react-native-ui-lib';
 import React, { useState, useContext, useEffect } from 'react';
 import { collection, getDocs, updateDoc, doc, deleteField, setDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseClient";
+import LiveGameView from './liveGameView';
+import { useLinkProps } from '@react-navigation/native';
+import { getDatabase, set, ref, onValue, get, update, remove } from "firebase/database";
 
 export default function GameListItem(props) {
 
     const [questions, setQuestions] = useState([])
     const [selectedQuestions, setSelectedQuestions] = useState([])
     const [isExpanded, setIsExpanded] = useState(false)
+    const [isLive, setIsLive] = useState(false)
 
     useEffect(() => {
         async function getGames() {
@@ -38,6 +42,35 @@ export default function GameListItem(props) {
     }, [])
 
 
+    function handleLive() {
+
+
+        let rtdb = getDatabase()
+
+        if (isLive) {
+            //remove live db game
+            let gamesRef = ref(rtdb, `games/${props.game.id}`)
+            remove(gamesRef)
+
+            setIsLive(false)
+        } else {
+            //add game to live db
+            update(ref(rtdb, `games/${props.game.id}`), {
+                "Away Team": props.game["Away Team"],
+                "Home Team": props.game["Home Team"],
+            })
+
+
+
+
+            setIsLive(true)
+        }
+
+
+
+    }
+
+
 
 
 
@@ -46,15 +79,12 @@ export default function GameListItem(props) {
     async function handleListUpdate(questionID) {
 
         const questionRef = doc(db, "games", props.game.id, "questions", questionID)
-
         //need to add game to current list
         if (questionID in selectedQuestions) {
             await deleteDoc(questionRef);
             let temp = JSON.parse(JSON.stringify(selectedQuestions))
             delete temp[questionID]
             setSelectedQuestions(temp)
-
-
         } else {
             await setDoc(questionRef, {});
 
@@ -62,15 +92,7 @@ export default function GameListItem(props) {
             temp[questionID] = null
 
             setSelectedQuestions(temp)
-
-
-
-
         }
-
-
-
-
     }
 
 
@@ -91,6 +113,20 @@ export default function GameListItem(props) {
 
 
     }
+
+    let gameView = null
+
+    if (isLive) {
+
+        gameView = (<LiveGameView game={props.game} />)
+
+
+
+    }
+
+
+
+
 
 
 
@@ -114,11 +150,13 @@ export default function GameListItem(props) {
                     <Text>{props.game["Away Team"]}</Text>
                 </ListItem.Part>
                 <Button size={'small'} label={"Edit Questions"} onPress={() => setIsExpanded(!isExpanded)} />
+                <Button size={'small'} label={"Go Live"} onPress={() => handleLive()} />
 
                 <Button size={'small'} label={"Delete"} onPress={() => props.deleteGame(props.game.id)} />
 
             </ListItem >
             {subList}
+            {gameView}
         </View >
 
 
