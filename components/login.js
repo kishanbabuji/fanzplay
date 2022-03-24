@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { TextField, Button, Text, Colors, View } from "react-native-ui-lib";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
+import HomeScreen from './homeScreen';
 
 
 
 
-export default function Login() {
+
+export default function Login({ navigation }) {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
@@ -16,7 +18,7 @@ export default function Login() {
   
  
 
-async function loginUser(){
+async function loginUser( { navigation }){
   console.log(email)
   const auth = getAuth();
 signInWithEmailAndPassword(auth, email, password)
@@ -26,12 +28,15 @@ signInWithEmailAndPassword(auth, email, password)
     setUser(userCredential.user);
     console.log("works")
     // ...
+  
+    
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
     console.log(errorMessage)
   });
+  
   // Handle user state changes
 
 }
@@ -58,7 +63,9 @@ onChangeText={(password) => setPassword(password)}
 /> 
 
 <Button
+
 onPress={loginUser}
+
 label={"Login"}
 >
 

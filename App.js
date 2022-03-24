@@ -15,9 +15,11 @@ import QuizScreen from "./components/quizScreen"
 import AddGames from "./components/addGames"
 import AddQuestion from './components/addQuestions';
 import userInfoContext from './components/userInfoContext'
+import HomeScreen from './components/homeScreen'
+import { push } from 'firebase/database';
 
 
-function HomeScreen({ navigation }) {
+function Welcome({ navigation }) {
 
   const[user,setUser] = useState()
   const[userUid,setUid] = useState()
@@ -62,14 +64,14 @@ if(user){
 
     }}>
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
+      <Text>Welcome</Text>
       <Button margin-5
         white50
-        label="Quiz"
-        onPress={() => navigation.navigate('Quiz')}
+        label="Home"
+        onPress={() => navigation.navigate('HomeScreen')}
       />
       
-      <Button margin-5
+      {/* <Button margin-5
         white50
         label="Edit"
         onPress={() => navigation.navigate('Edit')}
@@ -92,7 +94,7 @@ if(user){
 
         onPress={logOut}
       />
-   
+    */}
      
 
     </View>
@@ -109,7 +111,8 @@ else{
       isAdmin: false
 
     }}>
-    <View>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <Text>Welcome to FanzPlay!</Text>
         <Button
         margin-5
         white50
@@ -142,18 +145,15 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="FanzPlay" component={Welcome} />
+        <Stack.Screen name="HomeScreen" options={{headerShown: false}} component={HomeScreen} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
-
         <Stack.Screen name="Edit" component={Edit} />
-
         <Stack.Screen name="Quiz" component={QuizScreen} />
         <Stack.Screen name="Add Games" component={AddGames} />
-        <Stack.Screen name="Add questions" component={AddQuestion} />
-
-
-      </Stack.Navigator>
+        <Stack.Screen name="Add questions" component={AddQuestion} />    
+        </Stack.Navigator>
     </NavigationContainer>
   );
 }
