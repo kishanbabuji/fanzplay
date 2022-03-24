@@ -1,4 +1,4 @@
-import { StyleSheet, View, TextInput,Picker,ScrollView } from "react-native";
+import { StyleSheet, View, TextInput, Picker, ScrollView } from "react-native";
 import { useState } from "react";
 import * as React from "react";
 
@@ -36,6 +36,7 @@ export default function Signup() {
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then((cred) => {
+        cred.user.sendEmailVerification();
         db.collection("users")
           .doc(cred.user.uid)
           .set({
@@ -45,7 +46,7 @@ export default function Signup() {
             zipCode: zip,
             city: city,
             username: username,
-            number: number
+            number: number,
           })
           .then(
             setEmail(""),
@@ -64,127 +65,126 @@ export default function Signup() {
 
   return (
     <ScrollView>
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
-      >
-        <Text text30 style={{ color: Colors.text }}>
-          Sign up for FANz PLAY
-        </Text>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.container}
         >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={{ color: Colors.text }}>
-                Congratulations! Your FANz PLAY account has been created!
-              </Text>
-              <Button
-                backgroundColor={Colors.text}
-                onPress={() => setModalVisible(!modalVisible)}
-                label={"Go Home!"}
-                enableShadow
-              ></Button>
+          <Text text30 style={{ color: Colors.text }}>
+            Sign up for FANz PLAY
+          </Text>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={{ color: Colors.text }}>
+                  Congratulations! Your FANz PLAY account has been created!
+                </Text>
+                <Button
+                  backgroundColor={Colors.text}
+                  onPress={() => setModalVisible(!modalVisible)}
+                  label={"Go Home!"}
+                  enableShadow
+                ></Button>
+              </View>
             </View>
-          </View>
-        </Modal>
-        <TextField
-          value={email}
-          style={styles.input}
-          enableErrors
-          placeholder={"Email"}
-          floatingPlaceholder
-          onChangeText={(email) => setEmail(email)}
-          textContentType="emailAddress"
-        />
-        <TextField
-          style={styles.input}
-          placeholder={"Password"}
-          floatingPlaceholder
-          value={password}
-          onChangeText={(password) => setPassword(password)}
-        />
-        <TextField
-          value={firstName}
-          style={styles.input}
-          placeholder={"First Name"}
-          floatingPlaceholder
-          onChangeText={(firstName) => setFirstName(firstName)}
-        />
-        <TextField
-          value={lastName}
-          style={styles.input}
-          placeholder={"Last Name"}
-          floatingPlaceholder
-          onChangeText={(lastName) => setLastName(lastName)}
-        />
-         <TextField
-          value={username}
-          style={styles.input}
-          placeholder={"Username"}
-          floatingPlaceholder
-          onChangeText={(username) => setUsername(username)}
-        />
-         <TextField
-          value={number}
-          style={styles.input}
-          placeholder={"Phone Number"}
-          floatingPlaceholder
-          onChangeText={(number) => setNumber(number)}
-          keyboardType="numeric"
-        />  
-        <Text>Age:</Text>
-        <Picker
-        selectedValue={age}
-        style = {styles.picker}
-        onValueChange={(age, itemIndex) => setAge(age)}
-      >
-        <Picker.Item label="1-13" value="1-13" />
-        <Picker.Item label="14-21" value="14-21" />
-        <Picker.Item label="22-35" value="22-35" />
-        <Picker.Item label="36-50" value="36-50" />
-        <Picker.Item label="51-65" value="51-65" />
-        <Picker.Item label="65+" value="65+" />
-      </Picker>
-     
-        
-        <TextField
-          value={zip}
-          style={styles.input}
-          placeholder={"Zip Code"}
-          floatingPlaceholder
-          onChangeText={(zip) => setZip(zip)}
-          keyboardType="numeric"
-        />
-         <TextField
-          value={city}
-          style={styles.input}
-          placeholder={"City"}
-          floatingPlaceholder
-          onChangeText={(city) => setCity(city)}
-        />
-        <Button
-          onPress={signupWithEmail}
-          label={"Submit"}
-          backgroundColor={Colors.text}
-          accessibilityLabel="Learn more about this purple button"
-          enableShadow
-        />
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+          </Modal>
+          <TextField
+            value={email}
+            style={styles.input}
+            enableErrors
+            placeholder={"Email"}
+            floatingPlaceholder
+            onChangeText={(email) => setEmail(email)}
+            textContentType="emailAddress"
+          />
+          <TextField
+            style={styles.input}
+            placeholder={"Password"}
+            floatingPlaceholder
+            value={password}
+            onChangeText={(password) => setPassword(password)}
+          />
+          <TextField
+            value={firstName}
+            style={styles.input}
+            placeholder={"First Name"}
+            floatingPlaceholder
+            onChangeText={(firstName) => setFirstName(firstName)}
+          />
+          <TextField
+            value={lastName}
+            style={styles.input}
+            placeholder={"Last Name"}
+            floatingPlaceholder
+            onChangeText={(lastName) => setLastName(lastName)}
+          />
+          <TextField
+            value={username}
+            style={styles.input}
+            placeholder={"Username"}
+            floatingPlaceholder
+            onChangeText={(username) => setUsername(username)}
+          />
+          <TextField
+            value={number}
+            style={styles.input}
+            placeholder={"Phone Number"}
+            floatingPlaceholder
+            onChangeText={(number) => setNumber(number)}
+            keyboardType="numeric"
+          />
+          <Text>Age:</Text>
+          <Picker
+            selectedValue={age}
+            style={styles.picker}
+            onValueChange={(age, itemIndex) => setAge(age)}
+          >
+            <Picker.Item label="1-13" value="1-13" />
+            <Picker.Item label="14-21" value="14-21" />
+            <Picker.Item label="22-35" value="22-35" />
+            <Picker.Item label="36-50" value="36-50" />
+            <Picker.Item label="51-65" value="51-65" />
+            <Picker.Item label="65+" value="65+" />
+          </Picker>
+
+          <TextField
+            value={zip}
+            style={styles.input}
+            placeholder={"Zip Code"}
+            floatingPlaceholder
+            onChangeText={(zip) => setZip(zip)}
+            keyboardType="numeric"
+          />
+          <TextField
+            value={city}
+            style={styles.input}
+            placeholder={"City"}
+            floatingPlaceholder
+            onChangeText={(city) => setCity(city)}
+          />
+          <Button
+            onPress={signupWithEmail}
+            label={"Submit"}
+            backgroundColor={Colors.text}
+            accessibilityLabel="Learn more about this purple button"
+            enableShadow
+          />
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   picker: {
-    width: 300,  
+    width: 300,
   },
 
   container: {
