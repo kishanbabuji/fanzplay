@@ -1,22 +1,24 @@
-import { StyleSheet, View, TextInput,Picker,ScrollView } from "react-native";
+import { StyleSheet, View, TextInput, Picker, ScrollView } from "react-native";
 import { useState } from "react";
 import * as React from "react";
-import { TextField, Button, Text, Colors } from "react-native-ui-lib";
-import { collection, addDoc } from "firebase/firestore"; 
+import { TextField, Button, Text, Colors, Slider } from "react-native-ui-lib";
+import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseClient";
-import {Modal} from "react-native";
+import { Modal } from "react-native";
+import { set } from "react-native-reanimated";
 
 
 
 
 export default function AddQuestion() {
- const[question,setQuestion] = useState("")
- const[correctanswer,setCorrectAnswer] = useState("")
- const[incorrectanswer1,setIncorrectAnswer1] = useState("")
- const[incorrectanswer2,setIncorrectAnswer2] = useState("")
- const[incorrectanswer3,setIncorrectAnswer3] = useState("")
- const[incorrectanswer4,setIncorrectAnswer4] = useState("")
- const [modalVisible, setModalVisible] = useState(false);
+  const [question, setQuestion] = useState("")
+  const [correctanswer, setCorrectAnswer] = useState("")
+  const [incorrectanswer1, setIncorrectAnswer1] = useState("")
+  const [incorrectanswer2, setIncorrectAnswer2] = useState("")
+  const [incorrectanswer3, setIncorrectAnswer3] = useState("")
+  const [incorrectanswer4, setIncorrectAnswer4] = useState("")
+  const [duration, setDuration] = useState(0)
+  const [modalVisible, setModalVisible] = useState(false);
 
 
   async function updateQuestionDatabase() {
@@ -28,104 +30,112 @@ export default function AddQuestion() {
       answer3: incorrectanswer3,
       answer4: incorrectanswer4
     });
-      setQuestion("")
-      setCorrectAnswer("")
-      setIncorrectAnswer1("")
-      setIncorrectAnswer2("")
-      setIncorrectAnswer3("")
-      setIncorrectAnswer4("")
-      setModalVisible(true)
+    setQuestion("")
+    setCorrectAnswer("")
+    setIncorrectAnswer1("")
+    setIncorrectAnswer2("")
+    setIncorrectAnswer3("")
+    setIncorrectAnswer4("")
+    setModalVisible(true)
   }
 
   return (
     <ScrollView>
-        <Text text30 style={{ color: Colors.text }}>
-          Add question to database
-        </Text>
+      <Text text30 style={{ color: Colors.text }}>
+        Add question to database
+      </Text>
 
-        <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-                setModalVisible(!modalVisible);
-              }}
-            >
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                  <Text style={{ color: Colors.text }}>
-                    Congratulations! Your question has been added to the database!
-                  </Text>
-                  <Button
-                    backgroundColor={Colors.text}
-                    onPress={() => setModalVisible(!modalVisible)}
-                    label={"Okay!"}
-                    enableShadow
-                  ></Button>
-                </View>
-              </View>
-            </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={{ color: Colors.text }}>
+              Congratulations! Your question has been added to the database!
+            </Text>
+            <Button
+              backgroundColor={Colors.text}
+              onPress={() => setModalVisible(!modalVisible)}
+              label={"Okay!"}
+              enableShadow
+            ></Button>
+          </View>
+        </View>
+      </Modal>
 
-        <TextField
-          value={question}
-          style={styles.input}
-          enableErrors
-          placeholder={"Question"}
-          floatingPlaceholder
-          onChangeText={(question) => setQuestion(question)}
-        />
-        <TextField
-          style={styles.input}
-          placeholder={"Correct Answer"}
-          floatingPlaceholder
-          value={correctanswer}
-          onChangeText={(correctanswer) => setCorrectAnswer(correctanswer)}
-        />
-        <TextField
-          value={incorrectanswer1}
-          style={styles.input}
-          placeholder={"Answer 1"}
-          floatingPlaceholder
-          onChangeText={(incorrectanswer1) => setIncorrectAnswer1(incorrectanswer1)}
-        />
-          <TextField
-          value={incorrectanswer2}
-          style={styles.input}
-          placeholder={"Answer 2"}
-          floatingPlaceholder
-          onChangeText={(incorrectanswer2) => setIncorrectAnswer2(incorrectanswer2)}
-        />
-          <TextField
-          value={incorrectanswer3}
-          style={styles.input}
-          placeholder={"Answer 3"}
-          floatingPlaceholder
-          onChangeText={(incorrectanswer3) => setIncorrectAnswer3(incorrectanswer3)}
-        />
-             <TextField
-          value={incorrectanswer4}
-          style={styles.input}
-          placeholder={"Answer 4"}
-          floatingPlaceholder
-          onChangeText={(incorrectanswer4) => setIncorrectAnswer4(incorrectanswer4)}
-        />
-   
- 
-    
-        <Button
-          onPress={updateQuestionDatabase}
-          label={"Submit"}
-          backgroundColor={Colors.text}
-          accessibilityLabel="Learn more about this purple button"
-          enableShadow
-        />
+      <TextField
+        value={question}
+        style={styles.input}
+        enableErrors
+        placeholder={"Question"}
+        floatingPlaceholder
+        onChangeText={(question) => setQuestion(question)}
+      />
+      <TextField
+        style={styles.input}
+        placeholder={"Correct Answer"}
+        floatingPlaceholder
+        value={correctanswer}
+        onChangeText={(correctanswer) => setCorrectAnswer(correctanswer)}
+      />
+      <TextField
+        value={incorrectanswer1}
+        style={styles.input}
+        placeholder={"Answer 1"}
+        floatingPlaceholder
+        onChangeText={(incorrectanswer1) => setIncorrectAnswer1(incorrectanswer1)}
+      />
+      <TextField
+        value={incorrectanswer2}
+        style={styles.input}
+        placeholder={"Answer 2"}
+        floatingPlaceholder
+        onChangeText={(incorrectanswer2) => setIncorrectAnswer2(incorrectanswer2)}
+      />
+      <TextField
+        value={incorrectanswer3}
+        style={styles.input}
+        placeholder={"Answer 3"}
+        floatingPlaceholder
+        onChangeText={(incorrectanswer3) => setIncorrectAnswer3(incorrectanswer3)}
+      />
+      <TextField
+        value={incorrectanswer4}
+        style={styles.input}
+        placeholder={"Answer 4"}
+        floatingPlaceholder
+        onChangeText={(incorrectanswer4) => setIncorrectAnswer4(incorrectanswer4)}
+      />
+      <Text> duration: {duration}</ Text>
+      <Slider
+        value={duration}
+        minimumValue={0}
+        maximumValue={30}
+        onValueChange={(duration) => setDuration(duration)}
+        step={1}
+      />
+
+
+
+      <Button
+        onPress={updateQuestionDatabase}
+        label={"Submit"}
+        backgroundColor={Colors.text}
+        accessibilityLabel="Learn more about this purple button"
+        enableShadow
+      />
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   picker: {
-    width: 300,  
+    width: 300,
   },
 
   container: {

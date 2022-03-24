@@ -10,17 +10,17 @@ export default function Admin({navigation}) {
         label="Edit"
         onPress={() => navigation.navigate('Edit')}
         />
-
-      <Button margin-5
-        white50
-        label="Add Games"
-        onPress={() => navigation.navigate('Add Games')}
-      />
-         <Button margin-5
-        white50
-        label="Add questions"
-        onPress={() => navigation.navigate('Add questions')}
-      />
+        <Button margin-5
+          white50
+          label="Games List"
+          onPress={() => navigation.navigate('Games List')}
+        />
+        <Button margin-5
+          white50
+          label="Add questions"
+          onPress={() => navigation.navigate('Add questions')}
+        />
+       
            <Button
         margin-5
         white50

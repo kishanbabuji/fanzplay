@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { initializeApp } from 'firebase/app';
 import { firebase } from './firebase/firebaseClient';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, TextField, Text, Button } from 'react-native-ui-lib';
-import { getAuth, onAuthStateChanged,signOut } from "firebase/auth";
-
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import GameList from "./components/gameList"
 
 import Signup from "./components/signup"
 import Edit from "./components/editProfile"
@@ -17,52 +17,53 @@ import AddQuestion from './components/addQuestions';
 import userInfoContext from './components/userInfoContext'
 import HomeScreen from './components/homeScreen'
 import { push } from 'firebase/database';
+import { startClock } from 'react-native-reanimated';
+import QuizMenu from './components/quizMenu';
+
+function Welcome({ navigation, route }) {
 
 
-function Welcome({ navigation }) {
 
-  const[user,setUser] = useState()
-  const[userUid,setUid] = useState()
-  const[userLoggedIn,setUserLoggedIn] = useState()
+
+  const userContext = useContext(userInfoContext)
   const auth = getAuth();
   const app = firebase
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    const uid = user.uid;
-    setUid(user.uid)
-    setUser(user)
-    setUserLoggedIn(true)
-    
-  } else {
-  
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const uid = user.uid;
+      userContext.setUid(user.uid)
+      userContext.setUser(user)
+      userContext.setUserLoggedIn(true)
+
+
+
+    } else {
+
+    }
+  });
+
+
+  function logOut() {
+    signOut(auth).then(() => {
+      userContext.setUid(null)
+      userContext.setUser(null)
+      userContext.setUserLoggedIn(false)
+      // Sign-out successful.
+    }).catch((error) => {
+      // An error happened.
+    });
   }
-});
-
-
-function logOut(){
-signOut(auth).then(() => {
-  setUid(null)
-  setUser(null)
-  setUserLoggedIn(false)
-  // Sign-out successful.
-}).catch((error) => {
-  // An error happened.
-});
-}
 
 
 
 
 
-if(user){
-  return (
-    <userInfoContext.Provider value={{
-      loggedIn: true,
-      uid: userUid,
-      isAdmin: false
+  if (userContext.user) {
+    return (
 
-    }}>
+   
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Welcome</Text>
       <Button margin-5
@@ -70,69 +71,35 @@ if(user){
         label="Home"
         onPress={() => navigation.navigate('HomeScreen')}
       />
-      
-      {/* <Button margin-5
-        white50
-        label="Edit"
-        onPress={() => navigation.navigate('Edit')}
-        />
-
-      <Button margin-5
-        white50
-        label="Add Games"
-        onPress={() => navigation.navigate('Add Games')}
-      />
-         <Button margin-5
-        white50
-        label="Add questions"
-        onPress={() => navigation.navigate('Add questions')}
-      />
-           <Button
-        margin-5
-        white50
-        label="logout"
-
-        onPress={logOut}
-      />
-    */}
-     
 
     </View>
-    </userInfoContext.Provider>
   );
 
-
 }
-else{
-  return(
-    <userInfoContext.Provider value={{
-      loggedIn: false,
-      uid: "",
-      isAdmin: false
+else {
+  return (
 
-    }}>
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
     <Text>Welcome to FanzPlay!</Text>
         <Button
-        margin-5
-        white50
-        label="Login"
+          margin-5
+          white50
+          label="Login"
 
-        onPress={() => navigation.navigate('Login')}
-      />
-      <Button margin-5
-        white50
-        label="Signup"
-        onPress={() => navigation.navigate('Signup')}
-      />
-    </View>
-    </userInfoContext.Provider>
-  )
+          onPress={() => navigation.navigate('Login')}
+        />
+        <Button margin-5
+          white50
+          label="Signup"
+          onPress={() => navigation.navigate('Signup')}
+        />
+      </View>
+    )
 
-}
+  }
 
 
-  
+
 }
 
 
@@ -142,7 +109,22 @@ else{
 const Stack = createNativeStackNavigator();
 
 function App() {
+
+  const [user, setUser] = useState()
+  const [userUid, setUid] = useState()
+  const [userLoggedIn, setUserLoggedIn] = useState(false)
+
   return (
+    <userInfoContext.Provider value={{
+      loggedIn: userLoggedIn,
+      uid: userUid,
+      user: user,
+      isAdmin: false,
+      setUser: (user) => setUser(user),
+      setUid: (uid) => setUid(uid),
+      setUserLoggedIn: (loggedIn) => setUserLoggedIn(loggedIn)
+    }}>
+
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="FanzPlay" component={Welcome} />
@@ -151,10 +133,16 @@ function App() {
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Edit" component={Edit} />
         <Stack.Screen name="Quiz" component={QuizScreen} />
+        <Stack.Screen name="Games List" component={GameList} />
+        <Stack.Screen name="Quiz Menu" component={QuizMenu} />
+
+
         <Stack.Screen name="Add Games" component={AddGames} />
         <Stack.Screen name="Add questions" component={AddQuestion} />    
         </Stack.Navigator>
     </NavigationContainer>
+    </userInfoContext.Provider>
+
   );
 }
 
