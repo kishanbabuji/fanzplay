@@ -21,8 +21,6 @@ import QuizMenu from './components/quizMenu';
 function HomeScreen({ navigation, route }) {
 
 
-
-
   const userContext = useContext(userInfoContext)
   const auth = getAuth();
   const app = firebase

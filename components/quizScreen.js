@@ -1,10 +1,11 @@
 import { StyleSheet, TextInput } from 'react-native';
-import { useState } from 'react';
+import { useState,useContext} from 'react';
 import { getDatabase, set, ref, onValue, get, update } from "firebase/database";
 import { Button, View, Text, LoaderScreen } from "react-native-ui-lib"
 import * as React from 'react';
 import { firebase } from "../firebase/firebaseClient.js"
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
+import userInfoContext from './userInfoContext'
 
 
 
@@ -15,6 +16,8 @@ export default function Quiz({ navigation, route }) {
 
     const [currentQuestion, setCurrentQuestion] = useState("")
     const [hasSeen, setHasSeen] = useState("")
+    const userContext = useContext(userInfoContext)
+
 
 
     React.useEffect(async () => {
@@ -23,31 +26,39 @@ export default function Quiz({ navigation, route }) {
 
         //database references for the game and user tables
         const games = ref(db, `games/${route.params.game}/questionId`)
-        const answered = ref(db, "users/questionId")
 
 
 
         //functions set to update the hasSeen and currentQuestion states on db change 
-        onValue(answered, async (snapshot) => {
-            setHasSeen(await snapshot.val())
-
-        })
+        
         onValue(games, async (snapshot) => {
             const data = await snapshot.val()
             console.log(data)
             setCurrentQuestion(data)
 
         })
+        console.log(currentQuestion)
+
+        const answered = ref(db, `users/${route.params.game}/${userContext.uid}/${currentQuestion.id}`)
+        onValue(answered, async (snapshot) => {
+            setHasSeen(await snapshot.val())
+
+        })
+
+
+
+
+
 
         // react effect cleanup function to close db connection and avoid memory leak
         return () => {
-            off(ref(db, 'users', 'questionId'))
+            off(ref(db, `users/${route.params.game}/${userContext.uid}/${currentQuestion.id}`))
 
-            off(ref(db, 'games', 'questionId'))
+            off(ref(db, `games/${route.params.game}/questionId`))
         }
 
 
-    }, [])
+    }, [currentQuestion])
 
 
     function handleSubmit(answer) {
@@ -55,13 +66,13 @@ export default function Quiz({ navigation, route }) {
         let db = getDatabase()
 
         if (answer == currentQuestion.correctAnswer) {
-            update(ref(db, 'users/questionId'), {
+            update(ref(db, `users/${route.params.game}/${userContext.uid}/${currentQuestion.id}`), {
                 "answered": true,
                 "correct": true,
             })
 
         } else {
-            update(ref(db, 'users/questionId'), {
+            update(ref(db, `users/${route.params.game}/${userContext.uid}/${currentQuestion.id}`), {
                 "answered": true,
                 "correct": false,
             })
@@ -72,7 +83,7 @@ export default function Quiz({ navigation, route }) {
     function handleTimeout() {
         let db = getDatabase()
 
-        update(ref(db, 'users/questionId'), {
+        update(ref(db, `users/${route.params.game}/${userContext.uid}/${currentQuestion.id}`), {
             "answered": true,
             "correct": false,
         })
