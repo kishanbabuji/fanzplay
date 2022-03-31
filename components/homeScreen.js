@@ -5,18 +5,20 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Rewards from './rewardsScreen'
 import Profile from './profileScreen'
 import Admin from './adminScreen'
+import QuizMenu from './quizMenu';
 
 
 const Tab = createBottomTabNavigator()
 
 function HomeScreen({ navigation }) {
     return(
+
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Home Screen</Text>
         <Button margin-5
         white50
-        label="Quiz"
-        onPress={() => navigation.navigate('Quiz')}
+        label="Quiz Menu"
+        onPress={() => navigation.navigate('Quiz Menu')}
         />
         </View>
     );
