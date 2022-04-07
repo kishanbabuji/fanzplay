@@ -144,7 +144,7 @@ function App() {
         <Stack.Screen name="HomeScreen" options={{headerShown: false}} component={HomeScreen} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
-        <Stack.Screen name="Edit" component={Edit} />
+        <Stack.Screen name="Edit Profile" component={Edit} />
         <Stack.Screen name="Quiz" component={QuizScreen} />
         <Stack.Screen name="Games List" component={GameList} />
         <Stack.Screen name="Quiz Menu" component={QuizMenu} />

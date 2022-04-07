@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import { View, TextField, Text, Button } from 'react-native-ui-lib';
+import { View, TextField, Text, Button, Colors } from 'react-native-ui-lib';
 import userInfoContext from './userInfoContext';
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
@@ -24,14 +24,15 @@ const auth = getAuth();
     });
   }
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text>My Profile</Text>
-          <Button margin-5
-          white50
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' ,color:'Green'}}>
+
+          <Button   enableShadow={true} margin-5 white50 size={Button.sizes.medium} backgroundColor={Colors.green20} label="Edit Profile" onPress = {()=>navigation.navigate('Edit Profile')} />
+
+          <Button enableShadow={true} margin-5 white50 size={Button.sizes.medium} backgroundColor={Colors.green20}
           label="Logout"
           onPress={logOut}
         />
-       <Button label="Edit Profile" onPress = {()=>navigation.navigate('Edit')} />
+       
         </View>
       );
 }

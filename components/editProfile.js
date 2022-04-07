@@ -14,7 +14,6 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 import userInfoContext from "./userInfoContext";
 
-
 const user = getAuth()
 
 
@@ -83,9 +82,7 @@ export default function Edit() {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.container}
           >
-            <Text text30 style={{ color: Colors.text }}>
-            Edit Fanz Play Account
-            </Text>
+         
             <Modal
               animationType="slide"
               transparent={true}
@@ -111,6 +108,7 @@ export default function Edit() {
       
  
         <TextField
+        text100
           value={firstName}
           style={styles.input}
           placeholder={"First Name"}
@@ -118,6 +116,7 @@ export default function Edit() {
           onChangeText={(firstName) => setFirstName(firstName)}
         />
         <TextField
+               text100
           value={lastName}
           style={styles.input}
           placeholder={"Last Name"}
@@ -125,6 +124,7 @@ export default function Edit() {
           onChangeText={(lastName) => setLastName(lastName)}
         />
          <TextField
+                text100
           value={username}
           style={styles.input}
           placeholder={"Username"}
@@ -132,6 +132,7 @@ export default function Edit() {
           onChangeText={(username) => setUsername(username)}
         />
          <TextField
+                text100
           value={number}
           style={styles.input}
           placeholder={"Phone Number"}
@@ -139,8 +140,9 @@ export default function Edit() {
           onChangeText={(number) => setNumber(number)}
           keyboardType="numeric"
         />
-           <Text>Age:</Text>
+           <Text text100>Age:</Text>
         <Picker
+        itemStyle={styles.pickerItem}
         selectedValue={age}
         style = {styles.picker}
         onValueChange={(age, itemIndex) => setAge(age)}
@@ -153,6 +155,7 @@ export default function Edit() {
         <Picker.Item label="65+" value="65+" />
       </Picker>
         <TextField
+        text100
           value={zip}
           style={styles.input}
           placeholder={"Zip Code"}
@@ -161,6 +164,7 @@ export default function Edit() {
           keyboardType="numeric"
         />
          <TextField
+         text100
           value={city}
           style={styles.input}
           placeholder={"City"}
@@ -170,9 +174,10 @@ export default function Edit() {
             <Button
               onPress={signupWithEmail}
               label={"Submit"}
-              backgroundColor={Colors.text}
+              backgroundColor={Colors.green20}
+              enableShadow={true}
               accessibilityLabel="Learn more about this purple button"
-              enableShadow
+             
             />
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
@@ -182,11 +187,15 @@ export default function Edit() {
 
 const styles = StyleSheet.create({
   picker: {
-    width: 300,  
+    width: 300, 
+    height:200, 
+  },
+  PickerItem:{
+    height:100,
+    color:'red',
   },
     container: {
       flex: 1,
-      backgroundColor: "#FFF",
       alignItems: "center",
       justifyContent: "center",
     },
@@ -205,7 +214,6 @@ const styles = StyleSheet.create({
     },
     modalView: {
       margin: 20,
-      backgroundColor: "white",
       borderRadius: 20,
       padding: 35,
       alignItems: "center",
