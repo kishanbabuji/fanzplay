@@ -18,6 +18,7 @@ export default function LiveGameView(props) {
     const [counter, setCounter] = useState(0)
     const [questionsArr, setQuestionsArr] = useState([])
 
+    const userContext = useContext(userInfoContext)
 
 
 
@@ -46,6 +47,7 @@ export default function LiveGameView(props) {
                 await questions.push({ ...questionDoc.data(), "id": id })
 
             })
+            console.log(questions, "questions")
 
             setQuestionsArr(questions)
 
@@ -67,6 +69,7 @@ export default function LiveGameView(props) {
 
         update(ref(rtdb, `games/${props.game.id}/questionId`), {
             "question": question.question,
+            "id": question.id,
             "answer1": question.answer1,
             "answer2": question.answer2,
             "answer3": question.answer3,
@@ -76,11 +79,7 @@ export default function LiveGameView(props) {
             "correctAnswer": question.correctanswer
         })
 
-        update(ref(rtdb, 'users/questionId'), {
-            "answered": false,
-            "correct": false
-        })
-
+        
         setQuestion({})
     }
 

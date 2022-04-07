@@ -31,6 +31,8 @@ export default function Quiz({ navigation, route }) {
 
 
 
+        //functions set to update the hasSeen and currentQuestion states on db change 
+
         onValue(games, async (snapshot) => {
             const data = await snapshot.val()
 
@@ -67,6 +69,18 @@ export default function Quiz({ navigation, route }) {
             )
 
         })
+        console.log(currentQuestion)
+
+        const answered = ref(db, `users/${route.params.game}/${userContext.uid}/${currentQuestion.id}`)
+        onValue(answered, async (snapshot) => {
+            setHasSeen(await snapshot.val())
+
+        })
+
+
+
+
+
 
         // react effect cleanup function to close db connection and avoid memory leak
         return () => {
@@ -74,7 +88,7 @@ export default function Quiz({ navigation, route }) {
         }
 
 
-    }, [])
+    }, [currentQuestion])
 
 
     function handleSubmit(answer) {

@@ -1,5 +1,5 @@
 import { StyleSheet, View, TextInput,Picker } from "react-native";
-import { useState } from 'react';
+import { useState,useContext } from 'react';
 import * as React from 'react';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase/firebaseClient";
@@ -12,11 +12,9 @@ import {
     Modal,
   } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import userInfoContext from './userInfoContext'
 
 
-const user = getAuth()
-console.log(user.apiKey)
-const docRef = doc(db, "users","PmE1VHWO8DbJiFaydZshiPgSUHM2");
 
 
 export default function Edit() {
@@ -30,6 +28,14 @@ export default function Edit() {
   const [username, setUsername] = useState("");
   const [number, setNumber] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+
+  const userContext = useContext(userInfoContext)
+
+  
+
+
+
+  const docRef = doc(db, "users",userContext.uid);
 
 
 
@@ -69,6 +75,7 @@ export default function Edit() {
       }
 
     return (
+   
       <ScrollView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <KeyboardAvoidingView
@@ -169,6 +176,7 @@ export default function Edit() {
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
         </ScrollView>
+      
       );
 }
 
