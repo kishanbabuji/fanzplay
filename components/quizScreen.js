@@ -69,7 +69,6 @@ export default function Quiz({ navigation, route }) {
             )
 
         })
-        console.log(currentQuestion)
 
         const answered = ref(db, `users/${route.params.game}/${userContext.uid}/${currentQuestion.id}`)
         onValue(answered, async (snapshot) => {
@@ -88,7 +87,7 @@ export default function Quiz({ navigation, route }) {
         }
 
 
-    }, [currentQuestion])
+    }, [])
 
 
     function handleSubmit(answer) {
@@ -154,16 +153,12 @@ export default function Quiz({ navigation, route }) {
 
 
 
-    console.log(hasSeen, "hasSeen")
     if (Object.keys(currentQuestion).length != 0 && Object.keys(hasSeen).length != 0) {
 
         console.log(hasSeen, hasSeen.answered, "current")
         if (!hasSeen.answered) {
             return (
                 <View style={styles.container}>
-
-
-                    <Text> {hasSeen.answered} yooyoyoyo</Text>
                     <CountdownCircleTimer
                         colorsTime={[currentQuestion.duration, 5, 2]}
                         isPlaying={true}
