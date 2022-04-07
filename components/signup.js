@@ -47,6 +47,7 @@ export default function Signup() {
             city: city,
             username: username,
             number: number,
+            isAdmin: false
           })
           .then(
             setEmail(""),

@@ -6,7 +6,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 
 
-export default function Login() {
+export default function Login({navigation}) {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
@@ -25,6 +25,7 @@ signInWithEmailAndPassword(auth, email, password)
     // Signed in 
     setUser(userCredential.user);
     console.log("works")
+    navigation.navigate('FanzPlay')
     // ...
   })
   .catch((error) => {
