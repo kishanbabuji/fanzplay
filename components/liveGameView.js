@@ -12,18 +12,6 @@ import userInfoContext from './userInfoContext'
 
 
 
-
-
-
-
-
-// const listItems = numbers.map((number) =>
-//   <li>{number}</li>
-// );
-
-
-
-
 export default function LiveGameView(props) {
 
     const [question, setQuestion] = useState({})
@@ -55,7 +43,7 @@ export default function LiveGameView(props) {
             let questions = []
             tempArr.forEach(async (id) => {
                 let questionDoc = await getDoc(doc(db, "questions", id))
-                await questions.push({ ...questionDoc.data() })
+                await questions.push({ ...questionDoc.data(), "id": id })
 
             })
 
@@ -84,6 +72,7 @@ export default function LiveGameView(props) {
             "answer3": question.answer3,
             "answer4": question.answer4,
             "duration": question.duration,
+            "id": question.id,
             "correctAnswer": question.correctanswer
         })
 
