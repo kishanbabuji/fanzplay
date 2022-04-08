@@ -34,10 +34,10 @@ export default function Quiz({ navigation, route }) {
 
         onValue(games, async (snapshot) => {
             const data = await snapshot.val()
-
+            console.log(data)
             if (data != null) {
+                console.log("here")
                 let dbData = await (await get(ref(db, "users/" + route.params.game + "/" + user.uid + "/" + data.id))).val()
-                console.log(dbData)
                 if (dbData == null) {
                     set(ref(db, 'users/' + route.params.game + "/" + user.uid + "/" + data.id), {
                         "answered": false,
@@ -56,16 +56,15 @@ export default function Quiz({ navigation, route }) {
 
 
                 } else if (Object.keys(currentQuestion).length == 0) {
-                    console.log(dbData, "dbData")
                     setHasSeen(
                         dbData,
                     )
                 }
+                setCurrentQuestion(
+                    data
+                )
             }
-            console.log(data, "data")
-            setCurrentQuestion(
-                data
-            )
+           
 
         })
 
@@ -154,7 +153,6 @@ export default function Quiz({ navigation, route }) {
 
     if (Object.keys(currentQuestion).length != 0 && Object.keys(hasSeen).length != 0) {
 
-        console.log(hasSeen, hasSeen.answered, "current")
         if (!hasSeen.answered) {
             return (
                 <View style={styles.container}>

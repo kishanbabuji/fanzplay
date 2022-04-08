@@ -60,9 +60,9 @@ function Welcome({ navigation, route }) {
   if (userContext.user) {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>Welcome</Text>
         <Button
           margin-5
+          backgroundColor={Colors.text}
           white50
           label="Home"
           onPress={() => navigation.navigate("HomeScreen")}

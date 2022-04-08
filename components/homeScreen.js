@@ -16,7 +16,6 @@ function HomeScreen({ navigation }) {
     return(
 
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
         <Button margin-5
         white50
         label="Quiz Menu"
