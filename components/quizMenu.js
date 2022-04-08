@@ -1,9 +1,8 @@
 import { ListItem, View, Text, Button } from "react-native-ui-lib";
 import { getDatabase, set, ref, onValue, get, update } from "firebase/database";
-import { useState,useContext } from "react";
-import React, { useEffect, useContext } from "react";
+import { useState,useContext,useEffect } from "react";
 import userInfoContext from './userInfoContext'
-
+import * as React from 'react';
 export default function QuizMenu({ navigation }) {
 
     const [gamesList, setGameList] = useState()

@@ -5,7 +5,6 @@ import { Button, View, Text, LoaderScreen } from "react-native-ui-lib"
 import * as React from 'react';
 import { firebase } from "../firebase/firebaseClient.js"
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
-import useInfoContext from "./userInfoContext"
 import userInfoContext from './userInfoContext';
 
 
@@ -70,7 +69,7 @@ export default function Quiz({ navigation, route }) {
 
         })
 
-        const answered = ref(db, `users/${route.params.game}/${userContext.uid}/${currentQuestion.id}`)
+        const answered = ref(db, `users/${route.params.game}/${user.uid}/${currentQuestion.id}`)
         onValue(answered, async (snapshot) => {
             setHasSeen(await snapshot.val())
 
