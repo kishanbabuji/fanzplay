@@ -8,6 +8,7 @@ import Profile from './profileScreen'
 import Admin from './adminScreen'
 import userInfoContext from './userInfoContext';
 import Login from './login';
+import QuizMenu from './quizMenu';
 
 
 const Tab = createBottomTabNavigator()
@@ -29,7 +30,7 @@ function HomeTab() {
   console.log(userContext.isAdmin)
     return (
     <Tab.Navigator>
-     {!userContext.isAdmin ? (<Tab.Screen name="Home" component={HomeScreen} 
+     {!userContext.isAdmin ? (<Tab.Screen name="Home" component={QuizMenu} 
         options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="home" color={color} size={size} />
