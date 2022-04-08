@@ -39,13 +39,11 @@ export default function Edit() {
 
   const docRef = doc(db, "users",userContext.uid);
 
-  const userContext = useContext(userInfoContext)
+
 
   
 
 
-
-  const docRef = doc(db, "users",userContext.uid);
 
 
 
