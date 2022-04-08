@@ -1,7 +1,5 @@
-import { StyleSheet, View, TextInput, Picker, ScrollView } from "react-native";
 import { useState } from "react";
 import * as React from "react";
-
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase/firebaseClient";
 import { TextField, Button, Text, Colors } from "react-native-ui-lib";
@@ -10,6 +8,11 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Modal,
+  StyleSheet,
+  View,
+  TextInput,
+  Picker,
+  ScrollView,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 export default function Signup() {
@@ -47,7 +50,7 @@ export default function Signup() {
             city: city,
             username: username,
             number: number,
-            isAdmin: false
+            isAdmin: false,
           })
           .then(
             setEmail(""),
