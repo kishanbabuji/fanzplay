@@ -12,24 +12,13 @@ import userInfoContext from './userInfoContext'
 
 
 
-
-
-
-
-
-// const listItems = numbers.map((number) =>
-//   <li>{number}</li>
-// );
-
-
-
-
 export default function LiveGameView(props) {
 
     const [question, setQuestion] = useState({})
     const [counter, setCounter] = useState(0)
     const [questionsArr, setQuestionsArr] = useState([])
 
+    const userContext = useContext(userInfoContext)
 
 
 
@@ -55,9 +44,10 @@ export default function LiveGameView(props) {
             let questions = []
             tempArr.forEach(async (id) => {
                 let questionDoc = await getDoc(doc(db, "questions", id))
-                await questions.push({ ...questionDoc.data() })
+                await questions.push({ ...questionDoc.data(), "id": id })
 
             })
+            console.log(questions, "questions")
 
             setQuestionsArr(questions)
 
@@ -79,19 +69,17 @@ export default function LiveGameView(props) {
 
         update(ref(rtdb, `games/${props.game.id}/questionId`), {
             "question": question.question,
+            "id": question.id,
             "answer1": question.answer1,
             "answer2": question.answer2,
             "answer3": question.answer3,
             "answer4": question.answer4,
             "duration": question.duration,
+            "id": question.id,
             "correctAnswer": question.correctanswer
         })
 
-        update(ref(rtdb, 'users/questionId'), {
-            "answered": false,
-            "correct": false
-        })
-
+        
         setQuestion({})
     }
 

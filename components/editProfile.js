@@ -12,7 +12,8 @@ import {
     Modal,
   } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import userInfoContext from "./userInfoContext";
+import userInfoContext from './userInfoContext'
+
 
 const user = getAuth()
 
@@ -30,6 +31,14 @@ export default function Edit() {
   const [username, setUsername] = useState("");
   const [number, setNumber] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const userContext = useContext(userInfoContext)
+
+  
+
+
+
+  const docRef = doc(db, "users",userContext.uid);
+
   const userContext = useContext(userInfoContext)
 
   
@@ -76,6 +85,7 @@ export default function Edit() {
       }
 
     return (
+   
       <ScrollView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <KeyboardAvoidingView
@@ -182,6 +192,7 @@ export default function Edit() {
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
         </ScrollView>
+      
       );
 }
 

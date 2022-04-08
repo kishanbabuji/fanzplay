@@ -26,8 +26,6 @@ import HomeTab from './components/homeScreen';
 function Welcome({ navigation, route }) {
 
 
-
-
   const userContext = useContext(userInfoContext)
   const auth = getAuth();
   const app = firebase

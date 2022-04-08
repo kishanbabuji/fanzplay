@@ -1,10 +1,11 @@
 import { StyleSheet, TextInput } from 'react-native';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { getDatabase, set, ref, onValue, get, update } from "firebase/database";
 import { Button, View, Text, LoaderScreen } from "react-native-ui-lib"
 import * as React from 'react';
 import { firebase } from "../firebase/firebaseClient.js"
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
+import userInfoContext from './userInfoContext';
 
 
 
@@ -13,36 +14,74 @@ export default function Quiz({ navigation, route }) {
 
 
 
-    const [currentQuestion, setCurrentQuestion] = useState("")
-    const [hasSeen, setHasSeen] = useState("")
+    const [currentQuestion, setCurrentQuestion] = useState({})
+    const [hasSeen, setHasSeen] = useState({})
 
 
-    React.useEffect(async () => {
+    const user = useContext(userInfoContext)
+
+
+    React.useEffect(() => {
         let db = getDatabase()
 
 
         //database references for the game and user tables
         const games = ref(db, `games/${route.params.game}/questionId`)
-        const answered = ref(db, "users/questionId")
 
 
 
         //functions set to update the hasSeen and currentQuestion states on db change 
+
+        onValue(games, async (snapshot) => {
+            const data = await snapshot.val()
+
+            if (data != null) {
+                let dbData = await (await get(ref(db, "users/" + route.params.game + "/" + user.uid + "/" + data.id))).val()
+                console.log(dbData)
+                if (dbData == null) {
+                    set(ref(db, 'users/' + route.params.game + "/" + user.uid + "/" + data.id), {
+                        "answered": false,
+                        "correct": false,
+                    });
+
+                    let updatedVal = {
+                        "answered": false,
+                        "correct": false,
+                    }
+
+                    setHasSeen(
+                        updatedVal
+                    )
+
+
+
+                } else if (Object.keys(currentQuestion).length == 0) {
+                    console.log(dbData, "dbData")
+                    setHasSeen(
+                        dbData,
+                    )
+                }
+            }
+            console.log(data, "data")
+            setCurrentQuestion(
+                data
+            )
+
+        })
+
+        const answered = ref(db, `users/${route.params.game}/${user.uid}/${currentQuestion.id}`)
         onValue(answered, async (snapshot) => {
             setHasSeen(await snapshot.val())
 
         })
-        onValue(games, async (snapshot) => {
-            const data = await snapshot.val()
-            console.log(data)
-            setCurrentQuestion(data)
 
-        })
+
+
+
+
 
         // react effect cleanup function to close db connection and avoid memory leak
         return () => {
-            off(ref(db, 'users', 'questionId'))
-
             off(ref(db, 'games', 'questionId'))
         }
 
@@ -55,24 +94,36 @@ export default function Quiz({ navigation, route }) {
         let db = getDatabase()
 
         if (answer == currentQuestion.correctAnswer) {
-            update(ref(db, 'users/questionId'), {
+            update(ref(db, 'users/' + route.params.game + "/" + user.uid + "/" + currentQuestion.id), {
+                "answered": true,
+                "correct": true,
+            })
+            setHasSeen({
                 "answered": true,
                 "correct": true,
             })
 
         } else {
-            update(ref(db, 'users/questionId'), {
+            update(ref(db, 'users/' + route.params.game + "/" + user.uid + "/" + currentQuestion.id), {
                 "answered": true,
                 "correct": false,
             })
 
+            setHasSeen({
+                "answered": true,
+                "correct": false,
+            })
         }
     }
 
     function handleTimeout() {
         let db = getDatabase()
 
-        update(ref(db, 'users/questionId'), {
+        update(ref(db, 'users/' + route.params.game + "/" + user.uid + "/" + currentQuestion.id), {
+            "answered": true,
+            "correct": false,
+        })
+        setHasSeen({
             "answered": true,
             "correct": false,
         })
@@ -101,13 +152,12 @@ export default function Quiz({ navigation, route }) {
 
 
 
+    if (Object.keys(currentQuestion).length != 0 && Object.keys(hasSeen).length != 0) {
 
-    if (currentQuestion && hasSeen) {
+        console.log(hasSeen, hasSeen.answered, "current")
         if (!hasSeen.answered) {
             return (
                 <View style={styles.container}>
-
-
                     <CountdownCircleTimer
                         colorsTime={[currentQuestion.duration, 5, 2]}
                         isPlaying={true}
