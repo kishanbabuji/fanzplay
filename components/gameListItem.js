@@ -34,6 +34,31 @@ export default function GameListItem(props) {
             setQuestions(questionArr)
 
         }
+
+        async function isLive() {
+
+            let rtdb = getDatabase()
+            let gamesRef = ref(rtdb, `games/${props.game.id}`)
+
+            get(gamesRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    setIsLive(true)
+                } else {
+                    setIsLive(false)
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
+
+
+        }
+        isLive()
+
+
+
+
+
+
         getGames()
 
 
@@ -58,9 +83,8 @@ export default function GameListItem(props) {
             update(ref(rtdb, `games/${props.game.id}`), {
                 "Away Team": props.game["Away Team"],
                 "Home Team": props.game["Home Team"],
+                "Code to Join": props.game["Join Code"]
             })
-
-
 
 
             setIsLive(true)
