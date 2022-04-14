@@ -21,6 +21,7 @@ import { push } from "firebase/database";
 import { startClock } from "react-native-reanimated";
 import QuizMenu from "./components/quizMenu";
 import HomeTab from "./components/homeScreen";
+import AddReward from "./components/addRewards";
 
 function Welcome({ navigation, route }) {
   const userContext = useContext(userInfoContext);
@@ -127,9 +128,9 @@ function App() {
           <Stack.Screen name="Quiz" component={QuizScreen} />
           <Stack.Screen name="Games List" component={GameList} />
           <Stack.Screen name="Quiz Menu" component={QuizMenu} />
-
           <Stack.Screen name="Add Games" component={AddGames} />
           <Stack.Screen name="Add questions" component={AddQuestion} />
+          <Stack.Screen name = "Add Rewards" component={AddReward} />
         </Stack.Navigator>
       </NavigationContainer>
     </userInfoContext.Provider>

@@ -16,6 +16,11 @@ export default function Admin({navigation}) {
           label="Add questions"
           onPress={() => navigation.navigate('Add questions')}
         />
+           <Button margin-5
+          white50
+          label="Upload Rewards"
+          onPress={() => navigation.navigate('Add Rewards')}
+        />
        
  
         </View>

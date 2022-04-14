@@ -10,7 +10,11 @@ export default function GameListItem(props) {
 
     const [questions, setQuestions] = useState([])
     const [selectedQuestions, setSelectedQuestions] = useState([])
+    const [rewards,setRewards]=useState([])
+    const [selectedRewards,setSelectedRewards] = useState([])
     const [isExpanded, setIsExpanded] = useState(false)
+    const [isExpanded2, setIsExpanded2] = useState(false)
+
     const [isLive, setIsLive] = useState(false)
 
     useEffect(() => {
@@ -30,13 +34,26 @@ export default function GameListItem(props) {
                 selectedQuestionsMap[doc.id] = null;
             });
 
+            let rewardArr = [];
+            const rewardSnapshot = await getDocs(collection(db, "rewards"));
+            rewardSnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                rewardArr.push({ ...doc.data(), id: doc.id });
+            });
+
+            let selectedRewardsMap = {}
+            const rquerySnapshot = await getDocs(collection(db, "games", props.game.id, "questions"));
+            rquerySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                selectedRewardsMap[doc.id] = null;
+            });
+            console.log(rewardArr)
             setSelectedQuestions(selectedQuestionsMap)
             setQuestions(questionArr)
-
+            setRewards(rewardArr)
+            setSelectedRewards(selectedRewardsMap)
         }
         getGames()
-
-
 
 
     }, [])
@@ -95,6 +112,25 @@ export default function GameListItem(props) {
         }
     }
 
+    async function handleRewardUpdate(rewardId) {
+
+        const rewardref = doc(db, "games", props.game.id, "rewards", rewardId)
+        //need to add game to current list
+        if (rewardId in selectedRewards) {
+            await deleteDoc(rewardref);
+            let temp = JSON.parse(JSON.stringify(selectedRewards))
+            delete temp[rewardId]
+            setSelectedRewards(temp)
+        } else {
+            await setDoc(rewardref, {});
+
+            let temp = JSON.parse(JSON.stringify(selectedRewards))
+            temp[rewardId] = null
+
+            setSelectedRewards(temp)
+        }
+    }
+
 
 
 
@@ -110,8 +146,19 @@ export default function GameListItem(props) {
             </ListItem >
 
         ))
+    }
+    
+    let rewardSubList = null
+    if (isExpanded2) {
 
+        rewardSubList = rewards.map((reward) => (
+            <ListItem style={{ padding: 2, flexDirection: 'row', justifyContent: "space-evenly" }} key={reward.id} >
+                <Text> {reward.name} </Text>
+                <Checkbox value={reward.id in selectedRewards}
+                    onValueChange={() => handleRewardUpdate(reward.id)} ></Checkbox>
+            </ListItem >
 
+        ))
     }
 
     let gameView = null
@@ -149,13 +196,15 @@ export default function GameListItem(props) {
                 <ListItem.Part>
                     <Text>{props.game["Away Team"]}</Text>
                 </ListItem.Part>
-                <Button size={'small'} label={"Edit Questions"} onPress={() => setIsExpanded(!isExpanded)} />
-                <Button size={'small'} label={"Go Live"} onPress={() => handleLive()} />
+                <Button style = {{ width: 80,height: 40}} size={"xSmall"} label={"Edit Questions"} onPress={() => setIsExpanded(!isExpanded)} />
+                <Button  style = {{ width: 80,height: 40}}size={'xSmall'} label={"Edit Rewards"} onPress={() => setIsExpanded2(!isExpanded2)} />
+                <Button  style = {{ width: 80,height: 40}} size={'xSmall'} label={"Go Live"} onPress={() => handleLive()} />
 
-                <Button size={'small'} label={"Delete"} onPress={() => props.deleteGame(props.game.id)} />
+                <Button style = {{ width: 80,height: 40}}  size={'xSmall'} label={"Delete"} onPress={() => props.deleteGame(props.game.id)} />
 
             </ListItem >
             {subList}
+            {rewardSubList}
             {gameView}
         </View >
 
