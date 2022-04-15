@@ -15,33 +15,17 @@ import { ScrollView, StyleSheet } from "react-native";
 import {
   Modal,
 } from "react-native";
+import { Dimensions } from "react-native";
+import QuizMenuItem from "./quizMenuItem"
+
 
 export default function QuizMenu({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [gamesList, setGameList] = useState();
   const [activeGameList, setActiveGameList] = useState();
   const userContext = useContext(userInfoContext);
-  const [homeTeam, setHomeTeam] = useState();
-  const [awayTeam, setAwayTeam] = useState();
-  const [gameID, setGameID] = useState();
-
   let db = getDatabase()
 
-  function addUsertoHome() {
-
-    set(ref(db, 'users/' + gameID + "/" + userContext.uid), {
-      "team": homeTeam
-    });
-
-  }
-
-  function addUsertoAway() {
-
-    set(ref(db, 'users/' + gameID + "/" + userContext.uid), {
-      "team": awayTeam
-    });
-
-  }
 
 
   useEffect(() => {
@@ -82,17 +66,25 @@ export default function QuizMenu({ navigation }) {
 
   if (gamesList) {
     activeGames = gamesList.map((game) => (
-      <ListItem
-        key={Object.keys(game)[0]}
-        style={{
-          alignItems: "center",
-          justifyContent: "space-evenly",
-          margin: 25,
-        }}
-      >
-        <Card
-          height={160}
+
+      < QuizMenuItem key={Object.keys(game)[0]} uid={userContext.uid} game={game} navigation={navigation} >
+
+      </QuizMenuItem >
+
+
+      /* <Card
+          height={60}
+          enableShadow={false}
+          borderRadius={0}
           label={"Go to Quiz"}
+          style={{
+            justifyContent: "center", alignItems: "center", borderWidth: "1",
+            borderStyle: "solid",
+            margin: 0,
+            borderColor: Colors.rgba('#000000', 0.1)
+          }}
+
+
           onPress={() => {
             setHomeTeam(game[Object.keys(game)[0]]["Home Team"]),
               setAwayTeam(game[Object.keys(game)[0]]["Away Team"]),
@@ -106,31 +98,27 @@ export default function QuizMenu({ navigation }) {
           useNative
         >
           <Card.Section
-            backgroundColor={Colors.text}
-            padding-20
-            flex-3
-            width={250}
+            backgroundColor={Colors.rgba('#e5e5e5', 1)}
+            width={Dimensions.get('window').width}
+            contentStyle={{ alignItems: "center", flexDirection: "row", justifyContent: "space-evenly", height: 60, width: Dimensions.get('window').width }}
+
+
             content={[
               {
                 text: game[Object.keys(game)[0]]["Home Team"],
-                text60: true,
-                white: true,
+                text80: true,
               },
               {
-                text: "VS.",
+                text: "VS",
                 text70: true,
-                white: true,
               },
               {
                 text: game[Object.keys(game)[0]]["Away Team"],
-                text60: true,
-                white: true,
+                text80: true,
               },
             ]}
-            contentStyle={{ alignItems: "center", paddingVertical: 25 }}
           />
-        </Card>
-      </ListItem>
+        </Card> */
 
       // <ListItem key={Object.keys(game)[0]} style={{ minHeight: 50, alignItems: "center", justifyContent: "space-evenly" }}>
       //     <Text> {game[Object.keys(game)[0]]['Home Team']}</Text>
@@ -143,43 +131,6 @@ export default function QuizMenu({ navigation }) {
 
   return (
     <ScrollView>
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text>
-              Select your team!
-                  </Text>
-            <Button
-              backgroundColor={Colors.text}
-              onPress={() => {
-                addUsertoHome(),
-                  setModalVisible(!modalVisible)
-              }}
-              label={homeTeam}
-              enableShadow
-            ></Button>
-            <Button
-              backgroundColor={Colors.text}
-              onPress={() => {
-                addUsertoAway(),
-                  setModalVisible(!modalVisible)
-              }}
-              label={awayTeam}
-              enableShadow
-            ></Button>
-          </View>
-        </View>
-      </Modal>
-
-
-
 
       <View style={{
         justifyContent: "space-between",
@@ -196,8 +147,10 @@ export default function QuizMenu({ navigation }) {
 
       </View>
 
-      <Text>Currently Active Games</Text>
-      {activeGames}
+      <Text text70 style={{ padding: 5, }}>Currently Active Games</Text>
+      <View>
+        {activeGames}
+      </View>
 
 
     </ScrollView >
