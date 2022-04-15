@@ -33,7 +33,7 @@ export default function GameList() {
                 <View style={{ padding: 10 }}>
                     <TextField value={homeTeam} placeholder={"Home Team"} onChangeText={(homeTeam) => setHomeTeam(homeTeam)}></TextField>
                     <TextField value={awayTeam} placeholder={"Away Team"} onChangeText={(awayTeam) => setAwayTeam(awayTeam)}></TextField>
-                    <TextField value={joinCode} placeholder={"Code to Join"} onChangeText={(joinCode) => setJoinCode(setJoinCode)}
+                    <TextField value={joinCode} placeholder={"Code to Join"} onChangeText={(joinCode) => setJoinCode(joinCode)}
 
                     ></TextField>
                 </View>

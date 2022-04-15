@@ -24,7 +24,34 @@ export default function QuizMenu({ navigation }) {
   const [gamesList, setGameList] = useState();
   const [activeGameList, setActiveGameList] = useState();
   const userContext = useContext(userInfoContext);
+
+  const [joinCode, setJoinCode] = useState("")
   let db = getDatabase()
+
+
+
+  async function handleGameJoin() {
+    let db = getDatabase();
+    let gameRef = await get(ref(db, "games"));
+
+
+    const data = gameRef.val();
+    for (let game in data) {
+      if (joinCode == data[game]["Code to Join"]) {
+
+        console.log(userContext.uid)
+        set(ref(db, 'users/' + game + "/" + userContext.uid), {
+          test: "yo"
+        });
+        console.log("ehhrsajkdfhjosaijf")
+        setGameList([...gamesList, data[game]])
+      }
+
+    }
+
+    setJoinCode("")
+
+  }
 
 
 
@@ -55,14 +82,7 @@ export default function QuizMenu({ navigation }) {
 
   let activeGames = null;
 
-  // function signUpUser(gameID){
 
-  //     update(ref(db, `users/${gameID}/${userContext.uid}/${currentQuestion.id}`), {
-  //         "answered": true,
-  //         "correct": false,
-  //     })
-
-  // }
 
   if (gamesList) {
     activeGames = gamesList.map((game) => (
@@ -71,61 +91,6 @@ export default function QuizMenu({ navigation }) {
 
       </QuizMenuItem >
 
-
-      /* <Card
-          height={60}
-          enableShadow={false}
-          borderRadius={0}
-          label={"Go to Quiz"}
-          style={{
-            justifyContent: "center", alignItems: "center", borderWidth: "1",
-            borderStyle: "solid",
-            margin: 0,
-            borderColor: Colors.rgba('#000000', 0.1)
-          }}
-
-
-          onPress={() => {
-            setHomeTeam(game[Object.keys(game)[0]]["Home Team"]),
-              setAwayTeam(game[Object.keys(game)[0]]["Away Team"]),
-              console.log(Object.keys(game)),
-              setGameID(Object.keys(game)[0]),
-              navigation.navigate("Quiz", { game: Object.keys(game)[0] }),
-              setModalVisible(true)
-          }
-
-          }
-          useNative
-        >
-          <Card.Section
-            backgroundColor={Colors.rgba('#e5e5e5', 1)}
-            width={Dimensions.get('window').width}
-            contentStyle={{ alignItems: "center", flexDirection: "row", justifyContent: "space-evenly", height: 60, width: Dimensions.get('window').width }}
-
-
-            content={[
-              {
-                text: game[Object.keys(game)[0]]["Home Team"],
-                text80: true,
-              },
-              {
-                text: "VS",
-                text70: true,
-              },
-              {
-                text: game[Object.keys(game)[0]]["Away Team"],
-                text80: true,
-              },
-            ]}
-          />
-        </Card> */
-
-      // <ListItem key={Object.keys(game)[0]} style={{ minHeight: 50, alignItems: "center", justifyContent: "space-evenly" }}>
-      //     <Text> {game[Object.keys(game)[0]]['Home Team']}</Text>
-      //     <Button label={"Go to Quiz"} onPress={() => navigation.navigate('Quiz', { "game": Object.keys(game)[0] })} size={"small"} />
-      //     {/* <Button label={"Signup"} onPress={() => signUpUser(Object.keys(game)[0]) }/> */}
-      //     <Text> {game[Object.keys(game)[0]]['Away Team']}</Text>
-      // </ListItem>
     ));
   }
 
@@ -141,9 +106,16 @@ export default function QuizMenu({ navigation }) {
 
       }}>
         <Text >Enter Code to Join Game</Text>
-        <TextField placeholder="Code To Join" text70 style={{ width: 150 }}> </TextField>
+        <TextField placeholder="Code To Join" text70 style={{ width: 150 }} value={joinCode}
+          onChangeText={(joinCode) => setJoinCode(joinCode)} />
 
-        <Button backgroundColor={Colors.rgba('#43aa8b', 1)} fullWidth={true} label={"submit"}></Button>
+        <Button backgroundColor={Colors.rgba('#43aa8b', 1)} fullWidth={true} label={"submit"}
+          onPress={() => {
+            handleGameJoin()
+          }}
+
+
+        ></Button>
 
       </View>
 
