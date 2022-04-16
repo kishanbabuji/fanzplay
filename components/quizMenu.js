@@ -2,6 +2,7 @@ import {
   ListItem,
   View,
   Text,
+  Image,
   Button,
   TextField,
   Card,
@@ -26,6 +27,8 @@ export default function QuizMenu({ navigation }) {
   const userContext = useContext(userInfoContext);
 
   const [joinCode, setJoinCode] = useState("")
+
+  const [showJoin, setShowJoin] = useState(false)
   let db = getDatabase()
 
 
@@ -40,7 +43,7 @@ export default function QuizMenu({ navigation }) {
       if (joinCode == data[game]["Code to Join"]) {
 
         console.log(userContext.uid)
-        set(ref(db, 'users/' + game + "/" + userContext.uid), {
+        await set(ref(db, 'users/' + game + "/" + userContext.uid), {
           test: "yo"
         });
         console.log("ehhrsajkdfhjosaijf")
@@ -95,37 +98,63 @@ export default function QuizMenu({ navigation }) {
   }
 
   return (
-    <ScrollView>
+    <>
+      <ScrollView style={{ marginLeft: 5, marginRight: 5 }}>
 
-      <View style={{
-        justifyContent: "space-between",
-        flexDirection: "row",
-        alignItems: "center",
-        height: 50,
-        padding: 5
-
-      }}>
-        <Text >Enter Code to Join Game</Text>
-        <TextField placeholder="Code To Join" text70 style={{ width: 150 }} value={joinCode}
-          onChangeText={(joinCode) => setJoinCode(joinCode)} />
-
-        <Button backgroundColor={Colors.rgba('#43aa8b', 1)} fullWidth={true} label={"submit"}
-          onPress={() => {
-            handleGameJoin()
-          }}
+        <Text text70 style={{ padding: 5, }}>Currently Active Games</Text>
+        <View
+          style={{ marginLeft: 5, marginRight: 5 }}
 
 
-        ></Button>
+        >
+          {activeGames}
+        </View>
+        <Text text70 style={{ marginLeft: 10, marginTop: 10 }}>Join a New Game</Text>
+        <View style={{
+          width: Dimensions.get('window').width - 20,
+          bottom: 0,
+          display: "flex",
+          justifyContent: "space-between",
+          flexDirection: "row",
+          alignItems: "center",
+          height: 100,
+          marginLeft: 10,
+          marginTop: -25,
+          marginRight: 10
 
-      </View>
+        }}>
 
-      <Text text70 style={{ padding: 5, }}>Currently Active Games</Text>
-      <View>
-        {activeGames}
-      </View>
+          <View style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            height: 50,
+            marginRight: 5,
+            marginLeft: 5
+
+          }}>
+            <Text text80 >Enter Code:</Text>
+            <TextField text70 style={{ width: 150, height: 50 }} value={joinCode}
+              onChangeText={(joinCode) => setJoinCode(joinCode)} />
+
+          </View>
+          <Button backgroundColor={Colors.rgba('#43aa8b', 1)}
+
+            style={{ height: 40, marginBottom: 10, marginTop: 10 }}
+
+            fullWidth={true} label={"submit"}
+            onPress={() => {
+              handleGameJoin()
+            }}
 
 
-    </ScrollView >
+          ></Button>
+
+        </View>
+
+      </ScrollView >
+
+    </>
   );
 }
 Colors.loadColors({

@@ -89,7 +89,7 @@ export default function QuizMenuItem(props) {
 
     if (isExpanded) {
         expandedSection = (
-            <View style={{ height: 60, backgroundColor: Colors.rgba('#e5e5e5', 1), width: Dimensions.get('window').width, justifyContent: "space-evenly", flexDirection: "row", alignItems: "center", display: "flex" }}>
+            <View style={{ height: 60, backgroundColor: Colors.rgba('#e5e5e5', 1), width: Dimensions.get('window').width - 20, justifyContent: "space-evenly", flexDirection: "row", alignItems: "center", display: "flex" }}>
                 <Button
                     fullWidth={true}
                     sizes={Button.sizes.xSmall}
@@ -147,7 +147,7 @@ export default function QuizMenuItem(props) {
                 <Card.Section
                     backgroundColor={Colors.rgba('#e5e5e5', 1)}
                     width={Dimensions.get('window').width}
-                    contentStyle={{ alignItems: "center", flexDirection: "row", justifyContent: "space-evenly", height: 60, width: Dimensions.get('window').width }}
+                    contentStyle={{ alignItems: "center", flexDirection: "row", justifyContent: "space-evenly", height: 60, width: Dimensions.get('window').width - 20 }}
                     content={[
                         {
                             text: props.game[Object.keys(props.game)[0]]["Home Team"],

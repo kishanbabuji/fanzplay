@@ -34,7 +34,6 @@ export default function Quiz({ navigation, route }) {
 
         onValue(games, async (snapshot) => {
             const data = await snapshot.val()
-            console.log(data)
             if (data != null) {
                 console.log("here")
                 let dbData = await (await get(ref(db, "users/" + route.params.game + "/" + user.uid + "/" + data.id))).val()
@@ -64,7 +63,7 @@ export default function Quiz({ navigation, route }) {
                     data
                 )
             }
-           
+
 
         })
 
