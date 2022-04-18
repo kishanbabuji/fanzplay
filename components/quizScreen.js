@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput } from 'react-native';
 import { useState, useContext } from 'react';
-import { getDatabase, set, ref, onValue, get, update } from "firebase/database";
+import { getDatabase, set, ref, onValue, get, update,database } from "firebase/database";
 import { Button, View, Text, LoaderScreen } from "react-native-ui-lib"
 import * as React from 'react';
 import { firebase } from "../firebase/firebaseClient.js"
@@ -16,6 +16,16 @@ export default function Quiz({ navigation, route }) {
 
     const [currentQuestion, setCurrentQuestion] = useState({})
     const [hasSeen, setHasSeen] = useState({})
+    const [numCorrect,setNumCorrect] = useState(0)
+    const [numSeen,setNumSeen] = useState(0)
+    const [homenumCorrect,homesetNumCorrect] = useState(0)
+    const [homenumSeen,homesetNumSeen] = useState(0)
+    const [awaynumCorrect,awaysetNumCorrect] = useState(0)
+    const [awaynumSeen,awaysetNumSeen] = useState(0)
+    const [team,setTeam]= useState("")
+    const [homeTeam, setHomeTeam] = useState("")
+    const [awayTeam, setAwayTeam] = useState("")
+
 
 
     const user = useContext(userInfoContext)
@@ -23,6 +33,26 @@ export default function Quiz({ navigation, route }) {
 
     React.useEffect(() => {
         let db = getDatabase()
+
+
+        const starCountRef = ref(db, 'users/' + route.params.game + "/" + user.uid);
+        onValue(starCountRef, (snapshot) => {
+        const data = snapshot.val();
+        setTeam(data.team)
+        setNumSeen(data.numberAnswered)
+        setNumCorrect(data.numberCorrect)
+        });
+
+        const teamRef = ref(db, 'games/' + route.params.game);
+        onValue(teamRef, (snapshot) => {
+        const data = snapshot.val();
+        setHomeTeam(data.HomeTeam)
+        setAwayTeam(data.AwayTeam)
+        homesetNumCorrect(data.HomeCorrect)
+        homesetNumSeen(data.HomeAnswered)
+        awaysetNumCorrect(data.AwayCorrect)
+        awaysetNumSeen(data.AwayAnswered)
+        });
 
 
         //database references for the game and user tables
@@ -34,12 +64,11 @@ export default function Quiz({ navigation, route }) {
 
         onValue(games, async (snapshot) => {
             const data = await snapshot.val()
-            console.log(data)
             if (data != null) {
                 console.log("here")
                 let dbData = await (await get(ref(db, "users/" + route.params.game + "/" + user.uid + "/" + data.id))).val()
                 if (dbData == null) {
-                    set(ref(db, 'users/' + route.params.game + "/" + user.uid + "/" + data.id), {
+                    update(ref(db, 'users/' + route.params.game + "/" + user.uid + "/" + data.id), {
                         "answered": false,
                         "correct": false,
                     });
@@ -64,14 +93,13 @@ export default function Quiz({ navigation, route }) {
                     data
                 )
             }
-           
+
 
         })
 
         const answered = ref(db, `users/${route.params.game}/${user.uid}/${currentQuestion.id}`)
         onValue(answered, async (snapshot) => {
             setHasSeen(await snapshot.val())
-
         })
 
 
@@ -87,8 +115,31 @@ export default function Quiz({ navigation, route }) {
 
     }, [])
 
+    function updateScore(x,y,a,b){
+        const db = getDatabase();
+        update(ref(db, 'users/' + route.params.game  + "/" + user.uid), {
+            "numberCorrect": x,
+            "numberAnswered": y
+        });
+
+        if(team == homeTeam){
+            update(ref(db, 'games/'+route.params.game),{
+                "HomeCorrect":a,
+                "HomeAnswered":b
+            })
+        }
+        else{
+            update(ref(db, 'games/'+route.params.game),{
+                "AwayCorrect":a,
+                "AwayAnswered":b
+            })
+
+        }
+    }
+
 
     function handleSubmit(answer) {
+     
 
         let db = getDatabase()
 
@@ -97,10 +148,26 @@ export default function Quiz({ navigation, route }) {
                 "answered": true,
                 "correct": true,
             })
+
             setHasSeen({
                 "answered": true,
                 "correct": true,
             })
+            setNumSeen(numSeen+1)
+            setNumCorrect(numCorrect+1)
+            if(team == homeTeam){
+                updateScore(numCorrect+1,numSeen+1,homenumCorrect+1,homenumSeen+1)
+                homesetNumCorrect(homenumCorrect+1)
+                homesetNumSeen(homenumSeen+1)
+           
+            }
+            else{
+                updateScore(numCorrect+1,numSeen+1,awaynumCorrect+1,awaynumSeen+1)
+                awaysetNumCorrect(awaynumCorrect+1)
+                awaysetNumSeen(awaynumSeen+1)
+           
+            }
+   
 
         } else {
             update(ref(db, 'users/' + route.params.game + "/" + user.uid + "/" + currentQuestion.id), {
@@ -112,6 +179,17 @@ export default function Quiz({ navigation, route }) {
                 "answered": true,
                 "correct": false,
             })
+            setNumSeen(numSeen+1)
+            if(team == homeTeam){
+                updateScore(numCorrect,numSeen+1,homenumCorrect,homenumSeen+1)
+                homesetNumSeen(homenumSeen+1)
+           
+            }
+            else{
+                updateScore(numCorrect,numSeen+1,awaynumCorrect,awaynumSeen+1)
+                awaysetNumSeen(awaynumSeen+1)
+           
+            }
         }
     }
 
@@ -126,7 +204,15 @@ export default function Quiz({ navigation, route }) {
             "answered": true,
             "correct": false,
         })
-
+          setNumSeen(numSeen+1)
+          if(team == homeTeam){
+            updateScore(numCorrect,numSeen+1,homenumCorrect,homenumSeen+1)
+            homesetNumSeen(homenumSeen+1)
+        }
+        else{
+            updateScore(numCorrect,numSeen+1,awaynumCorrect,awaynumSeen+1)
+            awaysetNumSeen(awaynumSeen+1)
+        }
 
     }
 
@@ -179,7 +265,9 @@ export default function Quiz({ navigation, route }) {
                             margin5
                             size={Button.sizes.large}
                             label={currentQuestion.answer1}
-                            onPress={() => handleSubmit(currentQuestion.answer1)}
+                            onPress={() => {
+                                handleSubmit(currentQuestion.answer1)
+                            } }
                             accessibilityLabel="Learn more about this purple button"
                         />
 
@@ -188,7 +276,10 @@ export default function Quiz({ navigation, route }) {
 
                             margin-5
                             size={Button.sizes.large}
-                            onPress={() => handleSubmit(currentQuestion.answer2)}
+                            onPress={() => {
+                                handleSubmit(currentQuestion.answer2);
+
+                            } }
 
                             label={currentQuestion.answer2}
                             accessibilityLabel="Learn more about this purple button"
@@ -198,7 +289,10 @@ export default function Quiz({ navigation, route }) {
                             style={styles.answerButton}
                             margin-5
                             size={Button.sizes.large}
-                            onPress={() => handleSubmit(currentQuestion.answer3)}
+                            onPress={() => {
+                                handleSubmit(currentQuestion.answer3);
+
+                            } }
 
                             label={currentQuestion.answer3}
                             accessibilityLabel="Learn more about this purple button"
@@ -208,7 +302,10 @@ export default function Quiz({ navigation, route }) {
 
                             margin-5
                             size={Button.sizes.large}
-                            onPress={() => handleSubmit(currentQuestion.answer4)}
+                            onPress={() => {
+                                handleSubmit(currentQuestion.answer4);
+
+                            } }
 
                             label={currentQuestion.answer4}
                             accessibilityLabel="Learn more about this purple button"
@@ -227,6 +324,17 @@ export default function Quiz({ navigation, route }) {
                 <View style={styles.container}>
                     <Text text50 marginT-50 marginB-50 > You Have Already Answered This Question</Text>
                     <Text text30 > Your answer was {String(hasSeen.correct)}</Text>
+
+                    <Text></Text>
+                    <Text></Text>
+                    <Text></Text>
+                    <Text></Text>
+                    <Text></Text>
+                    
+                    <Text text50> Score:</Text>
+                    <Text text30>{homeTeam}: {(homenumCorrect/homenumSeen).toFixed(2) *100}%</Text>
+                    <Text text30>{awayTeam}: {(awaynumCorrect/awaynumSeen).toFixed(2) *100}%</Text>
+
                 </ View>
 
             )
@@ -236,6 +344,7 @@ export default function Quiz({ navigation, route }) {
     } else {
         return (
             <LoaderScreen message={'Awaiting Questions for this game'}></LoaderScreen>
+            
         )
     }
 

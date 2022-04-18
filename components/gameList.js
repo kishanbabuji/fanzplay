@@ -24,6 +24,7 @@ export default function GameList() {
     const [isExpanded, setIsExpanded] = useState(false)
     const [homeTeam, setHomeTeam] = useState("")
     const [awayTeam, setAwayTeam] = useState("")
+    const [joinCode, setJoinCode] = useState("")
 
     let drawer = null
     if (isExpanded) {
@@ -32,6 +33,9 @@ export default function GameList() {
                 <View style={{ padding: 10 }}>
                     <TextField value={homeTeam} placeholder={"Home Team"} onChangeText={(homeTeam) => setHomeTeam(homeTeam)}></TextField>
                     <TextField value={awayTeam} placeholder={"Away Team"} onChangeText={(awayTeam) => setAwayTeam(awayTeam)}></TextField>
+                    <TextField value={joinCode} placeholder={"Code to Join"} onChangeText={(joinCode) => setJoinCode(joinCode)}
+
+                    ></TextField>
                 </View>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
@@ -48,11 +52,15 @@ export default function GameList() {
     async function AddGame() {
 
         await setDoc(doc(collection(db, "games")), {
-            "Away Team": awayTeam,
-            "Home Team": homeTeam,
+            "AwayTeam": awayTeam,
+            "HomeTeam": homeTeam,
+            "Join Code": joinCode
 
         });
         setIsExpanded(false)
+        setAwayTeam("")
+        setHomeTeam("")
+        setJoinCode("")
         updateGames()
 
     }

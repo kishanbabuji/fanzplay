@@ -53,6 +53,31 @@ export default function GameListItem(props) {
             setRewards(rewardArr)
             setSelectedRewards(selectedRewardsMap)
         }
+
+        async function isLive() {
+
+            let rtdb = getDatabase()
+            let gamesRef = ref(rtdb, `games/${props.game.id}`)
+
+            get(gamesRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    setIsLive(true)
+                } else {
+                    setIsLive(false)
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
+
+
+        }
+        isLive()
+
+
+
+
+
+
         getGames()
 
 
@@ -73,11 +98,14 @@ export default function GameListItem(props) {
         } else {
             //add game to live db
             update(ref(rtdb, `games/${props.game.id}`), {
-                "Away Team": props.game["Away Team"],
-                "Home Team": props.game["Home Team"],
+                "AwayTeam": props.game["AwayTeam"],
+                "HomeTeam": props.game["HomeTeam"],
+                "Code to Join": props.game["Join Code"],
+                "HomeCorrect": 0,
+                "HomeAnswered":0,
+                "AwayCorrect" :0,
+                "AwayAnswered" :0
             })
-
-
 
 
             setIsLive(true)
@@ -191,10 +219,10 @@ export default function GameListItem(props) {
             >
 
                 <ListItem.Part>
-                    <Text>{props.game["Home Team"]}</Text>
+                    <Text>{props.game["HomeTeam"]}</Text>
                 </ListItem.Part>
                 <ListItem.Part>
-                    <Text>{props.game["Away Team"]}</Text>
+                    <Text>{props.game["AwayTeam"]}</Text>
                 </ListItem.Part>
                 <Button style = {{ width: 80,height: 40}} size={"xSmall"} label={"Edit Questions"} onPress={() => setIsExpanded(!isExpanded)} />
                 <Button  style = {{ width: 80,height: 40}}size={'xSmall'} label={"Edit Rewards"} onPress={() => setIsExpanded2(!isExpanded2)} />
