@@ -88,6 +88,7 @@ export default function QuizMenu({ navigation }) {
 
 
   if (gamesList) {
+    console.log(gamesList)
     activeGames = gamesList.map((game) => (
 
       < QuizMenuItem key={Object.keys(game)[0]} uid={userContext.uid} game={game} navigation={navigation} >

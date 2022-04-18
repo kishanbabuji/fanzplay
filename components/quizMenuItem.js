@@ -60,7 +60,7 @@ export default function QuizMenuItem(props) {
         set(ref(db, 'users/' + Object.keys(props.game)[0] + "/" + props.uid), {
             "team": team
         });
-
+        setHasSeen(true)
         setIsExpanded(false)
         props.navigation.navigate("Quiz", { game: Object.keys(props.game)[0] })
 
