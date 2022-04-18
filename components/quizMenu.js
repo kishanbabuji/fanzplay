@@ -72,6 +72,7 @@ export default function QuizMenu({ navigation }) {
 
           let tempObj = {}
           tempObj[game] = userGame.val()
+          console.log(tempObj[game])
           temp.push(tempObj);
         }
 

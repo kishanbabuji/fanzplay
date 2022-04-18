@@ -52,8 +52,8 @@ export default function GameList() {
     async function AddGame() {
 
         await setDoc(doc(collection(db, "games")), {
-            "Away Team": awayTeam,
-            "Home Team": homeTeam,
+            "AwayTeam": awayTeam,
+            "HomeTeam": homeTeam,
             "Join Code": joinCode
 
         });

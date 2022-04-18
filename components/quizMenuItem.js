@@ -94,21 +94,21 @@ export default function QuizMenuItem(props) {
                     fullWidth={true}
                     sizes={Button.sizes.xSmall}
                     onPress={() => {
-                        handleTeamSet(props.game[Object.keys(props.game)[0]]["Home Team"])
+                        handleTeamSet(props.game[Object.keys(props.game)[0]]["HomeTeam"])
                     }
                     }
-                    label={"Join As  " + props.game[Object.keys(props.game)[0]]["Home Team"]} />
+                    label={"Join As  " + props.game[Object.keys(props.game)[0]]["HomeTeam"]} />
                 <Button
                     fullWidth={true}
                     sizes={Button.sizes.xSmall}
                     onPress={() => {
 
 
-                        handleTeamSet(props.game[Object.keys(props.game)[0]]["Away Team"])
+                        handleTeamSet(props.game[Object.keys(props.game)[0]]["AwayTeam"])
                     }
                     }
 
-                    label={"Join As  " + props.game[Object.keys(props.game)[0]]["Away Team"]} />
+                    label={"Join As  " + props.game[Object.keys(props.game)[0]]["AwayTeam"]} />
             </View>)
     }
 
@@ -150,7 +150,7 @@ export default function QuizMenuItem(props) {
                     contentStyle={{ alignItems: "center", flexDirection: "row", justifyContent: "space-evenly", height: 60, width: Dimensions.get('window').width - 20 }}
                     content={[
                         {
-                            text: props.game[Object.keys(props.game)[0]]["Home Team"],
+                            text: props.game[Object.keys(props.game)[0]]["HomeTeam"],
                             text80: true,
                         },
                         {
@@ -158,7 +158,7 @@ export default function QuizMenuItem(props) {
                             text70: true,
                         },
                         {
-                            text: props.game[Object.keys(props.game)[0]]["Away Team"],
+                            text: props.game[Object.keys(props.game)[0]]["AwayTeam"],
                             text80: true,
                         },
                     ]}

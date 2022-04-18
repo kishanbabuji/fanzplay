@@ -81,9 +81,13 @@ export default function GameListItem(props) {
         } else {
             //add game to live db
             update(ref(rtdb, `games/${props.game.id}`), {
-                "Away Team": props.game["Away Team"],
-                "Home Team": props.game["Home Team"],
-                "Code to Join": props.game["Join Code"]
+                "AwayTeam": props.game["AwayTeam"],
+                "HomeTeam": props.game["HomeTeam"],
+                "Code to Join": props.game["Join Code"],
+                "HomeCorrect": 0,
+                "HomeAnswered":0,
+                "AwayCorrect" :0,
+                "AwayAnswered" :0
             })
 
 
@@ -168,10 +172,10 @@ export default function GameListItem(props) {
             >
 
                 <ListItem.Part>
-                    <Text>{props.game["Home Team"]}</Text>
+                    <Text>{props.game["HomeTeam"]}</Text>
                 </ListItem.Part>
                 <ListItem.Part>
-                    <Text>{props.game["Away Team"]}</Text>
+                    <Text>{props.game["AwayTeam"]}</Text>
                 </ListItem.Part>
                 <Button size={'small'} label={"Edit Questions"} onPress={() => setIsExpanded(!isExpanded)} />
                 <Button size={'small'} label={"Go Live"} onPress={() => handleLive()} />
