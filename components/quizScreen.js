@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput } from 'react-native';
 import { useState, useContext } from 'react';
-import { getDatabase, set, ref, onValue, get, update } from "firebase/database";
+import { getDatabase, set, ref, onValue, get, update,database } from "firebase/database";
 import { Button, View, Text, LoaderScreen } from "react-native-ui-lib"
 import * as React from 'react';
 import { firebase } from "../firebase/firebaseClient.js"
@@ -16,6 +16,9 @@ export default function Quiz({ navigation, route }) {
 
     const [currentQuestion, setCurrentQuestion] = useState({})
     const [hasSeen, setHasSeen] = useState({})
+    const [numCorrect,setNumCorrect] = useState(0)
+    const [numSeen,setNumSeen] = useState(0)
+
 
 
     const user = useContext(userInfoContext)
@@ -23,6 +26,14 @@ export default function Quiz({ navigation, route }) {
 
     React.useEffect(() => {
         let db = getDatabase()
+
+
+        const starCountRef = ref(db, 'users/' + route.params.game + "/" + user.uid);
+        onValue(starCountRef, (snapshot) => {
+        const data = snapshot.val();
+        setNumSeen(data.numberAnswered)
+        setNumCorrect(data.numberCorrect)
+        });
 
 
         //database references for the game and user tables
@@ -38,7 +49,7 @@ export default function Quiz({ navigation, route }) {
                 console.log("here")
                 let dbData = await (await get(ref(db, "users/" + route.params.game + "/" + user.uid + "/" + data.id))).val()
                 if (dbData == null) {
-                    set(ref(db, 'users/' + route.params.game + "/" + user.uid + "/" + data.id), {
+                    update(ref(db, 'users/' + route.params.game + "/" + user.uid + "/" + data.id), {
                         "answered": false,
                         "correct": false,
                     });
@@ -86,6 +97,14 @@ export default function Quiz({ navigation, route }) {
 
     }, [])
 
+    function updateScore(x,y){
+        const db = getDatabase();
+        update(ref(db, 'users/' + route.params.game  + "/" + user.uid), {
+            "numberCorrect": x,
+            "numberAnswered": y
+        });
+    }
+
 
     function handleSubmit(answer) {
 
@@ -96,10 +115,15 @@ export default function Quiz({ navigation, route }) {
                 "answered": true,
                 "correct": true,
             })
+
             setHasSeen({
                 "answered": true,
                 "correct": true,
             })
+            setNumSeen(numSeen+1)
+            setNumCorrect(numCorrect+1)
+            updateScore(numCorrect+1,numSeen+1)
+            
 
         } else {
             update(ref(db, 'users/' + route.params.game + "/" + user.uid + "/" + currentQuestion.id), {
@@ -111,6 +135,8 @@ export default function Quiz({ navigation, route }) {
                 "answered": true,
                 "correct": false,
             })
+            setNumSeen(numSeen+1)
+            updateScore(numCorrect,numSeen+1)
         }
     }
 
@@ -125,6 +151,8 @@ export default function Quiz({ navigation, route }) {
             "answered": true,
             "correct": false,
         })
+          setNumSeen(numSeen+1)
+        updateScore(numCorrect,numSeen+1)
 
 
     }
@@ -178,7 +206,9 @@ export default function Quiz({ navigation, route }) {
                             margin5
                             size={Button.sizes.large}
                             label={currentQuestion.answer1}
-                            onPress={() => handleSubmit(currentQuestion.answer1)}
+                            onPress={() => {
+                                handleSubmit(currentQuestion.answer1)
+                            } }
                             accessibilityLabel="Learn more about this purple button"
                         />
 
@@ -187,7 +217,10 @@ export default function Quiz({ navigation, route }) {
 
                             margin-5
                             size={Button.sizes.large}
-                            onPress={() => handleSubmit(currentQuestion.answer2)}
+                            onPress={() => {
+                                handleSubmit(currentQuestion.answer2);
+
+                            } }
 
                             label={currentQuestion.answer2}
                             accessibilityLabel="Learn more about this purple button"
@@ -197,7 +230,10 @@ export default function Quiz({ navigation, route }) {
                             style={styles.answerButton}
                             margin-5
                             size={Button.sizes.large}
-                            onPress={() => handleSubmit(currentQuestion.answer3)}
+                            onPress={() => {
+                                handleSubmit(currentQuestion.answer3);
+
+                            } }
 
                             label={currentQuestion.answer3}
                             accessibilityLabel="Learn more about this purple button"
@@ -207,7 +243,10 @@ export default function Quiz({ navigation, route }) {
 
                             margin-5
                             size={Button.sizes.large}
-                            onPress={() => handleSubmit(currentQuestion.answer4)}
+                            onPress={() => {
+                                handleSubmit(currentQuestion.answer4);
+
+                            } }
 
                             label={currentQuestion.answer4}
                             accessibilityLabel="Learn more about this purple button"

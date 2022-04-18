@@ -41,12 +41,10 @@ export default function QuizMenu({ navigation }) {
     const data = gameRef.val();
     for (let game in data) {
       if (joinCode == data[game]["Code to Join"]) {
-
-        console.log(userContext.uid)
         await set(ref(db, 'users/' + game + "/" + userContext.uid), {
-          test: "yo"
+          numberCorrect: 0,
+          numberAnswered: 0
         });
-        console.log("ehhrsajkdfhjosaijf")
         setGameList([...gamesList, data[game]])
       }
 
@@ -88,7 +86,6 @@ export default function QuizMenu({ navigation }) {
 
 
   if (gamesList) {
-    console.log(gamesList)
     activeGames = gamesList.map((game) => (
 
       < QuizMenuItem key={Object.keys(game)[0]} uid={userContext.uid} game={game} navigation={navigation} >

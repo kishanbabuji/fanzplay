@@ -57,7 +57,7 @@ export default function QuizMenuItem(props) {
 
     function handleTeamSet(team) {
 
-        set(ref(db, 'users/' + Object.keys(props.game)[0] + "/" + props.uid), {
+        update(ref(db, 'users/' + Object.keys(props.game)[0] + "/" + props.uid), {
             "team": team
         });
         setHasSeen(true)
