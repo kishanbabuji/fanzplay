@@ -10,8 +10,8 @@ export default function GameListItem(props) {
 
     const [questions, setQuestions] = useState([])
     const [selectedQuestions, setSelectedQuestions] = useState([])
-    const [rewards,setRewards]=useState([])
-    const [selectedRewards,setSelectedRewards] = useState([])
+    const [rewards, setRewards] = useState([])
+    const [selectedRewards, setSelectedRewards] = useState([])
     const [isExpanded, setIsExpanded] = useState(false)
     const [isExpanded2, setIsExpanded2] = useState(false)
 
@@ -92,7 +92,10 @@ export default function GameListItem(props) {
         if (isLive) {
             //remove live db game
             let gamesRef = ref(rtdb, `games/${props.game.id}`)
+            let usersRef = ref(rtdb, `users/${props.game.id}`)
             remove(gamesRef)
+            remove(usersRef)
+
 
             setIsLive(false)
         } else {
@@ -102,9 +105,9 @@ export default function GameListItem(props) {
                 "HomeTeam": props.game["HomeTeam"],
                 "Code to Join": props.game["Join Code"],
                 "HomeCorrect": 0,
-                "HomeAnswered":0,
-                "AwayCorrect" :0,
-                "AwayAnswered" :0
+                "HomeAnswered": 0,
+                "AwayCorrect": 0,
+                "AwayAnswered": 0
             })
 
 
@@ -175,7 +178,7 @@ export default function GameListItem(props) {
 
         ))
     }
-    
+
     let rewardSubList = null
     if (isExpanded2) {
 
@@ -224,11 +227,11 @@ export default function GameListItem(props) {
                 <ListItem.Part>
                     <Text>{props.game["AwayTeam"]}</Text>
                 </ListItem.Part>
-                <Button style = {{ width: 80,height: 40}} size={"xSmall"} label={"Edit Questions"} onPress={() => setIsExpanded(!isExpanded)} />
-                <Button  style = {{ width: 80,height: 40}}size={'xSmall'} label={"Edit Rewards"} onPress={() => setIsExpanded2(!isExpanded2)} />
-                <Button  style = {{ width: 80,height: 40}} size={'xSmall'} label={"Go Live"} onPress={() => handleLive()} />
+                <Button style={{ width: 80, height: 40 }} size={"xSmall"} label={"Edit Questions"} onPress={() => setIsExpanded(!isExpanded)} />
+                <Button style={{ width: 80, height: 40 }} size={'xSmall'} label={"Edit Rewards"} onPress={() => setIsExpanded2(!isExpanded2)} />
+                <Button style={{ width: 80, height: 40 }} size={'xSmall'} label={"Go Live"} onPress={() => handleLive()} />
 
-                <Button style = {{ width: 80,height: 40}}  size={'xSmall'} label={"Delete"} onPress={() => props.deleteGame(props.game.id)} />
+                <Button style={{ width: 80, height: 40 }} size={'xSmall'} label={"Delete"} onPress={() => props.deleteGame(props.game.id)} />
 
             </ListItem >
             {subList}

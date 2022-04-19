@@ -20,6 +20,7 @@ import { Dimensions } from "react-native";
 import QuizMenuItem from "./quizMenuItem"
 
 
+
 export default function QuizMenu({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [gamesList, setGameList] = useState();
