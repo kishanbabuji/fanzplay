@@ -191,7 +191,6 @@ export default function QuizMenu({ navigation }) {
         </View>
         {addForm}
         <View
-          style={{ marginLeft: 5, marginRight: 5 }}
 
 
         >
