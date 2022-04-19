@@ -20,6 +20,7 @@ import { Dimensions } from "react-native";
 import QuizMenuItem from "./quizMenuItem"
 
 
+
 export default function QuizMenu({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [gamesList, setGameList] = useState();
@@ -27,6 +28,7 @@ export default function QuizMenu({ navigation }) {
   const userContext = useContext(userInfoContext);
 
   const [joinCode, setJoinCode] = useState("")
+  const [showAdd, setShowAdd] = useState(false)
 
   const [showJoin, setShowJoin] = useState(false)
   let db = getDatabase()
@@ -49,7 +51,7 @@ export default function QuizMenu({ navigation }) {
       }
 
     }
-
+    setShowAdd(false)
     setJoinCode("")
 
   }
@@ -85,30 +87,12 @@ export default function QuizMenu({ navigation }) {
   let activeGames = null;
 
 
-
-  if (gamesList) {
-    activeGames = gamesList.map((game) => (
-
-      < QuizMenuItem key={Object.keys(game)[0]} uid={userContext.uid} game={game} navigation={navigation} >
-
-      </QuizMenuItem >
-
-    ));
-  }
-
-  return (
-    <>
-      <ScrollView style={{ marginLeft: 5, marginRight: 5 }}>
-
-        <Text text70 style={{ padding: 5, }}>Currently Active Games</Text>
-        <View
-          style={{ marginLeft: 5, marginRight: 5 }}
-
-
-        >
-          {activeGames}
-        </View>
+  let addForm = null
+  if (showAdd) {
+    addForm = (
+      <>
         <Text text70 style={{ marginLeft: 10, marginTop: 10 }}>Join a New Game</Text>
+
         <View style={{
           width: Dimensions.get('window').width - 20,
           bottom: 0,
@@ -150,6 +134,70 @@ export default function QuizMenu({ navigation }) {
           ></Button>
 
         </View>
+      </>
+
+
+    )
+
+
+  }
+
+
+
+
+
+
+  if (gamesList) {
+    activeGames = gamesList.map((game) => (
+
+      < QuizMenuItem key={Object.keys(game)[0]} uid={userContext.uid} game={game} navigation={navigation} >
+
+      </QuizMenuItem >
+
+    ));
+  }
+
+  return (
+    <>
+      <ScrollView style={{ marginLeft: 5, marginRight: 5 }}>
+
+
+
+
+
+
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: 20
+          }}
+        >
+          <Text text70 style={{ padding: 5, }}>Currently Active Games</Text>
+          <Button
+            fullWidth={true}
+            style={{ "fontSize": 40, width: 30, padding: 0 }}
+            label={"+"}
+            size={"xmall"}
+            avoidMinWidth={false}
+            onPress={() => setShowAdd(!showAdd)}
+
+            backgroundColor={Colors.rgba("#43aa8b", 1)}
+          >
+
+          </Button>
+
+        </View>
+        {addForm}
+        <View
+          style={{ marginLeft: 5, marginRight: 5 }}
+
+
+        >
+          {activeGames}
+        </View>
+
 
       </ScrollView >
 
