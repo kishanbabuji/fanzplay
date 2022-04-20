@@ -3,6 +3,8 @@ import { View, ListItem, Text, Button, TextField } from 'react-native-ui-lib';
 import React, { useState, useContext, useEffect } from 'react';
 import { collection, getDocs, updateDoc, doc, deleteDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseClient";
+import { getDatabase, set, ref, onValue, get, update, remove } from "firebase/database";
+
 import GameListItem from './gameListItem';
 import AddGames from './addGames';
 
@@ -14,6 +16,18 @@ export default function GameList() {
 
 
     async function deleteGame(gameID) {
+
+        //delete game from rtdb tables
+        let rtdb = getDatabase()
+        let gamesRef = ref(rtdb, `games/${gameID}`)
+        let usersRef = ref(rtdb, `users/${gameID}`)
+        remove(gamesRef)
+        remove(usersRef)
+
+
+
+
+
         console.log(gameID)
         const querySnapshot = doc(db, "games", gameID)
         await deleteDoc(querySnapshot)
