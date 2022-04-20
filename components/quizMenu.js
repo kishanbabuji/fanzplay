@@ -98,9 +98,9 @@ export default function QuizMenu({ navigation }) {
 
   return (
     <>
-      <ScrollView style={{ marginLeft: 5, marginRight: 5 }}>
+      <ScrollView style={{ backgroundColor: "#2e2f33" }}>
 
-        <Text text70 style={{ padding: 5, }}>Currently Active Games</Text>
+        <Text color= 'white' text70 style={{ padding: 5, }}>Currently Active Games</Text>
         <View
           style={{ marginLeft: 5, marginRight: 5 }}
 
@@ -108,7 +108,7 @@ export default function QuizMenu({ navigation }) {
         >
           {activeGames}
         </View>
-        <Text text70 style={{ marginLeft: 10, marginTop: 10 }}>Join a New Game</Text>
+        <Text color='white' text70 style={{ marginLeft: 10, marginTop: 10 }}>Join a New Game</Text>
         <View style={{
           width: Dimensions.get('window').width - 20,
           bottom: 0,
@@ -132,7 +132,7 @@ export default function QuizMenu({ navigation }) {
             marginLeft: 5
 
           }}>
-            <Text text80 >Enter Code:</Text>
+            <Text color='white' text80 >Enter Code:</Text>
             <TextField text70 style={{ width: 150, height: 50 }} value={joinCode}
               onChangeText={(joinCode) => setJoinCode(joinCode)} />
 
@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#2e2f33"
   },
   input: {
     // height: 40,

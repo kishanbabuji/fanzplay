@@ -6,7 +6,7 @@ import {Component} from 'react';
 
 export default function Rewards({ navigation })   {
     return (
-        <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' , backgroundColor: '#2e2f33'}}>
           <ScrollView>
           <Card  flex height={160} onPress={() => {}} useNative activeOpacity={1} activeScale={0.96}>
         <Card.Section
