@@ -3,6 +3,8 @@ import { View, ListItem, Text, Button, TextField } from 'react-native-ui-lib';
 import React, { useState, useContext, useEffect } from 'react';
 import { collection, getDocs, updateDoc, doc, deleteDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseClient";
+import { getDatabase, set, ref, onValue, get, update, remove } from "firebase/database";
+
 import GameListItem from './gameListItem';
 import AddGames from './addGames';
 
@@ -14,6 +16,18 @@ export default function GameList() {
 
 
     async function deleteGame(gameID) {
+
+        //delete game from rtdb tables
+        let rtdb = getDatabase()
+        let gamesRef = ref(rtdb, `games/${gameID}`)
+        let usersRef = ref(rtdb, `users/${gameID}`)
+        remove(gamesRef)
+        remove(usersRef)
+
+
+
+
+
         console.log(gameID)
         const querySnapshot = doc(db, "games", gameID)
         await deleteDoc(querySnapshot)
@@ -24,6 +38,7 @@ export default function GameList() {
     const [isExpanded, setIsExpanded] = useState(false)
     const [homeTeam, setHomeTeam] = useState("")
     const [awayTeam, setAwayTeam] = useState("")
+    const [joinCode, setJoinCode] = useState("")
 
     let drawer = null
     if (isExpanded) {
@@ -32,6 +47,9 @@ export default function GameList() {
                 <View style={{ padding: 10 }}>
                     <TextField value={homeTeam} placeholder={"Home Team"} onChangeText={(homeTeam) => setHomeTeam(homeTeam)}></TextField>
                     <TextField value={awayTeam} placeholder={"Away Team"} onChangeText={(awayTeam) => setAwayTeam(awayTeam)}></TextField>
+                    <TextField value={joinCode} placeholder={"Code to Join"} onChangeText={(joinCode) => setJoinCode(joinCode)}
+
+                    ></TextField>
                 </View>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
@@ -48,11 +66,15 @@ export default function GameList() {
     async function AddGame() {
 
         await setDoc(doc(collection(db, "games")), {
-            "Away Team": awayTeam,
-            "Home Team": homeTeam,
+            "AwayTeam": awayTeam,
+            "HomeTeam": homeTeam,
+            "Join Code": joinCode
 
         });
         setIsExpanded(false)
+        setAwayTeam("")
+        setHomeTeam("")
+        setJoinCode("")
         updateGames()
 
     }
