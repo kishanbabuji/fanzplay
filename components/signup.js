@@ -75,7 +75,7 @@ export default function Signup() {
           style={styles.container}
         >
           <Text text30 style={{ color: Colors.text }}>
-            Sign up for FANz PLAY
+            Sign up for FANz PLAY!
           </Text>
           <Modal
             animationType="slide"
@@ -144,18 +144,18 @@ export default function Signup() {
             onChangeText={(number) => setNumber(number)}
             keyboardType="numeric"
           />
-          <Text>Age:</Text>
+          <Text color="white">Age:</Text>
           <Picker
             selectedValue={age}
             style={styles.picker}
             onValueChange={(age, itemIndex) => setAge(age)}
           >
-            <Picker.Item label="1-13" value="1-13" />
-            <Picker.Item label="14-21" value="14-21" />
-            <Picker.Item label="22-35" value="22-35" />
-            <Picker.Item label="36-50" value="36-50" />
-            <Picker.Item label="51-65" value="51-65" />
-            <Picker.Item label="65+" value="65+" />
+            <Picker.Item color="white" label="1-13" value="1-13" />
+            <Picker.Item color="white" label="14-21" value="14-21" />
+            <Picker.Item color="white" label="22-35" value="22-35" />
+            <Picker.Item color="white" label="36-50" value="36-50" />
+            <Picker.Item color="white" label="51-65" value="51-65" />
+            <Picker.Item color="white" label="65+" value="65+" />
           </Picker>
 
           <TextField
@@ -175,10 +175,12 @@ export default function Signup() {
           />
           <Button
             onPress={signupWithEmail}
+            style={styles.button}
+            color='#535546'
             label={"Submit"}
             backgroundColor={Colors.text}
             accessibilityLabel="Learn more about this purple button"
-            enableShadow
+            enableShadow={true}
           />
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
@@ -189,11 +191,12 @@ export default function Signup() {
 const styles = StyleSheet.create({
   picker: {
     width: 300,
+    color: 'white'
   },
 
   container: {
     flex: 1,
-    backgroundColor: "#FFF",
+    backgroundColor: "#2e2f33",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -201,8 +204,12 @@ const styles = StyleSheet.create({
     height: 20,
     // margin: 12,
     width: 200,
+    color: 'white'
     // borderWidth: 1,
     // padding: 0,
+  },
+  button: {
+    marginBottom: 20
   },
   centeredView: {
     flex: 1,
@@ -228,5 +235,5 @@ const styles = StyleSheet.create({
 });
 
 Colors.loadColors({
-  text: "#879428",
+  text: "#cddc29",
 });

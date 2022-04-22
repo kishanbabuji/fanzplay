@@ -3,6 +3,7 @@ import React, { useState, useContext } from "react";
 import { initializeApp } from "firebase/app";
 import { firebase, auth, db } from "./firebase/firebaseClient";
 import { NavigationContainer } from "@react-navigation/native";
+import { StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, TextField, Text, Button, Colors } from "react-native-ui-lib";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
@@ -22,6 +23,14 @@ import { startClock } from "react-native-reanimated";
 import QuizMenu from "./components/quizMenu";
 import HomeTab from "./components/homeScreen";
 import AddReward from "./components/addRewards";
+import Rewards from "./components/rewardsScreen";
+import Profile from "./components/profileScreen";
+
+import background from "./assets/FPLogo9.jpg";
+import { ImageBackground, Image } from "react-native";
+
+const image1 = require('./assets/FPLogo9.jpg');
+const image2 = require('./assets/FanzPlay-Logo.png');
 
 function Welcome({ navigation, route }) {
   const userContext = useContext(userInfoContext);
@@ -60,35 +69,79 @@ function Welcome({ navigation, route }) {
 
   if (userContext.user) {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View style={styles.container2}>
+         <Image source={image2} style={styles.image2}>
+
+      </Image>
+
         <Button
           margin-5
+          style={styles.homeButton}
           backgroundColor={Colors.text}
-          white50
+          color='#2e2f33'
           label="Home"
           onPress={() => navigation.navigate("HomeScreen")}
+          enableShadow={true}
         />
+         <Button
+          margin-5
+          style={styles.rewardsButton}
+          backgroundColor={Colors.text}
+          color='#2e2f33'
+          label="Rewards"
+          onPress={() => navigation.navigate("Rewards")}
+          enableShadow={true}
+        />
+        <Button
+          margin-5
+          style={styles.profileButton}
+
+          backgroundColor={Colors.text}
+          color='#2e2f33'
+          label="Profile"
+          onPress={() => navigation.navigate("Profile")}
+          enableShadow={true}
+        />
+        {/* <Button
+          margin-5
+          style={styles.loginButton}
+
+          backgroundColor={Colors.text}
+          color='#2e2f33'
+          label="Login"
+          onPress={() => navigation.navigate("Login")}
+          enableShadow={true}
+        /> */}
       </View>
     );
   } else {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>Welcome to FanzPlay!</Text>
-        <Button
+     
+      <View style={styles.container}>
+        <Image source={image1} style={styles.image1}>
+
+        </Image>
+        <Button 
           margin-5
-          white50
+          style={styles.button1}
+          color='#2e2f33'
           label="Login"
           backgroundColor={Colors.text}
           onPress={() => navigation.navigate("Login")}
+          enableShadow={true}
         />
         <Button
           margin-5
-          white50
+          style={styles.button2}
+          color='#2e2f33'
           label="Signup"
           backgroundColor={Colors.text}
           onPress={() => navigation.navigate("Signup")}
+          enableShadow={true}
         />
+        
       </View>
+      
     );
   }
 }
@@ -115,29 +168,161 @@ function App() {
       }}
     >
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="FanzPlay" component={Welcome} />
+        <Stack.Navigator >
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name="FanzPlay" component={Welcome} />
           <Stack.Screen
             name="HomeScreen"
-            options={{ headerShown: false }}
+            options={{ headerShown: false,
+              headerStyle: {backgroundColor: '#2e2f33' }}}
             component={HomeScreen}
           />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Signup" component={Signup} />
-          <Stack.Screen name="Edit Profile" component={Edit} />
-          <Stack.Screen name="Quiz" component={QuizScreen} />
-          <Stack.Screen name="Games List" component={GameList} />
-          <Stack.Screen name="Quiz Menu" component={QuizMenu} />
-          <Stack.Screen name="Add Games" component={AddGames} />
-          <Stack.Screen name="Add questions" component={AddQuestion} />
-          <Stack.Screen name = "Add Rewards" component={AddReward} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name ="Rewards" component={Rewards} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}}  name="Login" component={Login} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}}  name="Signup" component={Signup} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}}  name="Edit Profile" component={Edit} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}}  name="Quiz" component={QuizScreen} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name="Games List" component={GameList} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name="Quiz Menu" component={QuizMenu} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name="Add Games" component={AddGames} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name="Add questions" component={AddQuestion} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name = "Add Rewards" component={AddReward} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#fff'}, headerTintColor: 'black'}} name = "Profile" component={Profile} />
         </Stack.Navigator>
       </NavigationContainer>
     </userInfoContext.Provider>
   );
 }
 Colors.loadColors({
-  text: "#879428",
+  text: "#cddc29",
+  text2: "#FFF"
+});
+
+export const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#2e2f33',
+    flex: 1,
+    alignItems: "center",
+    paddingBottom: 210,
+    paddingTop: 140    
+  },
+  image1: {
+    flex: 1,
+    justifyContent: "center",
+    height: 'auto',
+    width: '100%',
+   
+  },
+  button1: {
+    position: 'absolute',
+    bottom: 0,
+    left: 75,
+    marginBottom: 120,
+  },
+  button2: {
+    position: 'absolute',
+    bottom: 0,
+    right: 75,
+    marginBottom: 120
+  },
+  image2: {
+    top: -150,
+  },
+  homeButton: {
+    // position: 'absolute',
+    // top: 450,
+    // left: 60,
+    bottom: 110,
+    // height: 60,
+    // width: 120
+    marginLeft: 30,
+    marginRight: 30,
+
+  },
+  rewardsButton: {
+    // position: 'absolute',
+    // top: 450,
+    bottom: 90,
+    // right: 60,
+    // height: 60,
+    // width: 120
+    marginLeft: 30,
+    marginRight: 30,
+  },
+ 
+  profileButton: {
+    // position: 'absolute',
+    bottom: 70,
+    // right: 60,
+    // height: 60,
+    // width: 120
+    marginLeft: 30,
+    marginRight: 30,
+  },
+  loginButton: {
+    position: 'absolute',
+    top: 540,
+    left: 60,
+    height: 60,
+    width: 120
+  },
+  container2: {
+    backgroundColor: '#231f20',
+    paddingBottom: 180,
+    paddingTop: 150 
+  },
+  header:{
+    backgroundColor: "#cddc29",
+    height:200,
+  },
+  body:{
+    marginTop:40,
+
+  },
+  bodyContent: {
+    flex: 1,
+    alignItems: 'center',
+    padding:30,
+  },
+  avatar: {
+    width: 130,
+    height: 130,
+    borderRadius: 63,
+    borderWidth: 4,
+    borderColor: "white",
+    marginBottom:10,
+    alignSelf:'center',
+    position: 'absolute',
+    marginTop:130
+  },
+  editProfileButton: {
+    marginTop: 80,
+    // marginTop:10,
+  //   height:45,
+  //   flexDirection: 'row',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   marginBottom:20,
+  //   width:250,
+  //   borderRadius:30,
+  marginLeft: 40,
+  marginRight: 40,
+    backgroundColor: "#cddc29",
+  },
+  logoutButton: {
+    marginTop: 40,
+  //   height:45,
+  //   flexDirection: 'row',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   marginBottom:20,
+  //   width:250,
+  //   borderRadius:30,
+  marginLeft: 40,
+  marginRight: 40,
+    backgroundColor: '#cddc29'
+  }
+  
+ 
 });
 
 export default App;

@@ -9,6 +9,7 @@ import Admin from './adminScreen'
 import userInfoContext from './userInfoContext';
 import Login from './login';
 import QuizMenu from './quizMenu';
+import styles from '../App.js';
 
 
 const Tab = createBottomTabNavigator()
@@ -16,9 +17,9 @@ const Tab = createBottomTabNavigator()
 function HomeScreen({ navigation }) {
     return(
 
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={styles.containter}>
         <Button margin-5
-        white50
+        color='#2e2f33'
         label="Quiz Menu"
         onPress={() => navigation.navigate('Quiz Menu')}
         />
@@ -35,9 +36,9 @@ function HomeTab() {
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="home" color={color} size={size} />
             ),
-          }}
+        }}
           />):null}
-
+          
         {!userContext.isAdmin ? (<Tab.Screen name="Rewards" component={Rewards}
          options={{
             tabBarIcon: ({ color, size }) => (

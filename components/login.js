@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, Button, Text, Colors, View } from "react-native-ui-lib";
+import { TextField, TextInput, Button, Text, Colors, View } from "react-native-ui-lib";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {
   KeyboardAvoidingView,
@@ -44,6 +44,7 @@ export default function Login({ navigation }) {
           >
             <TextField
               value={email}
+              white50
               placeholder={"Email"}
               floatingPlaceholder
               onChangeText={(email) => setEmail(email)}
@@ -51,6 +52,9 @@ export default function Login({ navigation }) {
             />
             <TextField
               value={password}
+              secureTextEntry={true}
+              type="password"
+              white50
               placeholder={"Password"}
               floatingPlaceholder
               onChangeText={(password) => setPassword(password)}
@@ -59,8 +63,10 @@ export default function Login({ navigation }) {
 
             <Button
               onPress={loginUser}
+              color='#535546'
               label={"Login"}
               backgroundColor={Colors.text}
+              enableShadow={true}
             ></Button>
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
@@ -78,15 +84,19 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#2e2f33',
     alignItems: "center",
     justifyContent: "center",
   },
   input: {
     height: 20,
     width: 200,
+    color: 'white',
+
   },
+  
 });
 
 Colors.loadColors({
-  text: "#879428",
+  text: "#cddc29",
 });

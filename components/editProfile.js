@@ -250,19 +250,19 @@ export default function Edit() {
             onChangeText={(number) => setNumber(number)}
             keyboardType="numeric"
           />
-          <Text text100>Age:</Text>
+          <Text color="white" text100>Age:</Text>
           <Picker
             itemStyle={styles.pickerItem}
             selectedValue={age}
             style={styles.picker}
             onValueChange={(age, itemIndex) => setAge(age)}
           >
-            <Picker.Item label="1-13" value="1-13" />
-            <Picker.Item label="14-21" value="14-21" />
-            <Picker.Item label="22-35" value="22-35" />
-            <Picker.Item label="36-50" value="36-50" />
-            <Picker.Item label="51-65" value="51-65" />
-            <Picker.Item label="65+" value="65+" />
+            <Picker.Item color="white" label="1-13" value="1-13" />
+            <Picker.Item color="white" label="14-21" value="14-21" />
+            <Picker.Item color="white" label="22-35" value="22-35" />
+            <Picker.Item color="white" label="36-50" value="36-50" />
+            <Picker.Item color="white" label="51-65" value="51-65" />
+            <Picker.Item color="white" label="65+" value="65+" />
           </Picker>
           <TextField
             text100
@@ -296,47 +296,56 @@ export default function Edit() {
 
 const styles = StyleSheet.create({
   picker: {
-    width: 300,
-    height: 200,
+
+    width: 300, 
+    height:200, 
+    color: 'white'
+
   },
   PickerItem: {
     height: 100,
     color: "red",
   },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  input: {
-    // height: 40,
-    // margin: 12,
-    width: 200,
-    // borderWidth: 1,
-    // padding: 0,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-});
 
-Colors.loadColors({
-  text: "#879428",
-});
+  button: {
+    marginBottom: 20
+  },
+    container: {
+      flex: 1,
+      backgroundColor: "#2e2f33",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    input: {
+      // height: 40,
+      // margin: 12,
+      width: 200,
+      // borderWidth: 1,
+      // padding: 0,
+    },
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 22,
+    },
+    modalView: {
+      margin: 20,
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+    },
+  });
+  
+  Colors.loadColors({
+    text: "#cddc29",
+  });
+

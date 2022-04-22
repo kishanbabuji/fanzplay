@@ -30,7 +30,7 @@ export default function AddReward() {
   }
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <Text text30 style={{ color: Colors.text }}>
         Add reward to database
       </Text>
