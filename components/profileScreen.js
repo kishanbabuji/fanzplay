@@ -26,22 +26,22 @@ const auth = getAuth();
   }
   // { flex: 1, justifyContent: 'center', alignItems: 'center' ,color:'Green'}
     return (
-        <View>
-          <View style={styles.header}></View>
-          <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
-                <View style={styles.body}>
-                  <View>
-                    <Button  style={styles.editProfileButton} enableShadow={true} 
-                    label="Edit Profile" 
-                    color="#535546"
-                    onPress = {()=>navigation.navigate('Edit Profile')} />
+          <View style={{backgroundColor: '#2e2f33'}}>
+            <View style={styles.header}></View>
+            <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
+                  <View style={styles.body}>
+                    <View>
+                      <Button  style={styles.editProfileButton} enableShadow={true} 
+                      label="Edit Profile" 
+                      color="#535546"
+                      onPress = {()=>navigation.navigate('Edit Profile')} />
 
-                    <Button style={styles.logoutButton} enableShadow={true}
-                    label="Logout"
-                    color="#535546"
-                    onPress={logOut}/>
-                    </View>
-            </View>
-        </View>
+                      <Button style={styles.logoutButton} enableShadow={true}
+                      label="Logout"
+                      color="#535546"
+                      onPress={logOut}/>
+                      </View>
+              </View>
+          </View>
       );
 }

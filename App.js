@@ -99,16 +99,6 @@ function Welcome({ navigation, route }) {
           onPress={() => navigation.navigate("Profile")}
           enableShadow={true}
         />
-        {/* <Button
-          margin-5
-          style={styles.loginButton}
-
-          backgroundColor={Colors.text}
-          color='#2e2f33'
-          label="Login"
-          onPress={() => navigation.navigate("Login")}
-          enableShadow={true}
-        /> */}
       </View>
     );
   } else {
@@ -177,94 +167,19 @@ function App() {
             }}
             component={HomeScreen}
           />
-          <Stack.Screen
-            options={{
-              headerStyle: { backgroundColor: "#2e2f33" },
-              headerTintColor: "#fff",
-            }}
-            name="Rewards"
-            component={Rewards}
-          />
-          <Stack.Screen
-            options={{
-              headerStyle: { backgroundColor: "#2e2f33" },
-              headerTintColor: "#fff",
-            }}
-            name="Login"
-            component={Login}
-          />
-          <Stack.Screen
-            options={{
-              headerStyle: { backgroundColor: "#2e2f33" },
-              headerTintColor: "#fff",
-            }}
-            name="Signup"
-            component={Signup}
-          />
-          <Stack.Screen
-            options={{
-              headerStyle: { backgroundColor: "#2e2f33" },
-              headerTintColor: "#fff",
-            }}
-            name="Edit Profile"
-            component={Edit}
-          />
-          <Stack.Screen
-            options={{
-              headerStyle: { backgroundColor: "#2e2f33" },
-              headerTintColor: "#fff",
-            }}
-            name="Quiz"
-            component={QuizScreen}
-          />
-          <Stack.Screen
-            options={{
-              headerStyle: { backgroundColor: "#2e2f33" },
-              headerTintColor: "#fff",
-            }}
-            name="Games List"
-            component={GameList}
-          />
-          <Stack.Screen
-            options={{
-              headerStyle: { backgroundColor: "#2e2f33" },
-              headerTintColor: "#fff",
-            }}
-            name="Quiz Menu"
-            component={QuizMenu}
-          />
-          <Stack.Screen
-            options={{
-              headerStyle: { backgroundColor: "#2e2f33" },
-              headerTintColor: "#fff",
-            }}
-            name="Add Games"
-            component={AddGames}
-          />
-          <Stack.Screen
-            options={{
-              headerStyle: { backgroundColor: "#2e2f33" },
-              headerTintColor: "#fff",
-            }}
-            name="Add questions"
-            component={AddQuestion}
-          />
-          <Stack.Screen
-            options={{
-              headerStyle: { backgroundColor: "#2e2f33" },
-              headerTintColor: "#fff",
-            }}
-            name="Add Rewards"
-            component={AddReward}
-          />
-          <Stack.Screen
-            options={{
-              headerStyle: { backgroundColor: "#fff" },
-              headerTintColor: "black",
-            }}
-            name="Profile"
-            component={Profile}
-          />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name ="Rewards" component={Rewards} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}}  name="Login" component={Login} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}}  name="Signup" component={Signup} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}}  name="Edit Profile" component={Edit} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}}  name="Quiz" component={QuizScreen} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name="Games List" component={GameList} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name="Quiz Menu" component={QuizMenu} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name="Add Games" component={AddGames} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name="Add questions" component={AddQuestion} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name = "Add Rewards" component={AddReward} />
+          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name = "Profile" component={Profile} />
+
+
         </Stack.Navigator>
       </NavigationContainer>
     </userInfoContext.Provider>
@@ -305,32 +220,18 @@ export const styles = StyleSheet.create({
     top: -150,
   },
   homeButton: {
-    // position: 'absolute',
-    // top: 450,
-    // left: 60,
     bottom: 110,
-    // height: 60,
-    // width: 120
     marginLeft: 30,
     marginRight: 30,
   },
   rewardsButton: {
-    // position: 'absolute',
-    // top: 450,
     bottom: 90,
-    // right: 60,
-    // height: 60,
-    // width: 120
     marginLeft: 30,
     marginRight: 30,
   },
 
   profileButton: {
-    // position: 'absolute',
     bottom: 70,
-    // right: 60,
-    // height: 60,
-    // width: 120
     marginLeft: 30,
     marginRight: 30,
   },
@@ -350,8 +251,12 @@ export const styles = StyleSheet.create({
     backgroundColor: "#cddc29",
     height: 200,
   },
-  body: {
-    marginTop: 40,
+
+  body:{
+    marginTop:100,
+    backgroundColor: '#2e2f33',
+    marginBottom: 400
+
   },
   bodyContent: {
     flex: 1,
@@ -369,33 +274,19 @@ export const styles = StyleSheet.create({
     position: "absolute",
     marginTop: 130,
   },
-  editProfileButton: {
+  editProfileButton: {    
     marginTop: 80,
-    // marginTop:10,
-    //   height:45,
-    //   flexDirection: 'row',
-    //   justifyContent: 'center',
-    //   alignItems: 'center',
-    //   marginBottom:20,
-    //   width:250,
-    //   borderRadius:30,
-    marginLeft: 40,
-    marginRight: 40,
+
+  marginLeft: 40,
+  marginRight: 40,
     backgroundColor: "#cddc29",
   },
   logoutButton: {
-    marginTop: 40,
-    //   height:45,
-    //   flexDirection: 'row',
-    //   justifyContent: 'center',
-    //   alignItems: 'center',
-    //   marginBottom:20,
-    //   width:250,
-    //   borderRadius:30,
-    marginLeft: 40,
-    marginRight: 40,
-    backgroundColor: "#cddc29",
-  },
+   marginTop: 40,
+  marginLeft: 40,
+  marginRight: 40,
+    backgroundColor: '#cddc29'
+  }
 });
 
 export default App;
