@@ -40,8 +40,8 @@ export default function AddQuestion() {
   }
 
   return (
-    <ScrollView>
-      <Text text30 style={{ color: Colors.text }}>
+    <ScrollView style={{backgroundColor: '#2e2f33'}}>
+      <Text text30 style={{ color: Colors.text, textAlign: 'center' }}>
         Add question to database
       </Text>
 
@@ -69,6 +69,7 @@ export default function AddQuestion() {
       </Modal>
 
       <TextField
+        color="white"
         value={question}
         style={styles.input}
         enableErrors
@@ -77,6 +78,7 @@ export default function AddQuestion() {
         onChangeText={(question) => setQuestion(question)}
       />
       <TextField
+        color="white"
         style={styles.input}
         placeholder={"Correct Answer"}
         floatingPlaceholder
@@ -84,6 +86,7 @@ export default function AddQuestion() {
         onChangeText={(correctanswer) => setCorrectAnswer(correctanswer)}
       />
       <TextField
+        color="white"
         value={incorrectanswer1}
         style={styles.input}
         placeholder={"Answer 1"}
@@ -91,6 +94,7 @@ export default function AddQuestion() {
         onChangeText={(incorrectanswer1) => setIncorrectAnswer1(incorrectanswer1)}
       />
       <TextField
+        color="white"
         value={incorrectanswer2}
         style={styles.input}
         placeholder={"Answer 2"}
@@ -98,6 +102,7 @@ export default function AddQuestion() {
         onChangeText={(incorrectanswer2) => setIncorrectAnswer2(incorrectanswer2)}
       />
       <TextField
+        color="white"
         value={incorrectanswer3}
         style={styles.input}
         placeholder={"Answer 3"}
@@ -105,19 +110,22 @@ export default function AddQuestion() {
         onChangeText={(incorrectanswer3) => setIncorrectAnswer3(incorrectanswer3)}
       />
       <TextField
+        color="white"
         value={incorrectanswer4}
         style={styles.input}
         placeholder={"Answer 4"}
         floatingPlaceholder
         onChangeText={(incorrectanswer4) => setIncorrectAnswer4(incorrectanswer4)}
       />
-      <Text> duration: {duration}</ Text>
+      <Text style={{color: "white"}}> duration: {duration}</ Text>
       <Slider
         value={duration}
         minimumValue={0}
         maximumValue={30}
         onValueChange={(duration) => setDuration(duration)}
         step={1}
+        thumbTintColor="#cddc29"
+        minimumTrackTintColor="#cddc29"
       />
 
 
@@ -125,6 +133,7 @@ export default function AddQuestion() {
       <Button
         onPress={updateQuestionDatabase}
         label={"Submit"}
+        color="#2e2f33"
         backgroundColor={Colors.text}
         accessibilityLabel="Learn more about this purple button"
         enableShadow
@@ -140,7 +149,7 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: "#FFF",
+    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -175,5 +184,5 @@ const styles = StyleSheet.create({
 });
 
 Colors.loadColors({
-  text: "#879428",
+  text: "#cddc29",
 });
