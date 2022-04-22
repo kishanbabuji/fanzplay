@@ -29,8 +29,8 @@ import Profile from "./components/profileScreen";
 import background from "./assets/FPLogo9.jpg";
 import { ImageBackground, Image } from "react-native";
 
-const image1 = require('./assets/FPLogo9.jpg');
-const image2 = require('./assets/FanzPlay-Logo.png');
+const image1 = require("./assets/FPLogo9.jpg");
+const image2 = require("./assets/FanzPlay-Logo.png");
 
 function Welcome({ navigation, route }) {
   const userContext = useContext(userInfoContext);
@@ -70,24 +70,22 @@ function Welcome({ navigation, route }) {
   if (userContext.user) {
     return (
       <View style={styles.container2}>
-         <Image source={image2} style={styles.image2}>
-
-      </Image>
+        <Image source={image2} style={styles.image2}></Image>
 
         <Button
           margin-5
           style={styles.homeButton}
           backgroundColor={Colors.text}
-          color='#2e2f33'
+          color="#2e2f33"
           label="Home"
           onPress={() => navigation.navigate("HomeScreen")}
           enableShadow={true}
         />
-         <Button
+        <Button
           margin-5
           style={styles.rewardsButton}
           backgroundColor={Colors.text}
-          color='#2e2f33'
+          color="#2e2f33"
           label="Rewards"
           onPress={() => navigation.navigate("Rewards")}
           enableShadow={true}
@@ -95,9 +93,8 @@ function Welcome({ navigation, route }) {
         <Button
           margin-5
           style={styles.profileButton}
-
           backgroundColor={Colors.text}
-          color='#2e2f33'
+          color="#2e2f33"
           label="Profile"
           onPress={() => navigation.navigate("Profile")}
           enableShadow={true}
@@ -106,15 +103,12 @@ function Welcome({ navigation, route }) {
     );
   } else {
     return (
-     
       <View style={styles.container}>
-        <Image source={image1} style={styles.image1}>
-
-        </Image>
-        <Button 
+        <Image source={image1} style={styles.image1}></Image>
+        <Button
           margin-5
           style={styles.button1}
-          color='#2e2f33'
+          color="#2e2f33"
           label="Login"
           backgroundColor={Colors.text}
           onPress={() => navigation.navigate("Login")}
@@ -123,15 +117,13 @@ function Welcome({ navigation, route }) {
         <Button
           margin-5
           style={styles.button2}
-          color='#2e2f33'
+          color="#2e2f33"
           label="Signup"
           backgroundColor={Colors.text}
           onPress={() => navigation.navigate("Signup")}
           enableShadow={true}
         />
-        
       </View>
-      
     );
   }
 }
@@ -158,12 +150,21 @@ function App() {
       }}
     >
       <NavigationContainer>
-        <Stack.Navigator >
-          <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name="FanzPlay" component={Welcome} />
+        <Stack.Navigator>
+          <Stack.Screen
+            options={{
+              headerStyle: { backgroundColor: "#2e2f33" },
+              headerTintColor: "#fff",
+            }}
+            name="FanzPlay"
+            component={Welcome}
+          />
           <Stack.Screen
             name="HomeScreen"
-            options={{ headerShown: false,
-              headerStyle: {backgroundColor: '#2e2f33' }}}
+            options={{
+              headerShown: false,
+              headerStyle: { backgroundColor: "#2e2f33" },
+            }}
             component={HomeScreen}
           />
           <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name ="Rewards" component={Rewards} />
@@ -177,6 +178,8 @@ function App() {
           <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name="Add questions" component={AddQuestion} />
           <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name = "Add Rewards" component={AddReward} />
           <Stack.Screen options={{headerStyle: {backgroundColor: '#2e2f33'}, headerTintColor: '#fff'}} name = "Profile" component={Profile} />
+
+
         </Stack.Navigator>
       </NavigationContainer>
     </userInfoContext.Provider>
@@ -184,35 +187,34 @@ function App() {
 }
 Colors.loadColors({
   text: "#cddc29",
-  text2: "#FFF"
+  text2: "#FFF",
 });
 
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#2e2f33',
+    backgroundColor: "#2e2f33",
     flex: 1,
     alignItems: "center",
     paddingBottom: 210,
-    paddingTop: 140    
+    paddingTop: 140,
   },
   image1: {
     flex: 1,
     justifyContent: "center",
-    height: 'auto',
-    width: '100%',
-   
+    height: "auto",
+    width: "100%",
   },
   button1: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 75,
     marginBottom: 120,
   },
   button2: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     right: 75,
-    marginBottom: 120
+    marginBottom: 120,
   },
   image2: {
     top: -150,
@@ -221,35 +223,35 @@ export const styles = StyleSheet.create({
     bottom: 110,
     marginLeft: 30,
     marginRight: 30,
-
   },
   rewardsButton: {
     bottom: 90,
     marginLeft: 30,
     marginRight: 30,
   },
- 
+
   profileButton: {
     bottom: 70,
     marginLeft: 30,
     marginRight: 30,
   },
   loginButton: {
-    position: 'absolute',
+    position: "absolute",
     top: 540,
     left: 60,
     height: 60,
-    width: 120
+    width: 120,
   },
   container2: {
-    backgroundColor: '#231f20',
+    backgroundColor: "#231f20",
     paddingBottom: 180,
-    paddingTop: 150 
+    paddingTop: 150,
   },
-  header:{
+  header: {
     backgroundColor: "#cddc29",
-    height:200,
+    height: 200,
   },
+
   body:{
     marginTop:100,
     backgroundColor: '#2e2f33',
@@ -258,8 +260,8 @@ export const styles = StyleSheet.create({
   },
   bodyContent: {
     flex: 1,
-    alignItems: 'center',
-    padding:30,
+    alignItems: "center",
+    padding: 30,
   },
   avatar: {
     width: 130,
@@ -267,13 +269,14 @@ export const styles = StyleSheet.create({
     borderRadius: 63,
     borderWidth: 4,
     borderColor: "white",
-    marginBottom:10,
-    alignSelf:'center',
-    position: 'absolute',
-    marginTop:130
+    marginBottom: 10,
+    alignSelf: "center",
+    position: "absolute",
+    marginTop: 130,
   },
   editProfileButton: {    
     marginTop: 80,
+
   marginLeft: 40,
   marginRight: 40,
     backgroundColor: "#cddc29",
@@ -284,8 +287,6 @@ export const styles = StyleSheet.create({
   marginRight: 40,
     backgroundColor: '#cddc29'
   }
-  
- 
 });
 
 export default App;
