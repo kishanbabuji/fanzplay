@@ -1,4 +1,4 @@
-import { View, Button, Text } from "react-native-ui-lib"
+import { View, Button, Text, Colors } from "react-native-ui-lib"
 import { getDatabase, set, ref, onValue, get, update } from "firebase/database";
 import * as React from 'react';
 import { useState } from 'react';
@@ -93,32 +93,34 @@ export default function LiveGameView(props) {
 
     return (
 
-        <View>
+        <View style={{paddingTop: 80}}>
 
 
             <Button
+            color="#2e2f33" 
+            backgroundColor= {Colors.text}
                 size={Button.sizes.medium}
                 onPress={loadQuestion}
                 label={"Loads Next Question"}>
             </Button>
 
-            <Text>
+            <Text color="white">
                 Next Question:
             </Text>
 
-            <Text>
+            <Text color="white">
                 Question:  {question.question}
             </Text>
-            <Text>
+            <Text color="white">
                 Correct Answer:   {question.correctanswer}
             </Text>
-            <Text>
+            <Text color="white">
                 Incorrect Answer: {question.answer1}
             </Text>
-            <Text>
+            <Text color="white">
                 Incorrect Answer: {question.answer2}
             </Text>
-            <Text>
+            <Text color="white">
                 Incorrect Answer: {question.answer3}
             </Text>
 
@@ -130,6 +132,8 @@ export default function LiveGameView(props) {
 
 
             <Button
+            color="#2e2f33" 
+            backgroundColor= {Colors.text}
                 size={Button.sizes.medium}
                 onPress={addGame}
                 label={"Push Question to User"}>
@@ -149,3 +153,7 @@ export default function LiveGameView(props) {
 
 
 }
+Colors.loadColors({
+    text: "#cddc29",
+    text2: "#FFF",
+  });

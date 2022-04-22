@@ -32,11 +32,13 @@ const auth = getAuth();
                   <View style={styles.body}>
                     <View>
                       <Button  style={styles.editProfileButton} enableShadow={true} 
+                      white-50
                       label="Edit Profile" 
                       color="#535546"
                       onPress = {()=>navigation.navigate('Edit Profile')} />
 
                       <Button style={styles.logoutButton} enableShadow={true}
+                      white-50
                       label="Logout"
                       color="#535546"
                       onPress={logOut}/>

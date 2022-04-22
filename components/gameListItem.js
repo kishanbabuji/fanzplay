@@ -1,4 +1,4 @@
-import { View, ListItem, Text, Button, Checkbox } from 'react-native-ui-lib';
+import { View, ListItem, Text, Button, Checkbox, Colors } from 'react-native-ui-lib';
 import React, { useState, useContext, useEffect } from 'react';
 import { collection, getDocs, updateDoc, doc, deleteField, setDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseClient";
@@ -170,9 +170,9 @@ export default function GameListItem(props) {
     if (isExpanded) {
 
         subList = questions.map((question) => (
-            <ListItem style={{ padding: 2, flexDirection: 'row', justifyContent: "space-evenly" }} key={question.id} >
-                <Text> {question.question} </Text>
-                <Checkbox value={question.id in selectedQuestions}
+            <ListItem style={{top: 20, padding: 2, flexDirection: 'row', justifyContent: "space-evenly" }} key={question.id} >
+                <Text style={{paddingTop: 30}}color="#fff"> {question.question} </Text>
+                <Checkbox style={{left: 20, marginTop: 30}} color="#cddc29"value={question.id in selectedQuestions}
                     onValueChange={() => handleListUpdate(question.id)} ></Checkbox>
             </ListItem >
 
@@ -183,9 +183,9 @@ export default function GameListItem(props) {
     if (isExpanded2) {
 
         rewardSubList = rewards.map((reward) => (
-            <ListItem style={{ padding: 2, flexDirection: 'row', justifyContent: "space-evenly" }} key={reward.id} >
-                <Text> {reward.name} </Text>
-                <Checkbox value={reward.id in selectedRewards}
+            <ListItem style={{ top:30, padding: 2, flexDirection: 'row', justifyContent: "space-evenly" }} key={reward.id} >
+                <Text color="#fff"> {reward.name} </Text>
+                <Checkbox style={{left: 10}}color="#cddc29" value={reward.id in selectedRewards}
                     onValueChange={() => handleRewardUpdate(reward.id)} ></Checkbox>
             </ListItem >
 
@@ -209,29 +209,39 @@ export default function GameListItem(props) {
 
 
     return (
-        <View style={{
-            flexDirection: 'column',
+        <View  style={{
+            flexDirection: 'column', padding: 50
         }}>
 
-            < ListItem
+            < ListItem 
 
                 style={{
-                    padding: 5, justifyContent: 'space-between', backgroundColor: "#e5e5e5"
+                    paddingTop: 5, justifyContent: 'space-between', backgroundColor: "#2e2f33", 
                 }}
                 back
             >
 
-                <ListItem.Part>
-                    <Text>{props.game["HomeTeam"]}</Text>
+                <ListItem.Part >
+                    <Text color="white">{props.game["HomeTeam"]}</Text>
+                    <Text color="white"> vs.</Text>
                 </ListItem.Part>
                 <ListItem.Part>
-                    <Text>{props.game["AwayTeam"]}</Text>
+                    <Text style={{paddingRight: 10}}color="white">{props.game["AwayTeam"]}</Text>
                 </ListItem.Part>
-                <Button style={{ width: 80, height: 40 }} size={"xSmall"} label={"Edit Questions"} onPress={() => setIsExpanded(!isExpanded)} />
-                <Button style={{ width: 80, height: 40 }} size={'xSmall'} label={"Edit Rewards"} onPress={() => setIsExpanded2(!isExpanded2)} />
-                <Button style={{ width: 80, height: 40 }} size={'xSmall'} label={"Go Live"} onPress={() => handleLive()} />
+                
+                <ListItem.Part middle column >            
+                    <Button color="#2e2f33" backgroundColor= {Colors.text}style={{ width: 200, height: 40 }} size={"xSmall"} label={"Edit Questions"} onPress={() => setIsExpanded(!isExpanded)} />
+               
+                
+                    <Button color="#2e2f33" backgroundColor= {Colors.text}style={{ width: 200, height: 40 }} size={'xSmall'} label={"Edit Rewards"} onPress={() => setIsExpanded2(!isExpanded2)} />
+              
+                    <Button color="#2e2f33" backgroundColor= {Colors.text}style={{ width: 200, height: 40 }} size={'xSmall'} label={"Go Live"} onPress={() => handleLive()} />
+              
+                    <Button color="#2e2f33" backgroundColor= {Colors.text}style={{ width: 200, height: 40 }} size={'xSmall'} label={"Delete"} onPress={() => props.deleteGame(props.game.id)} />
+                
+                </ListItem.Part>
 
-                <Button style={{ width: 80, height: 40 }} size={'xSmall'} label={"Delete"} onPress={() => props.deleteGame(props.game.id)} />
+                
 
             </ListItem >
             {subList}
@@ -251,3 +261,7 @@ export default function GameListItem(props) {
 
 
 }
+Colors.loadColors({
+    text: "#cddc29",
+    text2: "#FFF",
+  });

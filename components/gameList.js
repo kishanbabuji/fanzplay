@@ -1,4 +1,4 @@
-import { View, ListItem, Text, Button, TextField } from 'react-native-ui-lib';
+import { View, ListItem, Text, Button, TextField, Colors } from 'react-native-ui-lib';
 
 import React, { useState, useContext, useEffect } from 'react';
 import { collection, getDocs, updateDoc, doc, deleteDoc, setDoc } from "firebase/firestore";
@@ -45,16 +45,16 @@ export default function GameList() {
         drawer =
             (<View>
                 <View style={{ padding: 10 }}>
-                    <TextField value={homeTeam} placeholder={"Home Team"} onChangeText={(homeTeam) => setHomeTeam(homeTeam)}></TextField>
-                    <TextField value={awayTeam} placeholder={"Away Team"} onChangeText={(awayTeam) => setAwayTeam(awayTeam)}></TextField>
-                    <TextField value={joinCode} placeholder={"Code to Join"} onChangeText={(joinCode) => setJoinCode(joinCode)}
+                    <TextField color="white" value={homeTeam} placeholder={"Home Team"} onChangeText={(homeTeam) => setHomeTeam(homeTeam)}></TextField>
+                    <TextField color="white" value={awayTeam} placeholder={"Away Team"} onChangeText={(awayTeam) => setAwayTeam(awayTeam)}></TextField>
+                    <TextField color="white" value={joinCode} placeholder={"Code to Join"} onChangeText={(joinCode) => setJoinCode(joinCode)}
 
                     ></TextField>
                 </View>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                    <Button label={"Confirm"} onPress={() => AddGame()} />
-                    <Button label={"Cancel"} onPress={() => setIsExpanded(!isExpanded)} />
+                    <Button color="#2e2f33" backgroundColor= {Colors.text}label={"Confirm"} onPress={() => AddGame()} />
+                    <Button color="#2e2f33" backgroundColor= {Colors.text}label={"Cancel"} onPress={() => setIsExpanded(!isExpanded)} />
                 </View>
             </View >)
     }
@@ -119,16 +119,17 @@ export default function GameList() {
 
 
     return (
-        <View style={{ padding: 5 }}>
-            <Button label={"Add Game"} size={"small"} onPress={() => setIsExpanded(!isExpanded)} />
+        
+        <View backgroundColor= "#2e2f33" style={{ padding: 5 }}>
+            <Button color="#2e2f33" backgroundColor= {Colors.text} label={"Add Game"} size={"small"} onPress={() => setIsExpanded(!isExpanded)} />
             {drawer}
             {Games}
         </View >
 
     )
 
-
-
-
-
 }
+Colors.loadColors({
+    text: "#cddc29",
+    text2: "#FFF",
+  });

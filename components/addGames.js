@@ -1,4 +1,4 @@
-import { View, Button,Text } from "react-native-ui-lib"
+import { View, Button,Text, Colors } from "react-native-ui-lib"
 import { getDatabase, set, ref, onValue, get, update } from "firebase/database";
 import * as React from 'react';
 import { useState } from 'react';
@@ -119,13 +119,15 @@ setArr(questionArr)
 
           
             <Button
+            color="#2e2f33" 
+            backgroundColor= {Colors.text}
                 size={Button.sizes.medium}
                 onPress={loadQuestion}
                 label={"Loads Next Question"}>
             </Button>
 
             <Text>
-                Next Question:
+               Next Question:
             </Text>
 
             <Text>
@@ -152,6 +154,8 @@ setArr(questionArr)
 
         
             <Button 
+            color="#2e2f33" 
+            backgroundColor= {Colors.text}
                 size={Button.sizes.medium}
                 onPress={addGame}
                 label={"Push Question to User"}>
@@ -171,3 +175,7 @@ setArr(questionArr)
 
 
 }
+Colors.loadColors({
+    text: "#cddc29",
+    text2: "#FFF",
+  });
