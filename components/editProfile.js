@@ -195,6 +195,7 @@ export default function Edit() {
           </Modal>
 
           <TextField
+            color="white"
             text100
             value={email}
             style={styles.input}
@@ -205,6 +206,7 @@ export default function Edit() {
             textContentType={"emailAddress"}
           />
           <TextField
+            color="white"
             text100
             value={password}
             style={styles.input}
@@ -218,6 +220,7 @@ export default function Edit() {
             onChangeText={(password) => setPassword(password)}
           />
           <TextField
+            color="white"
             text100
             value={firstName}
             style={styles.input}
@@ -226,6 +229,7 @@ export default function Edit() {
             onChangeText={(firstName) => setFirstName(firstName)}
           />
           <TextField
+            color="white"
             text100
             value={lastName}
             style={styles.input}
@@ -234,6 +238,7 @@ export default function Edit() {
             onChangeText={(lastName) => setLastName(lastName)}
           />
           <TextField
+            color="white"
             text100
             value={username}
             style={styles.input}
@@ -242,6 +247,7 @@ export default function Edit() {
             onChangeText={(username) => setUsername(username)}
           />
           <TextField
+            color="white"
             text100
             value={number}
             style={styles.input}
@@ -284,7 +290,9 @@ export default function Edit() {
           <Button
             onPress={() => setModalVisibleCred(!modalVisibleCred)}
             label={"Submit"}
-            backgroundColor={Colors.green20}
+            color='#535546'
+            style = {styles.button}
+            backgroundColor={Colors.text}
             enableShadow={true}
             accessibilityLabel="Learn more about this purple button"
           />
