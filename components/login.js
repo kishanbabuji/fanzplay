@@ -15,6 +15,8 @@ export default function Login({ navigation }) {
   const [user, setUser] = useState();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const[errorm,setErrorm] = useState("");
+
 
   async function loginUser() {
     console.log(email);
@@ -30,7 +32,8 @@ export default function Login({ navigation }) {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorMessage);
+       setErrorm(errorMessage);
+       console.log(errorm)
       });
     // Handle user state changes
   }
@@ -42,6 +45,12 @@ export default function Login({ navigation }) {
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
           >
+            <TextField
+            underlineColor = "transparent"
+            editable={false}
+            red50
+            value={errorm}>
+            </TextField>
             <TextField
               value={email}
               white50

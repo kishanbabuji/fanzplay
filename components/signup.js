@@ -26,6 +26,8 @@ export default function Signup() {
   const [username, setUsername] = useState("");
   const [number, setNumber] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const[errorm,setErrorm] = useState("");
+
 
   async function signupWithEmail() {
     // const auth = await getAuth();
@@ -64,6 +66,12 @@ export default function Signup() {
             setNumber(""),
             setModalVisible(true)
           );
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+       setErrorm(errorMessage);
+       console.log(errorm)
       });
   }
 
@@ -99,6 +107,12 @@ export default function Signup() {
               </View>
             </View>
           </Modal>
+          <TextField
+            underlineColor = "transparent"
+            editable={false}
+            red50
+            value={errorm}>
+          </TextField>
           <TextField
             value={email}
             style={styles.input}
