@@ -31,6 +31,7 @@ import { ImageBackground, Image } from "react-native";
 
 const image1 = require("./assets/FPLogo9.jpg");
 const image2 = require("./assets/FanzPlay-Logo.png");
+const image3 = require("./assets/output-onlinepngtools.png")
 
 function Welcome({ navigation, route }) {
   const userContext = useContext(userInfoContext);
@@ -70,7 +71,7 @@ function Welcome({ navigation, route }) {
   if (userContext.user) {
     return (
       <View style={styles.container2}>
-        <Image source={image2} style={styles.image2}></Image>
+        <Image source={image3} style={styles.image2}></Image>
 
         <Button
           margin-5
@@ -243,7 +244,7 @@ export const styles = StyleSheet.create({
     width: 120,
   },
   container2: {
-    backgroundColor: "#231f20",
+    backgroundColor: "#2e2f33",
     paddingBottom: 180,
     paddingTop: 150,
   },

@@ -1,12 +1,15 @@
 import * as React from 'react';
-import { View, TextField, Text, Button, Colors } from 'react-native-ui-lib';
+import { View, TextField, Text, Button, Colors, Image } from 'react-native-ui-lib';
 import { styles } from '../App';
-
+const image3 = require("../assets/output-onlinepngtools.png")
+// {backgroundColor: '#2e2f33', flex: 1, justifyContent: 'center', alignItems: 'center' }
 export default function Admin({navigation}) {
     return(
-    <View style={{backgroundColor: '#2e2f33', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    
+    <View style={styles.container2}>
+        <Image source={image3} style={styles.image2}></Image>
+
         <Button margin-5
+          style={{bottom: 100}}
           white50
           backgroundColor={Colors.text}
           color="#2e2f33"
@@ -15,6 +18,7 @@ export default function Admin({navigation}) {
           enableShadow={true}
         />
         <Button margin-5
+          style={{bottom: 100}}
           white50
           backgroundColor={Colors.text}
           color="#2e2f33"
@@ -23,6 +27,7 @@ export default function Admin({navigation}) {
           enableShadow={true}
         />
            <Button margin-5
+          style={{bottom: 100}}
           white50
           backgroundColor={Colors.text}
           color="#2e2f33"
