@@ -1,13 +1,16 @@
 import { StyleSheet, TextInput } from 'react-native';
 import { useState, useContext } from 'react';
-import { getDatabase, set, ref, onValue, get, update, database } from "firebase/database";
+import { getDatabase, set, ref, onValue, get, update, database, increment } from "firebase/database";
 import { Button, View, Text, LoaderScreen, Colors } from "react-native-ui-lib"
 import * as React from 'react';
-import { firebase } from "../firebase/firebaseClient.js"
+// import { firebase } from "../firebase/firebaseClient.js"
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import userInfoContext from './userInfoContext';
 
 import { Dimensions } from "react-native";
+
+import firebase from "firebase/app";
+import "firebase/database";
 
 
 
@@ -19,10 +22,10 @@ export default function Quiz({ navigation, route }) {
     const [hasSeen, setHasSeen] = useState({})
     const [numCorrect, setNumCorrect] = useState(0)
     const [numSeen, setNumSeen] = useState(0)
-    const [homenumCorrect, homesetNumCorrect] = useState(0)
-    const [homenumSeen, homesetNumSeen] = useState(0)
-    const [awaynumCorrect, awaysetNumCorrect] = useState(0)
-    const [awaynumSeen, awaysetNumSeen] = useState(0)
+    const [homenumCorrect, sethomeNumCorrect] = useState(0)
+    const [homenumSeen, sethomeNumSeen] = useState(0)
+    const [awaynumCorrect, setawayNumCorrect] = useState(0)
+    const [awaynumSeen, setawayNumSeen] = useState(0)
     const [team, setTeam] = useState("")
     const [homeTeam, setHomeTeam] = useState("")
     const [awayTeam, setAwayTeam] = useState("")
@@ -49,10 +52,10 @@ export default function Quiz({ navigation, route }) {
             const data = snapshot.val();
             setHomeTeam(data.HomeTeam)
             setAwayTeam(data.AwayTeam)
-            homesetNumCorrect(data.HomeCorrect)
-            homesetNumSeen(data.HomeAnswered)
-            awaysetNumCorrect(data.AwayCorrect)
-            awaysetNumSeen(data.AwayAnswered)
+            sethomeNumCorrect(data.HomeCorrect)
+            sethomeNumSeen(data.HomeAnswered)
+            setawayNumCorrect(data.AwayCorrect)
+            setawayNumSeen(data.AwayAnswered)
         });
 
 
@@ -116,27 +119,55 @@ export default function Quiz({ navigation, route }) {
 
     }, [])
 
-    function updateScore(x, y, a, b) {
-        const db = getDatabase();
+
+ 
+
+    function updateScore(x, y) {
+        let db = getDatabase();
         update(ref(db, 'users/' + route.params.game + "/" + user.uid), {
             "numberCorrect": x,
             "numberAnswered": y
         });
-
-        if (team == homeTeam) {
-            update(ref(db, 'games/' + route.params.game), {
-                "HomeCorrect": a,
-                "HomeAnswered": b
-            })
-        }
-        else {
-            update(ref(db, 'games/' + route.params.game), {
-                "AwayCorrect": a,
-                "AwayAnswered": b
-            })
-
-        }
     }
+
+
+ 
+
+    const updateTeamScore = async (isCorrect) => {
+        let db = getDatabase();
+        let isHome = false;
+        if(team == homeTeam) isHome = true;
+
+        if(isHome && !isCorrect){
+            sethomeNumSeen(homenumSeen+1)
+            await update(ref(db, 'games/' + route.params.game), {
+                HomeAnswered: increment(1)
+            });
+        }
+        else if(isHome && isCorrect){
+            sethomeNumSeen(homenumSeen+1)
+            sethomeNumCorrect(homenumCorrect+1)
+            await update(ref(db, 'games/' + route.params.game), {
+                HomeAnswered: increment(1),
+                HomeCorrect:increment(1)
+            });
+        }
+        else if(!isHome && !isCorrect){
+            setawayNumSeen(awaynumSeen+1)
+            await update(ref(db, 'games/' + route.params.game), {
+                AwayAnswered: increment(1)
+            });
+        }
+        else if(!isHome && isCorrect){
+            setawayNumSeen(awaynumSeen+1)
+            setawayNumCorrect(awaynumCorrect+1)
+            await update(ref(db, 'games/' + route.params.game), {
+                AwayAnswered: increment(1),
+                AwayCorrect:increment(1)
+            });
+        }
+       
+      } 
 
 
     function handleSubmit(answer) {
@@ -157,15 +188,13 @@ export default function Quiz({ navigation, route }) {
             setNumSeen(numSeen + 1)
             setNumCorrect(numCorrect + 1)
             if (team == homeTeam) {
-                updateScore(numCorrect + 1, numSeen + 1, homenumCorrect + 1, homenumSeen + 1)
-                homesetNumCorrect(homenumCorrect + 1)
-                homesetNumSeen(homenumSeen + 1)
+                updateScore(numCorrect + 1, numSeen + 1)
+                updateTeamScore(true)
 
             }
             else {
-                updateScore(numCorrect + 1, numSeen + 1, awaynumCorrect + 1, awaynumSeen + 1)
-                awaysetNumCorrect(awaynumCorrect + 1)
-                awaysetNumSeen(awaynumSeen + 1)
+                updateScore(numCorrect + 1, numSeen + 1)
+                updateTeamScore(true)
 
             }
 
@@ -182,13 +211,13 @@ export default function Quiz({ navigation, route }) {
             })
             setNumSeen(numSeen + 1)
             if (team == homeTeam) {
-                updateScore(numCorrect, numSeen + 1, homenumCorrect, homenumSeen + 1)
-                homesetNumSeen(homenumSeen + 1)
+                updateScore(numCorrect, numSeen + 1)
+                updateTeamScore(false)
 
             }
             else {
-                updateScore(numCorrect, numSeen + 1, awaynumCorrect, awaynumSeen + 1)
-                awaysetNumSeen(awaynumSeen + 1)
+                updateScore(numCorrect, numSeen + 1)
+                updateTeamScore(false)
 
             }
         }
@@ -207,12 +236,12 @@ export default function Quiz({ navigation, route }) {
         })
         setNumSeen(numSeen + 1)
         if (team == homeTeam) {
-            updateScore(numCorrect, numSeen + 1, homenumCorrect, homenumSeen + 1)
-            homesetNumSeen(homenumSeen + 1)
+            updateScore(numCorrect, numSeen + 1)
+            updateTeamScore(false)
         }
         else {
-            updateScore(numCorrect, numSeen + 1, awaynumCorrect, awaynumSeen + 1)
-            awaysetNumSeen(awaynumSeen + 1)
+            updateScore(numCorrect, numSeen + 1)
+            updateTeamScore(false)
         }
 
     }
