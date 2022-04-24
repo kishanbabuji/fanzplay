@@ -30,7 +30,7 @@ export default function AddReward() {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={{backgroundColor: '#2e2f33'}}>
       <Text text30 style={{ color: Colors.text }}>
         Add reward to database
       </Text>
@@ -59,6 +59,7 @@ export default function AddReward() {
       </Modal>
 
       <TextField
+       color="white"
         value={name}
         style={styles.input}
         placeholder={"Reward Name"}
@@ -66,6 +67,7 @@ export default function AddReward() {
         onChangeText={(name) => setName(name)}
       />
       <TextField
+       color="white"
           value={link}
         style={styles.input}
         placeholder={"Reward Link"}
@@ -73,6 +75,7 @@ export default function AddReward() {
         onChangeText={(link) => setLink(link)}
       />
       <TextField
+       color="white"
         value={number}
         style={styles.input}
         keyboardType='numeric'
@@ -100,7 +103,7 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: "#FFF",
+    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -135,5 +138,5 @@ const styles = StyleSheet.create({
 });
 
 Colors.loadColors({
-  text: "#879428",
+  text: "#cddc29",
 });
