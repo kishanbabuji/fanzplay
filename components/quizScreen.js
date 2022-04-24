@@ -6,6 +6,7 @@ import * as React from 'react';
 // import { firebase } from "../firebase/firebaseClient.js"
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import userInfoContext from './userInfoContext';
+import { PieChart} from 'react-native-chart-kit'
 
 import { Dimensions } from "react-native";
 
@@ -29,6 +30,7 @@ export default function Quiz({ navigation, route }) {
     const [team, setTeam] = useState("")
     const [homeTeam, setHomeTeam] = useState("")
     const [awayTeam, setAwayTeam] = useState("")
+
 
 
 
@@ -57,6 +59,15 @@ export default function Quiz({ navigation, route }) {
             setawayNumCorrect(data.AwayCorrect)
             setawayNumSeen(data.AwayAnswered)
         });
+
+
+    
+    
+
+
+   
+
+
 
 
         //database references for the game and user tables
@@ -166,6 +177,7 @@ export default function Quiz({ navigation, route }) {
                 AwayCorrect:increment(1)
             });
         }
+
        
       } 
 
@@ -390,16 +402,32 @@ export default function Quiz({ navigation, route }) {
                 <View style={styles.container}>
                     <Text text50 marginT-50 marginB-50 > You Have Already Answered This Question</Text>
                     <Text text30 > Your answer was {String(hasSeen.correct)}</Text>
-
-                    <Text></Text>
-                    <Text></Text>
-                    <Text></Text>
-                    <Text></Text>
-                    <Text></Text>
-
+                  
                     <Text text50> Score:</Text>
-                    <Text text30>{homeTeam}: {(homenumCorrect / homenumSeen).toFixed(2) * 100}%</Text>
-                    <Text text30>{awayTeam}: {(awaynumCorrect / awaynumSeen).toFixed(2) * 100}%</Text>
+                    <Text text30>{homeTeam}: {(homenumCorrect / homenumSeen).toFixed(2) * 100 || 0}%</Text>
+                    <Text text30>{awayTeam}: {(awaynumCorrect / awaynumSeen).toFixed(2) * 100 || 0}%</Text>
+                    <PieChart
+                    data={[
+                        { name: homeTeam, population: (homenumCorrect / homenumSeen).toFixed(2) * 100 || 0, color: '#ffffff', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+                        { name: awayTeam, population: (awaynumCorrect / awaynumSeen).toFixed(2) * 100 || 0, color: '#8fce00', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+                    ]}
+                    width={400}
+                    height={220}
+                    chartConfig={{
+                        backgroundColor: '#e26a00',
+                        backgroundGradientFrom: '#fb8c00',
+                        backgroundGradientTo: '#ffa726',
+                        decimalPlaces: 2, // optional, defaults to 2dp
+                        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                        style: {
+                          borderRadius: 16
+                        }
+                      }}
+                    accessor="population"
+                    backgroundColor="transparent"
+                    paddingLeft="15"
+                    />
+                  
 
                 </ View>
 

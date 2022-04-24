@@ -161,13 +161,6 @@ export default function GameListItem(props) {
    
 
      
-  
-   
-
-
-    
-
-
     const dbRef = ref(rtdb, `users/${props.game.id}`);
     let temp = []
     var counter =0; 
@@ -190,7 +183,6 @@ export default function GameListItem(props) {
     });
 
  
-    
 
 
     }
