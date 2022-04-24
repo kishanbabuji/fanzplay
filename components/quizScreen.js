@@ -266,14 +266,15 @@ export default function Quiz({ navigation, route }) {
             width: Dimensions.get('window').width,
             flexDirection: "column",
             justifyContent: "flex-start",
-            marginTop: 50,
+            paddingTop: 50,
             alignItems: 'center',
+            backgroundColor: "#2e2f33",
 
         },
         answerButton: {
             width: 300,
             margin: 5,
-            backgroundColor: Colors.rgba('#ffffff', 1)
+            backgroundColor: Colors.rgba('#cddc29', 1)
 
         }
 
@@ -298,7 +299,7 @@ export default function Quiz({ navigation, route }) {
 
 
 
-                        text30 margin-10 marginB-30 >
+                        color= "white" text30 margin-10 marginB-30 >
                         {currentQuestion.question}
                     </Text>
                     <CountdownCircleTimer
@@ -309,7 +310,7 @@ export default function Quiz({ navigation, route }) {
                         colorsTime={[currentQuestion.duration, 5, 2]}
                         isPlaying={true}
                         duration={currentQuestion.duration}
-                        colors={["#004777", "#F7B801", "#A30000"]}
+                        colors={["#004777", "#F7B801", "#A30000", '#cddc29']}
                         onComplete={() => handleTimeout()}
                     >
                         {({ remainingTime, color }) => (
@@ -400,17 +401,17 @@ export default function Quiz({ navigation, route }) {
         } else {
             return (
                 <View style={styles.container}>
-                    <Text text50 marginB-50 > You Have Already Answered This Question</Text>
-                    <Text text65 > {String(currentQuestion.question)}</Text>
-                    <Text text65 > {String(currentQuestion.answer1)}</Text>
-                    <Text text65 > {String(currentQuestion.answer2)}</Text>
-                    <Text text65 > {String(currentQuestion.answer3)}</Text>
-                    <Text text65 > {String(currentQuestion.answer4)}</Text>
-                    <Text text65 > The correct answer was: {String(currentQuestion.correctAnswer)}</Text>
+                    <Text color="white" text50 marginB-50 > You Have Already Answered This Question</Text>
+                    <Text color="white" text65 > {String(currentQuestion.question)}</Text>
+                    <Text color="white"  text65 > {String(currentQuestion.answer1)}</Text>
+                    <Text color="white"  text65 > {String(currentQuestion.answer2)}</Text>
+                    <Text color="white"  text65 > {String(currentQuestion.answer3)}</Text>
+                    <Text color="white" text65 > {String(currentQuestion.answer4)}</Text>
+                    <Text color="white" text65 > The correct answer was: {String(currentQuestion.correctAnswer)}</Text>
                   
-                    <Text text50 marginT-50> Score:</Text>
-                    <Text text50>{homeTeam}: {(homenumCorrect / homenumSeen).toFixed(2) * 100 || 0}%</Text>
-                    <Text text50>{awayTeam}: {(awaynumCorrect / awaynumSeen).toFixed(2) * 100 || 0}%</Text>
+                    <Text color="white" text50 marginT-50> Score:</Text>
+                    <Text color="white" text50>{homeTeam}: {(homenumCorrect / homenumSeen).toFixed(2) * 100 || 0}%</Text>
+                    <Text color="white" text50>{awayTeam}: {(awaynumCorrect / awaynumSeen).toFixed(2) * 100 || 0}%</Text>
                     <PieChart
                     data={[
                         { name: homeTeam, population: (homenumCorrect / homenumSeen).toFixed(2) * 100 || 0, color: '#ffffff', legendFontColor: '#7F7F7F', legendFontSize: 15 },
