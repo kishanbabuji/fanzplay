@@ -90,10 +90,12 @@ export default function QuizMenuItem(props) {
     if (isExpanded) {
         expandedSection = (
             <View style={{
-                height: 60, backgroundColor: Colors.rgba('#e5e5e5', 1), width: Dimensions.get('window').width, justifyContent: "space-evenly", flexDirection: "row", alignItems: "center", display: "flex",
+                height: 60, backgroundColor: Colors.rgba('#2e2f33', 1), width: Dimensions.get('window').width, justifyContent: "space-evenly", flexDirection: "row", alignItems: "center", display: "flex",
                 margin: 0,
             }}>
                 <Button
+                    style={{backgroundColor: "#cddc29"}}
+                    color="white"
                     fullWidth={true}
                     sizes={Button.sizes.xSmall}
                     onPress={() => {
@@ -102,6 +104,8 @@ export default function QuizMenuItem(props) {
                     }
                     label={"Join As  " + props.game[Object.keys(props.game)[0]]["HomeTeam"]} />
                 <Button
+                    style={{backgroundColor: "#cddc29"}}
+                    color="white"
                     fullWidth={true}
                     sizes={Button.sizes.xSmall}
                     onPress={() => {
@@ -149,7 +153,7 @@ export default function QuizMenuItem(props) {
                 useNative
             >
                 <Card.Section
-                    backgroundColor={Colors.rgba('#e5e5e5', 1)}
+                    backgroundColor={Colors.rgba('#cddc29', 1)}
                     width={Dimensions.get('window').width}
                     contentStyle={{ alignItems: "center", flexDirection: "row", justifyContent: "space-evenly", height: 60, width: Dimensions.get('window').width }}
                     content={[

@@ -94,6 +94,7 @@ export default function QuizMenu({ navigation }) {
             marginLeft: 10,
             marginTop: -25,
             marginRight: 10,
+            backgroundColor: "#2e2f33"
           }}
         >
           <View
@@ -106,7 +107,7 @@ export default function QuizMenu({ navigation }) {
               marginLeft: 5,
             }}
           >
-            <Text color="black" text70>
+            <Text color="white" text70>
               Enter Code:
             </Text>
             <TextField
@@ -126,7 +127,8 @@ export default function QuizMenu({ navigation }) {
             />
           </View>
           <Button
-            backgroundColor={Colors.rgba("#43aa8b", 1)}
+            backgroundColor={Colors.rgba("#cddc29", 1)}
+            color="#535546"
             style={{ height: 40, marginBottom: 10, marginTop: 10 }}
             fullWidth={true}
             label={"submit"}
@@ -152,7 +154,7 @@ export default function QuizMenu({ navigation }) {
 
   return (
     <>
-      <ScrollView style={{ marginLeft: 5, marginRight: 5 }}>
+      <ScrollView style={{backgroundColor: "#2e2f33",paddingLeft: 5, paddingRight: 5 }}>
         <View
           style={{
             flexDirection: "row",
@@ -161,17 +163,18 @@ export default function QuizMenu({ navigation }) {
             marginTop: 20,
           }}
         >
-          <Text text70 style={{ padding: 5 }}>
+          <Text color="white" text70 style={{ padding: 5 }}>
             Currently Active Games
           </Text>
           <Button
             fullWidth={true}
+            color="#535546"
             style={{ fontSize: 40, width: 30, padding: 0 }}
             label={"+"}
             size={"xmall"}
             avoidMinWidth={false}
             onPress={() => setShowAdd(!showAdd)}
-            backgroundColor={Colors.rgba("#43aa8b", 1)}
+            backgroundColor={Colors.rgba("#cddc29", 1)}
           ></Button>
         </View>
         {addForm}
