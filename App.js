@@ -48,10 +48,7 @@ function Welcome({ navigation, route }) {
 
       getDoc(doc(db, "users", user.uid)).then((docSnap) => {
         if (docSnap.exists()) {
-          if(docSnap.data().isAdmin == true){
-          userContext.setIsAdmin(docSnap.data().isAdmin);
-          }
-          
+          userContext.setIsAdmin(docSnap.data().isAdmin);  
         } else {
           console.log("No such document!");
         }
@@ -91,7 +88,7 @@ function Welcome({ navigation, route }) {
           enableShadow={true}
         />
 
-        {!userContext.isAdmin ? (
+        {/* {!userContext.isAdmin ? (
            <Button
            margin-5
            style={styles.rewardsButton}
@@ -102,7 +99,7 @@ function Welcome({ navigation, route }) {
            enableShadow={true}
          />
 
-        ):null}   
+        ):null}    */}
        
         <Button
           margin-5
