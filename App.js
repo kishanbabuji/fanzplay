@@ -29,6 +29,7 @@ import Profile from "./components/profileScreen";
 import background from "./assets/FPLogo9.jpg";
 import { ImageBackground, Image } from "react-native";
 
+
 const image1 = require("./assets/FPLogo9.jpg");
 const image2 = require("./assets/FanzPlay-Logo.png");
 const image3 = require("./assets/output-onlinepngtools.png")
@@ -47,11 +48,15 @@ function Welcome({ navigation, route }) {
 
       getDoc(doc(db, "users", user.uid)).then((docSnap) => {
         if (docSnap.exists()) {
+          if(docSnap.data().isAdmin == true){
           userContext.setIsAdmin(docSnap.data().isAdmin);
+          }
+          
         } else {
           console.log("No such document!");
         }
       });
+      
     }
   });
 
@@ -69,9 +74,12 @@ function Welcome({ navigation, route }) {
   }
 
   if (userContext.user) {
+    console.log("herer" +userContext.isAdmin)
     return (
       <View style={styles.container2}>
         <Image source={image3} style={styles.image2}></Image>
+
+       
 
         <Button
           margin-5
@@ -82,15 +90,20 @@ function Welcome({ navigation, route }) {
           onPress={() => navigation.navigate("HomeScreen")}
           enableShadow={true}
         />
-        <Button
-          margin-5
-          style={styles.rewardsButton}
-          backgroundColor={Colors.text}
-          color="#2e2f33"
-          label="Rewards"
-          onPress={() => navigation.navigate("Rewards")}
-          enableShadow={true}
-        />
+
+        {!userContext.isAdmin ? (
+           <Button
+           margin-5
+           style={styles.rewardsButton}
+           backgroundColor={Colors.text}
+           color="#2e2f33"
+           label="Rewards"
+           onPress={() => navigation.navigate("Rewards")}
+           enableShadow={true}
+         />
+
+        ):null}   
+       
         <Button
           margin-5
           style={styles.profileButton}

@@ -400,12 +400,17 @@ export default function Quiz({ navigation, route }) {
         } else {
             return (
                 <View style={styles.container}>
-                    <Text text50 marginT-50 marginB-50 > You Have Already Answered This Question</Text>
-                    <Text text30 > Your answer was {String(hasSeen.correct)}</Text>
+                    <Text text50 marginB-50 > You Have Already Answered This Question</Text>
+                    <Text text65 > {String(currentQuestion.question)}</Text>
+                    <Text text65 > {String(currentQuestion.answer1)}</Text>
+                    <Text text65 > {String(currentQuestion.answer2)}</Text>
+                    <Text text65 > {String(currentQuestion.answer3)}</Text>
+                    <Text text65 > {String(currentQuestion.answer4)}</Text>
+                    <Text text65 > The correct answer was: {String(currentQuestion.correctAnswer)}</Text>
                   
-                    <Text text50> Score:</Text>
-                    <Text text30>{homeTeam}: {(homenumCorrect / homenumSeen).toFixed(2) * 100 || 0}%</Text>
-                    <Text text30>{awayTeam}: {(awaynumCorrect / awaynumSeen).toFixed(2) * 100 || 0}%</Text>
+                    <Text text50 marginT-50> Score:</Text>
+                    <Text text50>{homeTeam}: {(homenumCorrect / homenumSeen).toFixed(2) * 100 || 0}%</Text>
+                    <Text text50>{awayTeam}: {(awaynumCorrect / awaynumSeen).toFixed(2) * 100 || 0}%</Text>
                     <PieChart
                     data={[
                         { name: homeTeam, population: (homenumCorrect / homenumSeen).toFixed(2) * 100 || 0, color: '#ffffff', legendFontColor: '#7F7F7F', legendFontSize: 15 },

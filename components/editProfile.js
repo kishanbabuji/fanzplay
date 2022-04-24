@@ -271,6 +271,7 @@ export default function Edit() {
             <Picker.Item color="white" label="65+" value="65+" />
           </Picker>
           <TextField
+            color="white"
             text100
             value={zip}
             style={styles.input}
@@ -280,9 +281,10 @@ export default function Edit() {
             keyboardType="numeric"
           />
           <TextField
-            text100
-            value={city}
-            style={styles.input}
+             color="white"
+             text100
+             value={city}
+             style={styles.input}
             placeholder={"City"}
             floatingPlaceholder
             onChangeText={(city) => setCity(city)}
