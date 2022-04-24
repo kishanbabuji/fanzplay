@@ -106,12 +106,21 @@ export default function QuizMenu({ navigation }) {
               marginLeft: 5,
             }}
           >
-            <Text color="black" text80>
+            <Text color="black" text70>
               Enter Code:
             </Text>
             <TextField
+              underlineColor = "transparent"
               text70
-              style={{ width: 150, height: 50 }}
+              style={{ 
+                width: 150, 
+                height: 20,
+                marginTop: 40, 
+                marginLeft:10,
+                backgroundColor:'#d9d9d9',
+              shadowColor: "#000000",
+              shadowOpacity: 0.3,
+              shadowRadius: 1,}}
               value={joinCode}
               onChangeText={(joinCode) => setJoinCode(joinCode)}
             />
