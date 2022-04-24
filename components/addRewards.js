@@ -30,7 +30,7 @@ export default function AddReward() {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <Text text30 style={{ color: Colors.text }}>
         Add reward to database
       </Text>
@@ -89,7 +89,7 @@ export default function AddReward() {
         accessibilityLabel="Learn more about this purple button"
         enableShadow
       />
-    </ScrollView>
+    </View>
   );
 }
 
