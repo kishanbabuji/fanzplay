@@ -79,7 +79,7 @@ export default function QuizMenu({ navigation }) {
     addForm = (
       <>
         <Text text70 style={{ marginLeft: 10, marginTop: 10 }}>
-          Join a New Game
+          Join a New Game:
         </Text>
 
         <View
