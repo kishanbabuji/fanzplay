@@ -1,10 +1,11 @@
 import { View, ListItem, Text, Button, Checkbox, Colors } from 'react-native-ui-lib';
 import React, { useState, useContext, useEffect } from 'react';
-import { collection, getDocs, updateDoc, doc, deleteField, setDoc, deleteDoc } from "firebase/firestore";
+import { collection, getDoc, getDocs, updateDoc, doc, deleteField, setDoc, deleteDoc,getFirestore } from "firebase/firestore";
 import { db } from "../firebase/firebaseClient";
 import LiveGameView from './liveGameView';
 import { useLinkProps } from '@react-navigation/native';
-import { getDatabase, set, ref, onValue, get, update, remove } from "firebase/database";
+import { getDatabase, database, set, ref, onValue, get, update, remove,query } from "firebase/database";
+
 
 export default function GameListItem(props) {
 
@@ -14,6 +15,8 @@ export default function GameListItem(props) {
     const [selectedRewards, setSelectedRewards] = useState([])
     const [isExpanded, setIsExpanded] = useState(false)
     const [isExpanded2, setIsExpanded2] = useState(false)
+    const [winningTeam,setWinningTeam] = useState("")
+    const [users, setUsers] = useState([])
 
     const [isLive, setIsLive] = useState(false)
 
@@ -42,19 +45,18 @@ export default function GameListItem(props) {
             });
 
             let selectedRewardsMap = {}
-            const rquerySnapshot = await getDocs(collection(db, "games", props.game.id, "questions"));
+            const rquerySnapshot = await getDocs(collection(db, "games", props.game.id, "rewards"));
             rquerySnapshot.forEach((doc) => {
                 // doc.data() is never undefined for query doc snapshots
                 selectedRewardsMap[doc.id] = null;
             });
-            console.log(rewardArr)
             setSelectedQuestions(selectedQuestionsMap)
             setQuestions(questionArr)
             setRewards(rewardArr)
             setSelectedRewards(selectedRewardsMap)
         }
 
-        async function isLive() {
+        async function isGameLive() {
 
             let rtdb = getDatabase()
             let gamesRef = ref(rtdb, `games/${props.game.id}`)
@@ -71,7 +73,7 @@ export default function GameListItem(props) {
 
 
         }
-        isLive()
+        isGameLive()
 
 
 
@@ -91,11 +93,8 @@ export default function GameListItem(props) {
 
         if (isLive) {
             //remove live db game
-            let gamesRef = ref(rtdb, `games/${props.game.id}`)
-            let usersRef = ref(rtdb, `users/${props.game.id}`)
-            remove(gamesRef)
-            remove(usersRef)
 
+             
 
             setIsLive(false)
         } else {
@@ -118,6 +117,83 @@ export default function GameListItem(props) {
 
     }
 
+    async function handleGameEnd(){
+
+
+    let rtdb = getDatabase()
+    let homeC =0
+    let homeA =0
+    let awayC =0
+    let awayA =0
+    var tempWinner = ""
+
+    let gamesRef = ref(rtdb, `games/${props.game.id}`)
+    let usersRef = ref(rtdb, `users/${props.game.id}`)
+    const gameScoreRef = ref(rtdb, `games/${props.game.id}`);
+
+         onValue(gameScoreRef, (snapshot) => {
+        const data = snapshot.val();
+        console.log(snapshot.val())
+      
+        if(snapshot.val() != undefined){
+        homeC = data.HomeCorrect
+        homeA = data.HomeAnswered
+        awayC = data.AwayCorrect
+        awayA = data.AwayAnswered
+        if(homeA==0 && homeC == 0){
+             tempWinner=data.AwayTeam
+             setWinningTeam(data.AwayTeam)
+            }
+        else if(awayA==0 && awayC == 0){
+             setWinningTeam(data.HomeTeam)
+              tempWinner=data.HomeTeam
+        }
+        else if(homeC/homeA >= awayC/awayA) {
+            setWinningTeam(data.HomeTeam)
+            tempWinner=data.HomeTeam
+        }
+        else {
+            setWinningTeam(data.AwayTeam)
+            tempWinner=data.AwayTeam
+        }
+        }
+    })
+   
+
+     
+  
+   
+
+
+    
+
+
+    const dbRef = ref(rtdb, `users/${props.game.id}`);
+    let temp = []
+    var counter =0; 
+    onValue(dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+      if(childSnapshot.val().team == tempWinner) {
+          console.log(childSnapshot.key)
+        db.collection("users")
+        .doc(childSnapshot.key)
+        .collection("rewards")
+        .doc(props.game.id)
+        .set(selectedRewards,{ merge: true })
+      }
+      //if user is on winning team
+      //add rewards to firestore db
+   
+      });
+    }, {
+       onlyOnce: true
+    });
+
+ 
+    
+
+
+    }
 
 
 
@@ -230,14 +306,16 @@ export default function GameListItem(props) {
                 </ListItem.Part>
                 
                 <ListItem.Part middle column >            
-                    <Button color="#2e2f33" backgroundColor= {Colors.text}style={{ width: 200, height: 40 }} size={"xSmall"} label={"Edit Questions"} onPress={() => setIsExpanded(!isExpanded)} />
+                    <Button color="#2e2f33" backgroundColor= {Colors.text}style={{ width: 200, height: 30 }} size={"xSmall"} label={"Edit Questions"} onPress={() => setIsExpanded(!isExpanded)} />
                
                 
-                    <Button color="#2e2f33" backgroundColor= {Colors.text}style={{ width: 200, height: 40 }} size={'xSmall'} label={"Edit Rewards"} onPress={() => setIsExpanded2(!isExpanded2)} />
+                    <Button color="#2e2f33" backgroundColor= {Colors.text}style={{ width: 200, height: 30 }} size={'xSmall'} label={"Edit Rewards"} onPress={() => setIsExpanded2(!isExpanded2)} />
               
-                    <Button color="#2e2f33" backgroundColor= {Colors.text}style={{ width: 200, height: 40 }} size={'xSmall'} label={"Go Live"} onPress={() => handleLive()} />
+                    <Button color="#2e2f33" backgroundColor= {Colors.text}style={{ width: 200, height: 30 }} size={'xSmall'} label={"Go Live"} onPress={() => handleLive()} />
+
               
-                    <Button color="#2e2f33" backgroundColor= {Colors.text}style={{ width: 200, height: 40 }} size={'xSmall'} label={"Delete"} onPress={() => props.deleteGame(props.game.id)} />
+                    <Button color="#2e2f33" backgroundColor= {Colors.text}style={{ width: 200, height: 30 }} size={'xSmall'} label={"Delete Game"} onPress={() => props.deleteGame(props.game.id)} />
+                    <Button color="#2e2f33" backgroundColor= {Colors.text}style={{ width: 200, height: 30 }} size={'xSmall'} label={"End Game"} onPress={() => handleGameEnd()} />
                 
                 </ListItem.Part>
 
