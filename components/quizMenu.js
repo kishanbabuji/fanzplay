@@ -106,7 +106,7 @@ export default function QuizMenu({ navigation }) {
               marginLeft: 5,
             }}
           >
-            <Text color="white" text80>
+            <Text color="black" text80>
               Enter Code:
             </Text>
             <TextField
