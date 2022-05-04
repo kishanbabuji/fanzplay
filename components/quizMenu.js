@@ -94,7 +94,7 @@ export default function QuizMenu({ navigation }) {
             marginLeft: 10,
             marginTop: -25,
             marginRight: 10,
-            backgroundColor: "#2e2f33"
+            backgroundColor: "#2e2f33",
           }}
         >
           <View
@@ -111,17 +111,18 @@ export default function QuizMenu({ navigation }) {
               Enter Code:
             </Text>
             <TextField
-              underlineColor = "transparent"
+              underlineColor="transparent"
               text70
-              style={{ 
-                width: 150, 
+              style={{
+                width: 150,
                 height: 20,
-                marginTop: 40, 
-                marginLeft:10,
-                backgroundColor:'#d9d9d9',
-              shadowColor: "#000000",
-              shadowOpacity: 0.3,
-              shadowRadius: 1,}}
+                marginTop: 40,
+                marginLeft: 10,
+                backgroundColor: "#d9d9d9",
+                shadowColor: "#000000",
+                shadowOpacity: 0.3,
+                shadowRadius: 1,
+              }}
               value={joinCode}
               onChangeText={(joinCode) => setJoinCode(joinCode)}
             />
@@ -154,7 +155,9 @@ export default function QuizMenu({ navigation }) {
 
   return (
     <>
-      <ScrollView style={{backgroundColor: "#2e2f33",paddingLeft: 5, paddingRight: 5 }}>
+      <ScrollView
+        style={{ backgroundColor: "#2e2f33", paddingLeft: 5, paddingRight: 5 }}
+      >
         <View
           style={{
             flexDirection: "row",
