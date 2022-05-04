@@ -1,11 +1,10 @@
-import { StyleSheet, View, TextInput, Picker, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { useState } from "react";
 import * as React from "react";
 import { TextField, Button, Text, Colors, Slider } from "react-native-ui-lib";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseClient";
 import { Modal } from "react-native";
-import { set } from "react-native-reanimated";
 
 
 
@@ -22,6 +21,7 @@ export default function AddQuestion() {
 
 
   async function updateQuestionDatabase() {
+    // this function gathers the information collected in this form component and add it to the firestore database questions table
     const docRef = await addDoc(collection(db, "questions"), {
       question: question,
       correctanswer: correctanswer,

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import { View, TextField, Text, Button, Colors, Image } from 'react-native-ui-lib';
+import { View, Button, Image } from 'react-native-ui-lib';
 import userInfoContext from './userInfoContext';
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import { styles } from '../App';
 
 
@@ -11,20 +11,18 @@ export default function Profile({ navigation }) {
 const userContext = useContext(userInfoContext)
 const auth = getAuth();
 
-
+  //resets the user context information and navigate back to the apps homepage
   function logOut() {
     signOut(auth).then(() => {
       userContext.setUid(null)
       userContext.setUser(null)
       userContext.setUserLoggedIn(false)
       // Sign-out successful.
-      console.log("logged out")
       navigation.navigate('FanzPlay')
     }).catch((error) => {
       // An error happened.
     });
   }
-  // { flex: 1, justifyContent: 'center', alignItems: 'center' ,color:'Green'}
     return (
           <View style={{backgroundColor: '#2e2f33'}}>
             <View style={styles.header}></View>

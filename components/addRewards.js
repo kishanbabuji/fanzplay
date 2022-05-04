@@ -1,11 +1,10 @@
-import { StyleSheet, View, TextInput, Picker, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { useState } from "react";
 import * as React from "react";
-import { TextField, Button, Text, Colors, Slider } from "react-native-ui-lib";
+import { TextField, Button, Text, Colors } from "react-native-ui-lib";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseClient";
 import { Modal } from "react-native";
-import { set } from "react-native-reanimated";
 
 
 
@@ -18,6 +17,7 @@ export default function AddReward() {
 
 
   async function updateRewardDatabase() {
+    // this function gathers the information collected in this form component and adds it to the firestore database rewards table
     const docRef = await addDoc(collection(db, "rewards"), {
     name:name,
     link:link,

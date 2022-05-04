@@ -21,8 +21,10 @@ export default function GameListItem(props) {
     const [isLive, setIsLive] = useState(false)
 
     useEffect(() => {
+        // this function stores all the current questions and rewards from the firestore db in local state variables
         async function getGames() {
 
+            //get all questions stored in the questions table of the firestore database
             let questionArr = [];
             const questionSnapshot = await getDocs(collection(db, "questions"));
             questionSnapshot.forEach((doc) => {
@@ -30,6 +32,7 @@ export default function GameListItem(props) {
                 questionArr.push({ ...doc.data(), id: doc.id });
             });
 
+            //get the currently selected questions from the games/props.game.id/questions firebase table
             let selectedQuestionsMap = {}
             const querySnapshot = await getDocs(collection(db, "games", props.game.id, "questions"));
             querySnapshot.forEach((doc) => {
@@ -37,6 +40,7 @@ export default function GameListItem(props) {
                 selectedQuestionsMap[doc.id] = null;
             });
 
+            //get all questions stored in the rewards table of the firestore database
             let rewardArr = [];
             const rewardSnapshot = await getDocs(collection(db, "rewards"));
             rewardSnapshot.forEach((doc) => {
@@ -44,6 +48,7 @@ export default function GameListItem(props) {
                 rewardArr.push({ ...doc.data(), id: doc.id });
             });
 
+            //get the currently selected questions from the games/props.game.id/rewards firebase table
             let selectedRewardsMap = {}
             const rquerySnapshot = await getDocs(collection(db, "games", props.game.id, "rewards"));
             rquerySnapshot.forEach((doc) => {
@@ -58,6 +63,7 @@ export default function GameListItem(props) {
 
         async function isGameLive() {
 
+            //get the game from real time db with the associated game id (passed in a a prop)
             let rtdb = getDatabase()
             let gamesRef = ref(rtdb, `games/${props.game.id}`)
 
@@ -74,12 +80,6 @@ export default function GameListItem(props) {
 
         }
         isGameLive()
-
-
-
-
-
-
         getGames()
 
 
@@ -93,9 +93,6 @@ export default function GameListItem(props) {
 
         if (isLive) {
             //remove live db game
-
-             
-
             setIsLive(false)
         } else {
             //add game to live db
@@ -118,6 +115,11 @@ export default function GameListItem(props) {
     }
 
     async function handleGameEnd(){
+    //initialize function values for home/away # answered and # correct
+    //update function values to current score in database for the game
+    //calculate winning team based off higher % correct
+    // for each user in the realtime database if they were on the winning team add gameid/reward to the user's reward collection
+    
 
 
     let rtdb = getDatabase()
@@ -133,7 +135,6 @@ export default function GameListItem(props) {
 
          onValue(gameScoreRef, (snapshot) => {
         const data = snapshot.val();
-        console.log(snapshot.val())
       
         if(snapshot.val() != undefined){
         homeC = data.HomeCorrect
@@ -167,7 +168,6 @@ export default function GameListItem(props) {
     onValue(dbRef, (snapshot) => {
       snapshot.forEach((childSnapshot) => {
       if(childSnapshot.val().team == tempWinner) {
-          console.log(childSnapshot.key)
         db.collection("users")
         .doc(childSnapshot.key)
         .collection("rewards")
@@ -195,15 +195,16 @@ export default function GameListItem(props) {
     async function handleListUpdate(questionID) {
 
         const questionRef = doc(db, "games", props.game.id, "questions", questionID)
-        //need to add game to current list
         if (questionID in selectedQuestions) {
             await deleteDoc(questionRef);
+            //make a deep copy of the selectedQuestions variable
             let temp = JSON.parse(JSON.stringify(selectedQuestions))
+            //delete the to be deleted question from the selected questions list
             delete temp[questionID]
             setSelectedQuestions(temp)
         } else {
             await setDoc(questionRef, {});
-
+            //make a deep copy of the selectedQuestions variable
             let temp = JSON.parse(JSON.stringify(selectedQuestions))
             temp[questionID] = null
 
@@ -217,12 +218,14 @@ export default function GameListItem(props) {
         //need to add game to current list
         if (rewardId in selectedRewards) {
             await deleteDoc(rewardref);
+            //make a deep copy of the selectedRewards variable
+
             let temp = JSON.parse(JSON.stringify(selectedRewards))
             delete temp[rewardId]
             setSelectedRewards(temp)
         } else {
             await setDoc(rewardref, {});
-
+            //make a deep copy of the selectedRewards variable
             let temp = JSON.parse(JSON.stringify(selectedRewards))
             temp[rewardId] = null
 
@@ -269,12 +272,6 @@ export default function GameListItem(props) {
 
 
     }
-
-
-
-
-
-
 
     return (
         <View  style={{

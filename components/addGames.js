@@ -1,23 +1,10 @@
 import { View, Button,Text, Colors } from "react-native-ui-lib"
-import { getDatabase, set, ref, onValue, get, update } from "firebase/database";
+import { getDatabase, ref, update } from "firebase/database";
 import * as React from 'react';
 import { useState } from 'react';
 import { db } from "../firebase/firebaseClient";
 import { collection, getDocs,updateDoc } from "firebase/firestore";
-import { StyleSheet, TextInput } from 'react-native';
 
-
-
-
-
-
-
-
-
-
-// const listItems = numbers.map((number) =>
-//   <li>{number}</li>
-// );
 
 
 
@@ -42,14 +29,12 @@ export default function AddGames() {
 
 React.useEffect(async () => {
     questionArr = [];
-    // const docRef = doc(db, "questions","rBVuIuaFuy1SRWFIqDPR");
-    // const docSnap = await getDoc(docRef);
-
+   
+// get the list of questions from the firestore database and add them to the arr state variable
 const querySnapshot = await getDocs(collection(db, "questions"));
 querySnapshot.forEach((doc) => {
   // doc.data() is never undefined for query doc snapshots
   questionArr.push(doc.data());
-//   console.log(doc.id, " => ", doc.data());
 });
 setArr(questionArr)
 
@@ -64,8 +49,10 @@ setArr(questionArr)
 
      function addGame() {
 
+        //get an instance of the realitime database
         let db = getDatabase()
 
+        //push the currently selected question to the games realtime database table
         update(ref(db, 'games/questionId'), {
             "question": question,
             "answer1": answer1,
@@ -74,11 +61,10 @@ setArr(questionArr)
             "answer4": answer4,
             "correctAnswer": correctanswer
         })
-
-        update(ref(db,'users/questionId'),{
-            "answered": false,
-            "correct":false
-        })
+        // update(ref(db,'users/questionId'),{
+        //     "answered": false,
+        //     "correct":false
+        // })
 
         setQuestion("")
         setAnswer1("")
@@ -96,6 +82,8 @@ setArr(questionArr)
 
         }
         else{
+        // set the state variables to reflect the currently selected question
+        //in the future we might want to improve this with use of a use reducer hook
         setQuestion(arr[counter].question)
         setAnswer1(arr[counter].answer1)
         setAnswer2(arr[counter].answer2)

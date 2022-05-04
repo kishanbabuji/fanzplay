@@ -1,24 +1,13 @@
-import {
-  ListItem,
-  View,
-  Text,
-  Image,
-  Button,
-  TextField,
-  Card,
-  Colors,
-} from "react-native-ui-lib";
-import { getDatabase, set, ref, onValue, get, update } from "firebase/database";
+import {View,Text,Button,TextField,Colors} from "react-native-ui-lib";
+import { getDatabase, set, ref, onValue, get } from "firebase/database";
 import { useState, useContext, useEffect } from "react";
 import userInfoContext from "./userInfoContext";
 import * as React from "react";
 import { ScrollView, StyleSheet } from "react-native";
-import { Modal } from "react-native";
-import { Dimensions, StatusBar } from "react-native";
+import { Dimensions } from "react-native";
 import QuizMenuItem from "./quizMenuItem";
 
 export default function QuizMenu({ navigation }) {
-  const [modalVisible, setModalVisible] = useState(false);
   const [gamesList, setGameList] = useState();
   const [activeGameList, setActiveGameList] = useState();
   const userContext = useContext(userInfoContext);
@@ -29,10 +18,14 @@ export default function QuizMenu({ navigation }) {
   const [showJoin, setShowJoin] = useState(false);
   let db = getDatabase();
 
+
+  //this function checks whether a user entered game join code mathces and codes stored in the games table
+  //if a user enters a correct code they are then aded to the users/game/ table in the realtime database
   async function handleGameJoin() {
     let db = getDatabase();
     let gameRef = await get(ref(db, "games"));
 
+  
     const data = gameRef.val();
     for (let game in data) {
       if (joinCode == data[game]["Code to Join"]) {
@@ -47,7 +40,10 @@ export default function QuizMenu({ navigation }) {
     setJoinCode("");
   }
 
+  // this useffect hook loads the games that a particular user has access to
+  //access is granted when a user enters the correct code to join a game
   useEffect(() => {
+    //realtime database
     let db = getDatabase();
     //let gamesRef = ref(db, "games");
     let userRef = ref(db, "users");
@@ -63,7 +59,6 @@ export default function QuizMenu({ navigation }) {
 
           let tempObj = {};
           tempObj[game] = userGame.val();
-          console.log(tempObj[game]);
           temp.push(tempObj);
         }
       }
@@ -202,30 +197,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#2e2f33",
   },
   input: {
-    // height: 40,
-    // margin: 12,
     width: 200,
-    // borderWidth: 1,
-    // padding: 0,
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
   },
 });

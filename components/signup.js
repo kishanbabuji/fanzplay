@@ -1,20 +1,11 @@
 import { useState } from "react";
 import * as React from "react";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase/firebaseClient";
 import { TextField, Button, Text, Colors } from "react-native-ui-lib";
-import {
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Modal,
-  StyleSheet,
-  View,
-  TextInput,
-  Picker,
-  ScrollView,
-} from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import {KeyboardAvoidingView,TouchableWithoutFeedback, Keyboard,Modal, StyleSheet, View,Picker, ScrollView,} from "react-native";
+
+
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,13 +21,6 @@ export default function Signup() {
 
 
   async function signupWithEmail() {
-    // const auth = await getAuth();
-
-    // createUserWithEmailAndPassword(auth, email, password).then(cred => {
-    //     return firestore.collection('users').doc(cred.user.uid).set({
-    //         Name: name
-    //     })
-    // })
 
     auth()
       .createUserWithEmailAndPassword(email, password)

@@ -1,12 +1,11 @@
 import { View, ListItem, Text, Button, TextField, Colors } from 'react-native-ui-lib';
-
-import React, { useState, useContext, useEffect } from 'react';
-import { collection, getDocs, updateDoc, doc, deleteDoc, setDoc } from "firebase/firestore";
+import React, { useState, useEffect } from 'react';
+import { collection, getDocs, doc, deleteDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseClient";
-import { getDatabase, set, ref, onValue, get, update, remove } from "firebase/database";
+import { getDatabase, ref, remove } from "firebase/database";
 
 import GameListItem from './gameListItem';
-import AddGames from './addGames';
+
 
 
 
@@ -18,6 +17,7 @@ export default function GameList() {
     async function deleteGame(gameID) {
 
         //delete game from rtdb tables
+        //this involves deleting the game from both the users and games table
         let rtdb = getDatabase()
         let gamesRef = ref(rtdb, `games/${gameID}`)
         let usersRef = ref(rtdb, `users/${gameID}`)
@@ -25,12 +25,10 @@ export default function GameList() {
         remove(usersRef)
 
 
-
-
-
-        console.log(gameID)
+        // delete this game from the firestore database
         const querySnapshot = doc(db, "games", gameID)
         await deleteDoc(querySnapshot)
+        //remove this game from the gamelist local state
         setGameList(gameList.filter((game) => game.id != gameID))
 
     }
@@ -40,6 +38,7 @@ export default function GameList() {
     const [awayTeam, setAwayTeam] = useState("")
     const [joinCode, setJoinCode] = useState("")
 
+    //this variable holds the frontend form where home team, away team, and code to join can be entered 
     let drawer = null
     if (isExpanded) {
         drawer =
@@ -65,6 +64,7 @@ export default function GameList() {
 
     async function AddGame() {
 
+        //add a game to the firestore database with attributes entered in the drawer variable
         await setDoc(doc(collection(db, "games")), {
             "AwayTeam": awayTeam,
             "HomeTeam": homeTeam,
@@ -81,6 +81,7 @@ export default function GameList() {
 
 
     async function updateGames() {
+        //this function runs after a game is added and re retreives all of the games currently stored in the firestore games table
         gamesArr = [];
         const querySnapshot = await getDocs(collection(db, "games"));
         querySnapshot.forEach((doc) => {
@@ -92,6 +93,7 @@ export default function GameList() {
 
 
 
+    //this useeffect runs on page render and gathers all the games objects currently stored in the firestore database table
     useEffect(
         () => {
             async function updateGames() {

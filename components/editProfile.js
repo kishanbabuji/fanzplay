@@ -1,29 +1,11 @@
 import { StyleSheet, View, TextInput, Picker } from "react-native";
 import { useState, useContext } from "react";
 import * as React from "react";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  reauthenticateWithCredential,
-  updateEmail,
-  updatePassword,
-} from "firebase/auth";
+import {getAuth,reauthenticateWithCredential,updateEmail,updatePassword} from "firebase/auth";
 import { auth, db } from "../firebase/firebaseClient";
-import {
-  Button,
-  Text,
-  Colors,
-  Dialog,
-  PanningProvider,
-  TextField,
-} from "react-native-ui-lib";
+import {Button,Text, Colors,Dialog,PanningProvider,TextField,} from "react-native-ui-lib";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import {
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Modal,
-} from "react-native";
+import {KeyboardAvoidingView,TouchableWithoutFeedback,Keyboard,Modal} from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import userInfoContext from "./userInfoContext";
 const user = getAuth();
@@ -45,8 +27,11 @@ export default function Edit() {
   const [credVisible, setCredVisibile] = useState(false);
   const userContext = useContext(userInfoContext);
 
+  //get a db reference to the current user information stored in the firestore database
   const docRef = doc(db, "users", userContext.uid);
 
+
+  //this use effect hook runs on component render and loads the users information into local state variables
   React.useEffect(async () => {
     const docSnap = await getDoc(docRef);
 
@@ -64,6 +49,8 @@ export default function Edit() {
     }
   }, []);
 
+  //this function updates the current users information with the newly changed state variable information
+  //then the user is reauthenticated
   async function signupWithEmail() {
     await updateDoc(docRef, {
       firstName: firstName,

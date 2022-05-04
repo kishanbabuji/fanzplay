@@ -1,20 +1,7 @@
-import {
-    ListItem,
-    View,
-    Text,
-    Button,
-    TextField,
-    Card,
-    Colors,
-} from "react-native-ui-lib";
-import { getDatabase, set, ref, onValue, get, update } from "firebase/database";
-import { useState, useContext, useEffect } from "react";
-import userInfoContext from "./userInfoContext";
+import { View, Button,Card,Colors,} from "react-native-ui-lib";
+import { getDatabase, ref, get, update } from "firebase/database";
+import { useState, useEffect } from "react";
 import * as React from "react";
-import { ScrollView, StyleSheet } from "react-native";
-import {
-    Modal,
-} from "react-native";
 import { Dimensions } from "react-native";
 
 
@@ -28,22 +15,19 @@ export default function QuizMenuItem(props) {
 
 
 
-
+    //this use effect hook checks whether the current user has already selected a team to join for the current game
+    //this is used to determine whether to navigate a user directly to a game or ask them to join a team
     useEffect(() => {
         async function hasBeenJoined() {
 
             let userGame = await get(ref(db, `/users/${Object.keys(props.game)[0]}/${props.uid}/`))
             userGame = userGame.val()
-            console.log(userGame)
             if (userGame["team"] != undefined) {
                 setHasSeen(true)
             } else {
 
                 setHasSeen(false)
             }
-
-
-
 
         }
         hasBeenJoined()

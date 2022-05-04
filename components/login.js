@@ -1,13 +1,7 @@
 import React, { useState } from "react";
-import { TextField, TextInput, Button, Text, Colors, View } from "react-native-ui-lib";
+import { TextField, Button, Text, Colors, View } from "react-native-ui-lib";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import {
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import {KeyboardAvoidingView,TouchableWithoutFeedback,Keyboard,StyleSheet} from "react-native";
 
 export default function Login({ navigation }) {
   // Set an initializing state whilst Firebase connects
@@ -17,15 +11,14 @@ export default function Login({ navigation }) {
   const [password, setPassword] = useState("");
   const[errorm,setErrorm] = useState("");
 
-
+  //grab the user infromation from the form fields and authenticate the User
+  //navigate the user to the fanzplay page
   async function loginUser() {
-    console.log(email);
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         setUser(userCredential.user);
-        console.log("works");
         navigation.navigate("FanzPlay");
         // ...
       })

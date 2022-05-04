@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { View, TextField, Text, Button, Card } from 'react-native-ui-lib';
-import {StyleSheet, ScrollView} from 'react-native';
-import {Component} from 'react';
+import { View, Card } from 'react-native-ui-lib';
+import {ScrollView} from 'react-native';
 
 
 export default function Rewards({ navigation })   {

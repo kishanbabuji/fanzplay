@@ -1,15 +1,12 @@
-import { StyleSheet, TextInput } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useState, useContext } from 'react';
-import { getDatabase, set, ref, onValue, get, update, database, increment } from "firebase/database";
+import { getDatabase, ref, onValue, get, update, database, increment } from "firebase/database";
 import { Button, View, Text, LoaderScreen, Colors } from "react-native-ui-lib"
 import * as React from 'react';
-// import { firebase } from "../firebase/firebaseClient.js"
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import userInfoContext from './userInfoContext';
 import { PieChart} from 'react-native-chart-kit'
-
 import { Dimensions } from "react-native";
-
 import firebase from "firebase/app";
 import "firebase/database";
 
@@ -80,7 +77,6 @@ export default function Quiz({ navigation, route }) {
         onValue(games, async (snapshot) => {
             const data = await snapshot.val()
             if (data != null) {
-                console.log("here")
                 let dbData = await (await get(ref(db, "users/" + route.params.game + "/" + user.uid + "/" + data.id))).val()
                 if (dbData == null) {
                     update(ref(db, 'users/' + route.params.game + "/" + user.uid + "/" + data.id), {
@@ -235,6 +231,8 @@ export default function Quiz({ navigation, route }) {
         }
     }
 
+    //this function handles the case when a user fails to answer a question in the given time
+    //both the local state  (hasSeen) and the users db table are updated 
     function handleTimeout() {
         let db = getDatabase()
 

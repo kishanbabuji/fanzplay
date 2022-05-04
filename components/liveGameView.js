@@ -25,21 +25,17 @@ export default function LiveGameView(props) {
 
     const user = useContext(userInfoContext)
 
-
+    //this use effect hook gets all od the questions associated wiht a game in the firestore table
+    //these questions are then used to set a local state containing the question infromation for the questiions firestore table
     React.useEffect(() => {
 
-        console.log(questionsArr, "here")
 
         async function retrieveQuestions() {
             let tempArr = [];
-            // const docRef = doc(db, "questions","rBVuIuaFuy1SRWFIqDPR");
-            // const docSnap = await getDoc(docRef);
 
             const querySnapshot = await getDocs(collection(db, "games", props.game.id, "questions"));
             querySnapshot.forEach((doc) => {
-                // doc.data() is never undefined for query doc snapshots
                 tempArr.push(doc.id);
-                //   console.log(doc.id, " => ", doc.data());
             });
             let questions = []
             tempArr.forEach(async (id) => {
@@ -47,7 +43,6 @@ export default function LiveGameView(props) {
                 await questions.push({ ...questionDoc.data(), "id": id })
 
             })
-            console.log(questions, "questions")
 
             setQuestionsArr(questions)
 
@@ -64,9 +59,9 @@ export default function LiveGameView(props) {
 
 
     function addGame() {
-
+        //get an instance of the realtime database
         let rtdb = getDatabase()
-
+        //update the realtime database to contain the question stored at the current index
         update(ref(rtdb, `games/${props.game.id}/questionId`), {
             "question": question.question,
             "id": question.id,
