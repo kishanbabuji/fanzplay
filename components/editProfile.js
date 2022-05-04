@@ -105,7 +105,7 @@ export default function Edit() {
             }}
           >
             <View style={styles.centeredView}>
-              <View style={styles.modalView}>
+              <View backgroundColor={"#2e2f33"} style={styles.modalView}>
                 <Text style={{ color: Colors.text }}>
                   Congratulations! Your FANz PLAY account has been updated!
                 </Text>
@@ -121,19 +121,20 @@ export default function Edit() {
 
           <Modal
             animationType="slide"
-            // transparent={true}
+            transparent={true}
             visible={modalVisibleCred}
             onRequestClose={() => {
               setModalVisibleCred(!modalVisibleCred);
             }}
           >
             <View style={styles.centeredView}>
-              <View style={styles.modalView}>
+              <View backgroundColor={"#2e2f33"} style={styles.modalView}>
                 <Text style={{ color: Colors.text }}>
                   Please confirm email and password to update information!
                 </Text>
                 <TextField
                   text100
+                  color={"#FFFFFF"}
                   value={emailCurrent}
                   style={styles.input}
                   placeholder={"Email"}
@@ -142,6 +143,8 @@ export default function Edit() {
                 />
                 <TextField
                   text100
+                  color={"#FFFFFF"}
+                  secureTextEntry={true}
                   value={passwordCurrent}
                   style={styles.input}
                   placeholder={"Password"}
@@ -243,7 +246,9 @@ export default function Edit() {
             onChangeText={(number) => setNumber(number)}
             keyboardType="numeric"
           />
-          <Text color="white" text100>Age:</Text>
+          <Text color="white" text100>
+            Age:
+          </Text>
           <Picker
             itemStyle={styles.pickerItem}
             selectedValue={age}
@@ -268,10 +273,10 @@ export default function Edit() {
             keyboardType="numeric"
           />
           <TextField
-             color="white"
-             text100
-             value={city}
-             style={styles.input}
+            color="white"
+            text100
+            value={city}
+            style={styles.input}
             placeholder={"City"}
             floatingPlaceholder
             onChangeText={(city) => setCity(city)}
@@ -279,8 +284,8 @@ export default function Edit() {
           <Button
             onPress={() => setModalVisibleCred(!modalVisibleCred)}
             label={"Submit"}
-            color='#535546'
-            style = {styles.button}
+            color="#535546"
+            style={styles.button}
             backgroundColor={Colors.text}
             enableShadow={true}
             accessibilityLabel="Learn more about this purple button"
@@ -293,11 +298,9 @@ export default function Edit() {
 
 const styles = StyleSheet.create({
   picker: {
-
-    width: 300, 
-    height:200, 
-    color: 'white'
-
+    width: 300,
+    height: 200,
+    color: "white",
   },
   PickerItem: {
     height: 100,
@@ -305,44 +308,43 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    marginBottom: 20
+    marginBottom: 20,
   },
-    container: {
-      flex: 1,
-      backgroundColor: "#2e2f33",
-      alignItems: "center",
-      justifyContent: "center",
+  container: {
+    flex: 1,
+    backgroundColor: "#2e2f33",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  input: {
+    // height: 40,
+    // margin: 12,
+    width: 200,
+    // borderWidth: 1,
+    // padding: 0,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
     },
-    input: {
-      // height: 40,
-      // margin: 12,
-      width: 200,
-      // borderWidth: 1,
-      // padding: 0,
-    },
-    centeredView: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: 22,
-    },
-    modalView: {
-      margin: 20,
-      borderRadius: 20,
-      padding: 35,
-      alignItems: "center",
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5,
-    },
-  });
-  
-  Colors.loadColors({
-    text: "#cddc29",
-  });
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+});
 
+Colors.loadColors({
+  text: "#cddc29",
+});
